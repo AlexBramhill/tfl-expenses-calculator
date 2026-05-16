@@ -7,12 +7,18 @@ import { logError, logInfo } from "../logPublisher";
 const DOTFILE_FOLDER = path.join(os.homedir(), ".tfl-expense-calculator");
 export const ConfigSchema = z.object({
 	csvFolder: z.string(),
+	homeStations: z.array(z.string()).default([]),
+	officeStations: z.array(z.string()).default([]),
+	ignoreWeekends: z.boolean().default(true),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
 
 export const DEFAULT_CONFIG: Config = {
 	csvFolder: path.join(DOTFILE_FOLDER, "csv"),
+	homeStations: [],
+	officeStations: [],
+	ignoreWeekends: true,
 };
 
 const CONFIG_PATH = path.join(DOTFILE_FOLDER, "config.json");
@@ -37,7 +43,7 @@ export const loadConfig = async () => {
 };
 
 export const createDefaultConfig = async () => {
-	fs.mkdir(DOTFILE_FOLDER);
+	fs.mkdir(DOTFILE_FOLDER, { recursive: true });
 	return await writeConfig(DEFAULT_CONFIG);
 };
 

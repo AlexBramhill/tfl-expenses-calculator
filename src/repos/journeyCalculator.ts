@@ -1,13 +1,13 @@
 import type { Journey } from "./tflCsvParser";
 
-type ProcessedJourney = { isHomeOfficeJourney: boolean } & Journey;
-type ProcessedJourneysSummary = {
+export type ProcessedJourney = { isHomeOfficeJourney: boolean } & Journey;
+export type ProcessedJourneysSummary = {
 	totalDaysInOffice: number;
 	totalTrips: number;
 	totalCharge: number;
 };
 
-type ProcessedJourneysResult = {
+export type ProcessedJourneysResult = {
 	processedJourneys: ProcessedJourney[];
 	summary: ProcessedJourneysSummary;
 };
@@ -35,7 +35,7 @@ export const processJourneys = ({
 
 	return {
 		processedJourneys,
-		summary: processedJourneys,
+		summary: getSummary(processedJourneys),
 	};
 };
 

@@ -13,6 +13,7 @@ const useCsvFiles = (folder: string | undefined) => {
 			setError(new Error("CSV folder is not defined in config"));
 			return;
 		}
+		setError(null);
 		setLoading(true);
 		(async () => {
 			try {
