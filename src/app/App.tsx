@@ -1,4 +1,5 @@
 import { Box, Text, useInput } from "ink";
+import { LogStream } from "../components/LogStream";
 import useConfig from "../hooks/useConfig";
 import useRouter from "../hooks/useRouter";
 import Home from "../screens/Home";
@@ -22,23 +23,32 @@ const App = () => {
 	});
 
 	return (
-		<Box flexDirection="column">
-			<Text color="green">Mini CLI Router</Text>
-
-			{currentPage === "home" && <Home />}
-			{currentPage === "settings" && <Settings />}
-
-			<Box marginTop={1} justifyContent="space-between">
+		<Box flexDirection="column" padding={1}>
+			<Box>
+				<Box flexDirection="column" flexGrow={1}>
+					<Text color="green" underline={true}>
+						Mini CLI Router
+					</Text>
+					{currentPage === "home" && <Home />}
+					{currentPage === "settings" && <Settings />}
+				</Box>
+				<Box
+					borderStyle="single"
+					borderLeft={true}
+					borderTop={false}
+					borderBottom={false}
+					borderRight={false}
+					paddingLeft={1}
+					marginLeft={1}
+					flexShrink={0}
+				>
+					<LogStream />
+				</Box>
+			</Box>
+			<Box>
 				<Text dimColor>
 					q=quit | w=home | e=settings
 					{canGoBack ? ` | t=back (${previousPage})` : ""}
-				</Text>
-				<Text dimColor>
-					{configLoading
-						? "Loading config..."
-						: configError
-							? `Config error: ${configError.message}`
-							: `Config loaded:\n${JSON.stringify(config, null, 2).replace(/\\\\/g, "\\")}`}
 				</Text>
 			</Box>
 		</Box>

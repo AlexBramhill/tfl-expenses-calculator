@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { logDebug } from "../logPublisher";
 import { type Config, loadConfig, writeConfig } from "../repos/configRepo";
 
 const useConfig = () => {
@@ -9,7 +10,11 @@ const useConfig = () => {
 	useEffect(() => {
 		(async () => {
 			try {
+				logDebug("Loading config...");
 				const cfg = await loadConfig();
+				logDebug(
+					`Config loaded:\n${JSON.stringify(cfg, null, 2).replace(/\\\\/g, "\\")}`,
+				);
 				setConfig(cfg);
 			} catch (err) {
 				setError(err instanceof Error ? err : new Error(String(err)));

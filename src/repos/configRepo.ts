@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
 import { z } from "zod";
+import { logError, logInfo } from "../logPublisher";
 
 const DOTFILE_FOLDER = path.join(os.homedir(), ".tfl-expense-calculator");
 export const ConfigSchema = z.object({
@@ -25,9 +26,12 @@ export const loadConfig = async () => {
 			err instanceof Error &&
 			(err as NodeJS.ErrnoException).code === "ENOENT"
 		) {
+			logInfo("Creating config file");
 			return createDefaultConfig();
 		}
-
+		if (err instanceof Error) {
+			logError(err.message);
+		}
 		throw err;
 	}
 };
