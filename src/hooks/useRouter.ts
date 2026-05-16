@@ -25,7 +25,7 @@ const useRouter = (initial: Page = "home"): UseRouterReturn => {
 	};
 
 	const goBack = () => {
-		logDebug(`Navigating to ${history.length - 1}`);
+		logDebug(`Navigating to ${history[history.length - 1]}`);
 		setHistory((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
 	};
 
