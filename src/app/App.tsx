@@ -38,7 +38,7 @@ const App = () => {
 						? "Loading config..."
 						: configError
 							? `Config error: ${configError.message}`
-							: `Config loaded:\n${JSON.stringify(config, null, 2).replace(/\\\\/g, '\\')}`}
+							: `Config loaded:\n${JSON.stringify(config, null, 2).replace(/\\\\/g, "\\")}`}
 				</Text>
 			</Box>
 		</Box>
