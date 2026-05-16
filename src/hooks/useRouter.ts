@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { logDebug } from "../logPublisher";
 
 type Page = "home" | "settings";
 
@@ -14,6 +15,7 @@ const useRouter = (initial: Page = "home"): UseRouterReturn => {
 	const [history, setHistory] = useState<Page[]>([initial]);
 
 	const goToPage = (page: Page) => {
+		logDebug(`Navigating to ${page} from ${history[history.length - 1]}`);
 		setHistory((prev) => {
 			if (prev[prev.length - 1] === page) {
 				return prev;
@@ -23,6 +25,7 @@ const useRouter = (initial: Page = "home"): UseRouterReturn => {
 	};
 
 	const goBack = () => {
+		logDebug(`Navigating to ${history.length - 1}`);
 		setHistory((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
 	};
 

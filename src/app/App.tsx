@@ -23,8 +23,8 @@ const App = () => {
 	});
 
 	return (
-		<Box flexDirection="column" padding={1}>
-			<Box>
+		<Box flexDirection="column" padding={1} height={process.stdout.rows}>
+			<Box flexGrow={1}>
 				<Box flexDirection="column" flexGrow={1}>
 					<Text color="green" underline={true}>
 						Mini CLI Router
@@ -41,6 +41,7 @@ const App = () => {
 					paddingLeft={1}
 					marginLeft={1}
 					flexShrink={0}
+					width="33%"
 				>
 					<LogStream />
 				</Box>
