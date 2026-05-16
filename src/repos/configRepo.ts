@@ -16,27 +16,28 @@ export const DEFAULT_CONFIG: Config = {
 
 const CONFIG_PATH = path.join(DOTFILE_FOLDER, "config.json");
 
-export const isConfigPresent = async () => {
+export const loadConfig = async () => {
 	try {
-		const stat = await fs.stat(CONFIG_PATH);
-		return stat.isFile();
+		const raw = await fs.readFile(CONFIG_PATH, "utf8");
+		return ConfigSchema.parse(JSON.parse(raw));
 	} catch (err) {
-		return false;
+		if (
+			err instanceof Error &&
+			(err as NodeJS.ErrnoException).code === "ENOENT"
+		) {
+			return createDefaultConfig();
+		}
+
+		throw err;
 	}
 };
 
-export const loadConfig = async () => {
-	const raw = await fs.readFile(CONFIG_PATH, "utf8");
-
-	const json = JSON.parse(raw);
-
-	return ConfigSchema.parse(json);
-};
-
 export const createDefaultConfig = async () => {
+	fs.mkdir(DOTFILE_FOLDER);
 	return await writeConfig(DEFAULT_CONFIG);
 };
 
 export const writeConfig = async (config: Config) => {
 	await fs.writeFile(CONFIG_PATH, JSON.stringify(config, null, 2), "utf8");
+	return config;
 };
