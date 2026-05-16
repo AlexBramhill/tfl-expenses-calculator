@@ -8,12 +8,6 @@ import Settings from "../screens/Settings";
 const App = () => {
 	const { currentPage, previousPage, canGoBack, goToPage, goBack } =
 		useRouter();
-	const {
-		config,
-		loading: configLoading,
-		saveConfig: _saveConfig,
-		error: configError,
-	} = useConfig();
 
 	useInput((input, _key) => {
 		if (input === "q") process.exit();
