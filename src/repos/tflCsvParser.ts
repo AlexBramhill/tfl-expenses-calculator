@@ -9,12 +9,18 @@ const csvRawRow = z.object({
 	Charge: z.string(),
 });
 
-const csvRowSchema = csvRawRow.transform((row) => {
-	const [day, month, year] = row.Date.split("/");
-	const datetime = new Date(`${year}-${month}-${day}T${row["Start Time"]}`);
+const csvRowSchema = csvRawRow.transform((row, ctx) => {
+	const datetime = new Date(
+		`${row.Date.replace(/-/g, " ")} ${row["Start Time"]}`,
+	);
+
+	if (isNaN(datetime.getTime())) {
+		ctx.addIssue({ code: "custom", message: "Invalid date" });
+		return z.NEVER;
+	}
 
 	const [start, end] = row["Journey/Action"].split(" to ");
-	const startStation = start.trim();
+	const startStation = start.replace(/\s*\[.*?\]/, "").trim();
 	const endStation = end?.replace(/\s*\[.*?\]/, "").trim() ?? "";
 
 	const chargeAmount = parseFloat(row.Charge) || 0;
@@ -27,5 +33,8 @@ export type Journey = z.infer<typeof csvRowSchema>;
 export const parseCsv = async (filePath: string): Promise<Journey[]> => {
 	const content = await fs.readFile(filePath, "utf8");
 	const { data } = Papa.parse(content, { header: true, skipEmptyLines: true });
-	return data.map((row) => csvRowSchema.parse(row));
+	return data.flatMap((row) => {
+		const result = csvRowSchema.safeParse(row);
+		return result.success ? [result.data] : [];
+	});
 };

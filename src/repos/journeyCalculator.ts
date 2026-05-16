@@ -1,3 +1,4 @@
+import { logDebug } from "../logPublisher";
 import type { Journey } from "./tflCsvParser";
 
 export type ProcessedJourney = { isHomeOfficeJourney: boolean } & Journey;
@@ -64,6 +65,12 @@ const isHomeOfficeJourney = ({
 		homeStations.includes(journey.endStation) &&
 		officeStations.includes(journey.startStation);
 
+	if (!isGoingToOfficeFromHome && !isGoingHomeFromOffice) {
+		logDebug(
+			`No match: "${journey.startStation}" -> "${journey.endStation}" | home=${JSON.stringify(homeStations)} office=${JSON.stringify(officeStations)}`,
+		);
+	}
+
 	return isGoingToOfficeFromHome || isGoingHomeFromOffice;
 };
 
@@ -73,8 +80,9 @@ const getSummary = (
 	const homeOfficeJourneys = processedJourneys.filter(
 		(journey) => journey.isHomeOfficeJourney,
 	);
-	const totalDaysInOffice = new Set(homeOfficeJourneys.map((x) => x.datetime))
-		.size;
+	const totalDaysInOffice = new Set(
+		homeOfficeJourneys.map((x) => x.datetime.toDateString()),
+	).size;
 	const totalTrips = homeOfficeJourneys.length;
 	const totalCharge = homeOfficeJourneys.reduce(
 		(sum, journey) => sum + journey.chargeAmount,

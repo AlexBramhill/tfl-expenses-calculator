@@ -2,23 +2,30 @@ import { Text, useInput } from "ink";
 import useConfig from "../hooks/useConfig";
 import useCsvFiles from "../hooks/useCsvFiles";
 import useJourneyLookups from "../hooks/useJourneyLookups";
-import type { ProcessedJourneysSummary } from "../repos/journeyCalculator";
+import type { ProcessedJourneysResult } from "../repos/journeyCalculator";
 
 const SummaryRow = ({
 	file,
-	summary,
+	journey,
 }: {
 	file: string;
-	summary?: ProcessedJourneysSummary;
+	journey?: ProcessedJourneysResult;
 }) => (
 	<>
 		<Text>{file}</Text>
-		{summary && (
+		{journey && (
 			<Text>
-				{summary.totalTrips} total trips,
-				{summary.totalDaysInOffice} days in office, £{summary.totalCharge} total
+				{journey.summary.totalTrips} total trips,{" "}
+				{journey.summary.totalDaysInOffice} days in office, £
+				{journey.summary.totalCharge.toFixed(2)} total
 			</Text>
 		)}
+		{journey?.processedJourneys.map((j) => (
+			<Text key={j.datetime.toISOString()}>
+				{j.datetime.toISOString()} | {j.isHomeOfficeJourney ? "yes" : "no "} |{" "}
+				{j.startStation} | {j.endStation} | £{j.chargeAmount.toFixed(2)}
+			</Text>
+		))}
 	</>
 );
 
@@ -52,7 +59,7 @@ const Home = () => {
 			{filesLoading && <Text>Loading files...</Text>}
 			{filesError && <Text>Error loading files: {filesError.message}</Text>}
 			{files.map((f) => (
-				<SummaryRow key={f} file={f} summary={journeyLookups[f]?.summary} />
+				<SummaryRow key={f} file={f} journey={journeyLookups[f]} />
 			))}
 		</>
 	);
