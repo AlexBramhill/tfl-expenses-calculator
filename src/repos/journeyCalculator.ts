@@ -36,7 +36,7 @@ export const processJourneys = ({
 
 	return {
 		processedJourneys,
-		summary: getSummary(processedJourneys),
+		summary: getTotalSummary(processedJourneys),
 	};
 };
 
@@ -74,7 +74,33 @@ const isHomeOfficeJourney = ({
 	return isGoingToOfficeFromHome || isGoingHomeFromOffice;
 };
 
-const getSummary = (
+const getWeekStart = (date: Date): Date => {
+	const d = new Date(date);
+	const day = d.getDay();
+
+	const diff = day === 0 ? -6 : 1 - day;
+
+	d.setDate(d.getDate() + diff);
+	d.setHours(0, 0, 0, 0);
+
+	return d;
+};
+
+export const getWeeklySummaries = (
+	processedJourneys: ProcessedJourney[],
+): Record<string, ProcessedJourneysSummary> => {
+	const groups = Map.groupBy(processedJourneys, (j) =>
+		getWeekStart(j.datetime),
+	);
+	return Object.fromEntries(
+		[...groups.entries()].map(([weekStart, journeys]) => [
+			weekStart,
+			getTotalSummary(journeys),
+		]),
+	);
+};
+
+const getTotalSummary = (
 	processedJourneys: ProcessedJourney[],
 ): ProcessedJourneysSummary => {
 	const homeOfficeJourneys = processedJourneys.filter(
