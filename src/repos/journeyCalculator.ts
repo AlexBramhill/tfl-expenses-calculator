@@ -89,10 +89,9 @@ const getSummary = (
 		0,
 	);
 
-	const summary: ProcessedJourneysSummary = {
+	return {
 		totalDaysInOffice,
 		totalTrips,
 		totalCharge,
 	};
-	return summary;
 };
