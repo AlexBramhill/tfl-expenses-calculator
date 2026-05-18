@@ -10,9 +10,13 @@ import { Summary } from "./Summary";
 export const FileExplorerRow = ({
 	filePath,
 	config,
+	isCurrentSelectedFile,
+	shouldShowSummary,
 }: {
 	filePath: string;
 	config: Config;
+	isCurrentSelectedFile: boolean;
+	shouldShowSummary: boolean;
 }) => {
 	const {
 		journeyLookupResult,
@@ -25,29 +29,30 @@ export const FileExplorerRow = ({
 		ignoreWeekends: config?.ignoreWeekends,
 	});
 
-	const [shouldShowSummary, setShouldShowSummary] = useState(true);
-	const [shouldShowJourneys, setShouldShowJourneys] = useState(true);
+	const [shouldShowJourneys, setShouldShowJourneys] = useState(false);
 
 	if (isJourneyLookupLoading) return <Text>Loading...</Text>;
 	if (journeyLookupError)
 		return <Text>Error: {journeyLookupError.message}</Text>;
+
 	return (
 		<>
-			<Text bold underline>
-				{path.basename(filePath)}
+			<Text bold color={isCurrentSelectedFile ? "green" : "black"}>
+				{isCurrentSelectedFile ? "> " : "  "}
+				<Text underline>{path.basename(filePath)}</Text>
 			</Text>
 			{shouldShowSummary && (
 				<>
 					<Box paddingLeft={2} paddingBottom={1}>
 						<Summary summary={journeyLookupResult.summary} />
 					</Box>
-					<Box paddingLeft={2}>
+					<Box paddingLeft={2} paddingBottom={1}>
 						<DaysInOfficePerWeekSummary journeysResult={journeyLookupResult} />
 					</Box>
 				</>
 			)}
 			{shouldShowJourneys && (
-				<Box flexGrow={0} paddingTop={1} paddingLeft={4}>
+				<Box flexGrow={0} paddingLeft={4} paddingBottom={1}>
 					<CsvList journeysResult={journeyLookupResult} />
 				</Box>
 			)}

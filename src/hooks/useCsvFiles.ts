@@ -3,7 +3,7 @@ import { logDebug } from "../logPublisher";
 import type { Config } from "../repos/configRepo";
 import { listCsvFiles } from "../repos/csvRepo";
 
-type CsvFilesResult =
+export type CsvFilesResult =
 	| { isLoading: true; filePaths: null; error: null }
 	| { isLoading: false; filePaths: string[]; error: Error | null };
 
