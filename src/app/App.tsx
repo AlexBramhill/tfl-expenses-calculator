@@ -1,4 +1,4 @@
-import { Box, measureElement, Text, useInput } from "ink";
+import { Box, Text, useInput } from "ink";
 import { useState } from "react";
 import { LogStream } from "../components/LogStream";
 import useRouter from "../hooks/useRouter";
