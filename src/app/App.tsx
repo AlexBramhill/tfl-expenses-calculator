@@ -27,19 +27,19 @@ const App = () => {
 	}
 
 	return (
-		<Box flexDirection="column" padding={1}>
-			<Box flexDirection="column" flexGrow={1}>
+		<Box flexDirection="column">
+			<Box flexDirection="column" padding={1}>
 				<Text color="green" underline={true}>
-					Mini CLI Router
+					TFL CSV Expense Parser
 				</Text>
-				{currentPage === "home" && <Home />}
-				{currentPage === "settings" && <Settings />}
-			</Box>
-			<Box>
 				<Text dimColor>
 					q=quit | w=home | e=settings
 					{canGoBack ? ` | t=back (${previousPage})` : ""}
 				</Text>
+			</Box>
+			<Box flexDirection="column" padding={1}>
+				{currentPage === "home" && <Home />}
+				{currentPage === "settings" && <Settings />}
 			</Box>
 		</Box>
 	);
