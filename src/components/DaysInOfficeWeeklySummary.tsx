@@ -1,4 +1,4 @@
-import { Text } from "ink";
+import { Box, Text } from "ink";
 import type { ProcessedJourneysResult } from "../repos/journeyCalculator";
 
 export const DaysInOfficePerWeekSummary = ({
@@ -7,18 +7,19 @@ export const DaysInOfficePerWeekSummary = ({
 	journeysResult: ProcessedJourneysResult;
 }) => {
 	return (
-		<>
-			<Text>Weekly Summaries:</Text>
+		<Box flexDirection="column">
+			<Text bold>Days in office per week: </Text>
 			{Object.entries(journeysResult.weeklySummaries).map(
 				([dateStart, summary]) => (
-					<DaysInOfficeSummary
-						key={dateStart}
-						dateStart={dateStart}
-						daysInOffice={summary.totalDaysInOffice}
-					/>
+					<Box key={dateStart}>
+						<DaysInOfficeSummary
+							dateStart={dateStart}
+							daysInOffice={summary.totalDaysInOffice}
+						/>
+					</Box>
 				),
 			)}
-		</>
+		</Box>
 	);
 };
 
