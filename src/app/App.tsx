@@ -1,4 +1,4 @@
-import { Box, Text, useInput } from "ink";
+import { Box, Text, useInput, useWindowSize } from "ink";
 import { useState } from "react";
 import { LogStream } from "../components/LogStream";
 import useRouter from "../hooks/useRouter";
@@ -10,6 +10,7 @@ const App = () => {
 		useRouter();
 
 	const [showLogs, setShowLogs] = useState<boolean>(false);
+	useWindowSize();
 	useInput((input, _key) => {
 		if (input === "q") process.exit();
 		if (input === "w") goToPage("home");
