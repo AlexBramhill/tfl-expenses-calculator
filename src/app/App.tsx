@@ -1,6 +1,5 @@
 import { Box, Text, useInput } from "ink";
 import { LogStream } from "../components/LogStream";
-import useConfig from "../hooks/useConfig";
 import useRouter from "../hooks/useRouter";
 import Home from "../screens/Home";
 import Settings from "../screens/Settings";
@@ -17,7 +16,7 @@ const App = () => {
 	});
 
 	return (
-		<Box flexDirection="column" padding={1} height={process.stdout.rows}>
+		<Box flexDirection="column" padding={1}>
 			<Box flexGrow={1}>
 				<Box flexDirection="column" flexGrow={1}>
 					<Text color="green" underline={true}>

@@ -1,10 +1,33 @@
 import { useEffect, useState } from "react";
+import { logDebug, logError } from "../logPublisher";
 import {
 	type ProcessedJourneysResult,
 	processJourneys,
 } from "../repos/journeyCalculator";
-import { logDebug, logError } from "../logPublisher";
 import { parseCsv } from "../repos/tflCsvParser";
+
+const processFile = async (
+	homeStations: string[],
+	officeStations: string[],
+	ignoreWeekends: boolean,
+	filename: string,
+) => {
+	logDebug(`Parsing CSV: ${filename}`);
+	const journeys = await parseCsv(filename);
+	logDebug(`Parsed ${journeys.length} journeys from ${filename}`);
+	const result = processJourneys({
+		journeys,
+		homeStations,
+		officeStations,
+		ignoreWeekends,
+	});
+	logDebug(
+		`Processed ${filename}: ${
+			result.processedJourneys.filter((j) => j.isHomeOfficeJourney).length
+		}/${result.processedJourneys.length} home-office journeys`,
+	);
+	return { filename, result };
+};
 
 const useJourneyLookups = ({
 	files,
@@ -24,7 +47,9 @@ const useJourneyLookups = ({
 	const [error, setError] = useState<Error | null>(null);
 
 	useEffect(() => {
-		logDebug(`useJourneyLookups effect fired: files=${files.length}, homeStations=${JSON.stringify(homeStations)}, officeStations=${JSON.stringify(officeStations)}`);
+		logDebug(
+			`useJourneyLookups effect fired: files=${files.length}, homeStations=${JSON.stringify(homeStations)}, officeStations=${JSON.stringify(officeStations)}`,
+		);
 
 		if (files.length === 0) {
 			logDebug("useJourneyLookups: no files, skipping");
@@ -34,30 +59,25 @@ const useJourneyLookups = ({
 		setLoading(true);
 		(async () => {
 			try {
-				const results = await Promise.all(
-					files.map(async (filename) => {
-						logDebug(`Parsing CSV: ${filename}`);
-						const journeys = await parseCsv(filename);
-						logDebug(`Parsed ${journeys.length} journeys from ${filename}`);
-						const result = processJourneys({
-							journeys,
-							homeStations,
-							officeStations,
-							ignoreWeekends,
-						});
-						logDebug(`Processed ${filename}: ${result.processedJourneys.filter(j => j.isHomeOfficeJourney).length}/${result.processedJourneys.length} home-office journeys`);
-						return { filename, result };
-					}),
+				const results = (
+					await Promise.all(
+						files.map((file) =>
+							processFile(homeStations, officeStations, ignoreWeekends, file),
+						),
+					)
+				).reduce<Record<string, ProcessedJourneysResult>>(
+					(acc, { filename, result }) =>
+						Object.assign(acc, { [filename]: result }),
+					{},
 				);
 
-				const recordResults = results.reduce<
-					Record<string, ProcessedJourneysResult>
-				>((acc, { filename, result }) => ({ ...acc, [filename]: result }), {});
 				setError(null);
-				setJourneyLookups(recordResults);
-				logDebug(`Journey lookups set for ${results.length} file(s)`);
+				setJourneyLookups(results);
+				logDebug(`Journey lookups set for ${Object.keys(results)} file(s)`);
 			} catch (err) {
-				logError(`useJourneyLookups error: ${err instanceof Error ? err.message : String(err)}`);
+				logError(
+					`useJourneyLookups error: ${err instanceof Error ? err.message : String(err)}`,
+				);
 				setError(err instanceof Error ? err : new Error(String(err)));
 			} finally {
 				setLoading(false);

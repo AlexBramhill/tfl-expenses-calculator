@@ -10,8 +10,11 @@ export type ProcessedJourneysSummary = {
 
 export type ProcessedJourneysResult = {
 	processedJourneys: ProcessedJourney[];
+	weeklySummaries: WeeklySummaryByDate;
 	summary: ProcessedJourneysSummary;
 };
+
+export type WeeklySummaryByDate = Record<string, ProcessedJourneysSummary>;
 
 export const processJourneys = ({
 	journeys,
@@ -23,19 +26,22 @@ export const processJourneys = ({
 	homeStations: string[];
 	officeStations: string[];
 	ignoreWeekends?: boolean;
-}) => {
-	const processedJourneys = journeys.map((journey) => ({
-		...journey,
-		isHomeOfficeJourney: isHomeOfficeJourney({
-			journey,
-			homeStations,
-			officeStations,
-			ignoreWeekends,
+}): ProcessedJourneysResult => {
+	const processedJourneys = journeys.map(
+		(journey: Journey): ProcessedJourney => ({
+			...journey,
+			isHomeOfficeJourney: isHomeOfficeJourney({
+				journey,
+				homeStations,
+				officeStations,
+				ignoreWeekends,
+			}),
 		}),
-	}));
+	);
 
 	return {
 		processedJourneys,
+		weeklySummaries: getWeeklySummaries(processedJourneys),
 		summary: getTotalSummary(processedJourneys),
 	};
 };
@@ -50,7 +56,7 @@ const isHomeOfficeJourney = ({
 	homeStations: string[];
 	officeStations: string[];
 	ignoreWeekends: boolean;
-}) => {
+}): boolean => {
 	const day = journey.datetime.getDay();
 	const isWeekend = day === 0 || day === 6;
 
@@ -88,7 +94,7 @@ const getWeekStart = (date: Date): Date => {
 
 export const getWeeklySummaries = (
 	processedJourneys: ProcessedJourney[],
-): Record<string, ProcessedJourneysSummary> => {
+): WeeklySummaryByDate => {
 	const groups = Map.groupBy(processedJourneys, (j) =>
 		getWeekStart(j.datetime),
 	);
