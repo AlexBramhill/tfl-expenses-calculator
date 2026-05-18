@@ -2,9 +2,18 @@ import { useEffect, useState } from "react";
 import { logDebug } from "../logPublisher";
 import { type Config, loadConfig, writeConfig } from "../repos/configRepo";
 
-const useConfig = () => {
+type SaveConfigCallback = (config: Config) => void;
+
+type ConfigResult = {
+	saveConfig: SaveConfigCallback;
+} & (
+	| { isLoading: true; config: null; error: null }
+	| { isLoading: false; config: Config; error: Error | null }
+);
+
+const useConfig = (): ConfigResult => {
 	const [config, setConfig] = useState<Config | null>(null);
-	const [loading, setLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<Error | null>(null);
 
 	useEffect(() => {
@@ -19,18 +28,18 @@ const useConfig = () => {
 			} catch (err) {
 				setError(err instanceof Error ? err : new Error(String(err)));
 			} finally {
-				setLoading(false);
+				setIsLoading(false);
 			}
 		})();
 	}, []);
 
-	const saveConfig = async (updates: Partial<Config>) => {
+	const saveConfig: SaveConfigCallback = async (updates: Partial<Config>) => {
 		if (!config) return;
 		const updated = await writeConfig({ ...config, ...updates });
 		setConfig(updated);
 	};
 
-	return { config, loading, error, saveConfig };
+	return { config, isLoading, error, saveConfig } as ConfigResult;
 };
 
 export default useConfig;

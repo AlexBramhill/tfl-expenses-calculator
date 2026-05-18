@@ -1,8 +1,9 @@
 import path from "node:path";
 import { Text } from "ink";
+import { FileExplorer } from "../components/fileExplorer";
 import useConfig from "../hooks/useConfig";
 import useCsvFiles from "../hooks/useCsvFiles";
-import useJourneyLookups from "../hooks/useJourneyLookups";
+import useJourneyLookup from "../hooks/useJourneyLookup";
 import type { ProcessedJourneysResult } from "../repos/journeyCalculator";
 
 const SummaryRow = ({
@@ -33,37 +34,30 @@ const SummaryRow = ({
 const Home = () => {
 	const {
 		config,
-		loading: configLoading,
+		isLoading: isConfigLoading,
 		saveConfig: _saveConfig,
 		error: configError,
 	} = useConfig();
 
 	const {
 		filePaths,
-		loading: filesLoading,
+		isLoading: filesLoading,
 		error: filesError,
 	} = useCsvFiles(config?.csvFolder);
 
-	const { journeyLookups } = useJourneyLookups({
-		files: filePaths,
-		homeStations: config?.homeStations ?? [],
-		officeStations: config?.officeStations ?? [],
-		ignoreWeekends: config?.ignoreWeekends,
-	});
+	if (isConfigLoading || filesLoading) return <Text>Loading...</Text>;
+	if (configError)
+		return <Text>Error loading config: {configError.message}.</Text>;
+	if (filesError) return <Text>Error loading files: {filesError.message}</Text>;
 
 	return (
 		<>
-			<Text>Home</Text>
-			<Text>Folder {config?.csvFolder}</Text>
-			{configLoading && <Text>Loading config...</Text>}
-			{configError && <Text>Error loading config...</Text>}
-			{filesLoading && <Text>Loading files...</Text>}
-			{filesError && <Text>Error loading files: {filesError.message}</Text>}
 			{filePaths.map((filePath) => (
-				<SummaryRow
+				<FileExplorer
 					key={filePath}
 					filePath={filePath}
-					journey={journeyLookups[filePath]}
+					config={config}
+					configLoading={isConfigLoading}
 				/>
 			))}
 		</>

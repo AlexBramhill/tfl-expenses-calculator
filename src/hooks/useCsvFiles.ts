@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { logDebug } from "../logPublisher";
+import type { Config } from "../repos/configRepo";
 import { listCsvFiles } from "../repos/csvRepo";
 
-const useCsvFiles = (folder: string | undefined) => {
+type CsvFilesResult =
+	| { isLoading: true; filePaths: null; error: null }
+	| { isLoading: false; filePaths: string[]; error: Error | null };
+
+const useCsvFiles = (folder: string | undefined): CsvFilesResult => {
 	const [filePaths, setFilePaths] = useState<string[]>([]);
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 
 	// TODO: consider having creating a folder if none exist
@@ -14,7 +19,7 @@ const useCsvFiles = (folder: string | undefined) => {
 			return;
 		}
 		setError(null);
-		setLoading(true);
+		setIsLoading(true);
 		(async () => {
 			try {
 				logDebug(`Fetching CSV files from: ${folder}`);
@@ -23,12 +28,12 @@ const useCsvFiles = (folder: string | undefined) => {
 			} catch (err) {
 				setError(err instanceof Error ? err : new Error(String(err)));
 			} finally {
-				setLoading(false);
+				setIsLoading(false);
 			}
 		})();
 	}, [folder]);
 
-	return { filePaths, loading, error };
+	return { filePaths, isLoading, error } as CsvFilesResult;
 };
 
 export default useCsvFiles;
