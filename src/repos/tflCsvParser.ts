@@ -20,8 +20,8 @@ const csvRowSchema = csvRawRow.transform((row, ctx) => {
 	}
 
 	const [start, end] = row["Journey/Action"].split(" to ");
-	const startStation = start.replace(/\s*\[.*?\]/, "").trim();
-	const endStation = end?.replace(/\s*\[.*?\]/, "").trim() ?? "";
+	const startStation = start.replace(/\s*\[.*?/, "").trim();
+	const endStation = end?.replace(/\s*\[.*?/, "").trim() ?? "";
 
 	const chargeAmount = parseFloat(row.Charge) || 0;
 
