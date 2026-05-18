@@ -1,18 +1,19 @@
-import { Text, useInput } from "ink";
+import path from "node:path";
+import { Text } from "ink";
 import useConfig from "../hooks/useConfig";
 import useCsvFiles from "../hooks/useCsvFiles";
 import useJourneyLookups from "../hooks/useJourneyLookups";
 import type { ProcessedJourneysResult } from "../repos/journeyCalculator";
 
 const SummaryRow = ({
-	file,
+	filePath,
 	journey,
 }: {
-	file: string;
+	filePath: string;
 	journey?: ProcessedJourneysResult;
 }) => (
 	<>
-		<Text>{file}</Text>
+		<Text>{path.basename(filePath)}</Text>
 		{journey && (
 			<Text>
 				{journey.summary.totalTrips} total trips,{" "}
@@ -38,13 +39,13 @@ const Home = () => {
 	} = useConfig();
 
 	const {
-		files,
+		filePaths,
 		loading: filesLoading,
 		error: filesError,
 	} = useCsvFiles(config?.csvFolder);
 
 	const { journeyLookups } = useJourneyLookups({
-		files,
+		files: filePaths,
 		homeStations: config?.homeStations ?? [],
 		officeStations: config?.officeStations ?? [],
 		ignoreWeekends: config?.ignoreWeekends,
@@ -58,8 +59,12 @@ const Home = () => {
 			{configError && <Text>Error loading config...</Text>}
 			{filesLoading && <Text>Loading files...</Text>}
 			{filesError && <Text>Error loading files: {filesError.message}</Text>}
-			{files.map((f) => (
-				<SummaryRow key={f} file={f} journey={journeyLookups[f]} />
+			{filePaths.map((filePath) => (
+				<SummaryRow
+					key={filePath}
+					filePath={filePath}
+					journey={journeyLookups[filePath]}
+				/>
 			))}
 		</>
 	);

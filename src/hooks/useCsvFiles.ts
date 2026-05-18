@@ -3,7 +3,7 @@ import { logDebug } from "../logPublisher";
 import { listCsvFiles } from "../repos/csvRepo";
 
 const useCsvFiles = (folder: string | undefined) => {
-	const [files, setFiles] = useState<string[]>([]);
+	const [filePaths, setFilePaths] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 
@@ -19,7 +19,7 @@ const useCsvFiles = (folder: string | undefined) => {
 			try {
 				logDebug(`Fetching CSV files from: ${folder}`);
 				const csvs = await listCsvFiles(folder);
-				setFiles(csvs);
+				setFilePaths(csvs);
 			} catch (err) {
 				setError(err instanceof Error ? err : new Error(String(err)));
 			} finally {
@@ -28,7 +28,7 @@ const useCsvFiles = (folder: string | undefined) => {
 		})();
 	}, [folder]);
 
-	return { files, loading, error };
+	return { filePaths, loading, error };
 };
 
 export default useCsvFiles;
