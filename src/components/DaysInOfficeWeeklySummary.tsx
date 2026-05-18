@@ -1,9 +1,11 @@
 import { Text } from "ink";
 import type { ProcessedJourneysResult } from "../repos/journeyCalculator";
 
-const DaysInOfficePerWeekSummary = (
-	journeysResult: ProcessedJourneysResult,
-) => {
+export const DaysInOfficePerWeekSummary = ({
+	journeysResult,
+}: {
+	journeysResult: ProcessedJourneysResult;
+}) => {
 	return (
 		<>
 			{Object.entries(journeysResult.weeklySummaries).map(

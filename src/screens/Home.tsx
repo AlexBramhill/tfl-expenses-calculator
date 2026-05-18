@@ -1,9 +1,8 @@
 import path from "node:path";
 import { Text } from "ink";
-import { FileExplorer } from "../components/fileExplorer";
+import { FileExplorer } from "../components/FileExplorer";
 import useConfig from "../hooks/useConfig";
 import useCsvFiles from "../hooks/useCsvFiles";
-import useJourneyLookup from "../hooks/useJourneyLookup";
 import type { ProcessedJourneysResult } from "../repos/journeyCalculator";
 
 const SummaryRow = ({
@@ -41,11 +40,11 @@ const Home = () => {
 
 	const {
 		filePaths,
-		isLoading: filesLoading,
+		isLoading: isCsvFilesLoading,
 		error: filesError,
 	} = useCsvFiles(config?.csvFolder);
 
-	if (isConfigLoading || filesLoading) return <Text>Loading...</Text>;
+	if (isConfigLoading || isCsvFilesLoading) return <Text>Loading...</Text>;
 	if (configError)
 		return <Text>Error loading config: {configError.message}.</Text>;
 	if (filesError) return <Text>Error loading files: {filesError.message}</Text>;
@@ -53,12 +52,7 @@ const Home = () => {
 	return (
 		<>
 			{filePaths.map((filePath) => (
-				<FileExplorer
-					key={filePath}
-					filePath={filePath}
-					config={config}
-					configLoading={isConfigLoading}
-				/>
+				<FileExplorer key={filePath} filePath={filePath} config={config} />
 			))}
 		</>
 	);

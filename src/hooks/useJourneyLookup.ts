@@ -7,10 +7,10 @@ import {
 import { parseCsv } from "../repos/tflCsvParser";
 
 type JourneyLookupResult =
-	| { isLoading: true; journeysLookup: null; error: null }
+	| { isLoading: true; journeyLookupResult: null; error: null }
 	| {
 			isLoading: false;
-			journeyLookup: ProcessedJourneysResult;
+			journeyLookupResult: ProcessedJourneysResult;
 			error: Error | null;
 	  };
 
@@ -25,9 +25,9 @@ const useJourneyLookup = ({
 	officeStations: string[];
 	ignoreWeekends?: boolean;
 }): JourneyLookupResult => {
-	const [journeyLookup, setJourneyLookup] =
+	const [journeyLookupResult, setJourneyLookupResult] =
 		useState<ProcessedJourneysResult | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<Error | null>(null);
 
 	useEffect(() => {
@@ -41,7 +41,7 @@ const useJourneyLookup = ({
 					filePath,
 				);
 				setError(null);
-				setJourneyLookup(result);
+				setJourneyLookupResult(result);
 				logDebug(`Journey lookups set for ${Object.keys(result)} file(s)`);
 			} catch (err) {
 				logError(
@@ -55,7 +55,7 @@ const useJourneyLookup = ({
 	}, [filePath, homeStations, officeStations, ignoreWeekends]);
 
 	return {
-		journeyLookup: journeyLookup,
+		journeyLookupResult: journeyLookupResult,
 		isLoading,
 		error,
 	} as JourneyLookupResult;
