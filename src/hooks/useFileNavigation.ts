@@ -1,6 +1,5 @@
 import { useInput } from "ink";
 import { useEffect, useState } from "react";
-import { SpecialKeys } from "../specialKeys";
 import type { CsvFilesResult } from "./useCsvFiles";
 
 const useFileNavigation = (csvFilesResult: CsvFilesResult) => {
@@ -22,24 +21,24 @@ const useFileNavigation = (csvFilesResult: CsvFilesResult) => {
 		setCurrentSelectedFile(csvFilesResult.filePaths[0]);
 	}, [csvFilesResult, currentSelectedFile]);
 
-	useInput((input) => {
+	useInput((_input, key) => {
 		if (!currentSelectedFile || csvFilesResult.isLoading) return;
 
 		const currentIndex = csvFilesResult.filePaths.indexOf(currentSelectedFile);
 
-		if (input === SpecialKeys.ArrowDown) {
+		if (key.downArrow) {
 			setCurrentSelectedFile(
 				csvFilesResult.filePaths[
 					Math.min(currentIndex + 1, csvFilesResult.filePaths.length - 1)
 				],
 			);
 		}
-		if (input === SpecialKeys.ArrowUp) {
+		if (key.upArrow) {
 			setCurrentSelectedFile(
 				csvFilesResult.filePaths[Math.max(currentIndex - 1, 0)],
 			);
 		}
-		if (input === SpecialKeys.Enter) {
+		if (key.return) {
 			setVisibleSummaries((prev) => {
 				const next = new Set(prev);
 				if (next.has(currentSelectedFile)) {

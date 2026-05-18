@@ -4,7 +4,6 @@ import { LogStream } from "../components/LogStream";
 import useRouter from "../hooks/useRouter";
 import Home from "../screens/Home";
 import Settings from "../screens/Settings";
-import { SpecialKeys } from "../specialKeys";
 
 const App = () => {
 	const { currentPage, previousPage, canGoBack, goToPage, goBack } =
