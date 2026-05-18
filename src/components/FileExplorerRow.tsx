@@ -4,7 +4,7 @@ import type { Config } from "../repos/configRepo";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import { Summary } from "./Summary";
 
-export const FileExplorer = ({
+export const FileExplorerRow = ({
 	filePath,
 	config,
 }: {

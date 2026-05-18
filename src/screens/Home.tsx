@@ -1,6 +1,6 @@
 import path from "node:path";
 import { Text } from "ink";
-import { FileExplorer } from "../components/FileExplorer";
+import { FileExplorerRow } from "../components/FileExplorerRow";
 import useConfig from "../hooks/useConfig";
 import useCsvFiles from "../hooks/useCsvFiles";
 import type { ProcessedJourneysResult } from "../repos/journeyCalculator";
@@ -52,7 +52,7 @@ const Home = () => {
 	return (
 		<>
 			{filePaths.map((filePath) => (
-				<FileExplorer key={filePath} filePath={filePath} config={config} />
+				<FileExplorerRow key={filePath} filePath={filePath} config={config} />
 			))}
 		</>
 	);

@@ -95,9 +95,10 @@ const getWeekStart = (date: Date): Date => {
 export const getWeeklySummaries = (
 	processedJourneys: ProcessedJourney[],
 ): WeeklySummaryByDate => {
-	const groups = Map.groupBy(processedJourneys, (j) =>
-		getWeekStart(j.datetime),
+	const groups = Map.groupBy(processedJourneys, (journey) =>
+		getWeekStart(journey.datetime).toISOString(),
 	);
+
 	return Object.fromEntries(
 		[...groups.entries()].map(([weekStart, journeys]) => [
 			weekStart,

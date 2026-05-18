@@ -8,6 +8,7 @@ export const DaysInOfficePerWeekSummary = ({
 }) => {
 	return (
 		<>
+			<Text>Weekly Summaries:</Text>
 			{Object.entries(journeysResult.weeklySummaries).map(
 				([dateStart, summary]) => (
 					<DaysInOfficeSummary
@@ -27,8 +28,11 @@ const DaysInOfficeSummary = ({
 }: {
 	dateStart: string;
 	daysInOffice: number;
-}) => (
-	<Text>
-		{dateStart}: {daysInOffice}
-	</Text>
-);
+}) => {
+	const formattedDateStart = new Date(dateStart).toLocaleDateString();
+	return (
+		<Text>
+			{formattedDateStart}: {daysInOffice}
+		</Text>
+	);
+};
