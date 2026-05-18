@@ -14,7 +14,7 @@ const csvRowSchema = csvRawRow.transform((row, ctx) => {
 		`${row.Date.replace(/-/g, " ")} ${row["Start Time"]}`,
 	);
 
-	if (isNaN(datetime.getTime())) {
+	if (Number.isNaN(datetime.getTime())) {
 		ctx.addIssue({ code: "custom", message: "Invalid date" });
 		return z.NEVER;
 	}
