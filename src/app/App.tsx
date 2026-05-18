@@ -30,7 +30,7 @@ const App = () => {
 	return (
 		<Box flexDirection="column">
 			<Box flexDirection="column" padding={1}>
-				<Text color="green" underline={true}>
+				<Text bold color="green" underline>
 					TFL CSV Expense Parser
 				</Text>
 				<Text dimColor>
