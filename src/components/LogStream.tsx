@@ -11,7 +11,13 @@ const severityColor = (s: LogEntry["severity"]) => {
 
 const LogStreamRow = ({ logEntry }: { logEntry: LogEntry }) => {
 	return (
-		<Text color={severityColor(logEntry.severity)}>{logEntry.message}</Text>
+		<Text
+			color={severityColor(logEntry.severity)}
+			overflow-y={"hidden"}
+			wrap={"truncate-start"}
+		>
+			{logEntry.message}
+		</Text>
 	);
 };
 

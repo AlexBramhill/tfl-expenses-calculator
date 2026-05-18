@@ -12,7 +12,3 @@ export const listCsvFiles = async (folder: string) => {
 	logDebug(`Found ${csvs.length} CSV files in folder: ${folder}`);
 	return csvs;
 };
-
-export const readFile = async (file: string) => {
-	return fs.readFile(file, "utf8");
-};

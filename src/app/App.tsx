@@ -1,4 +1,5 @@
-import { Box, Text, useInput } from "ink";
+import { Box, measureElement, Text, useInput } from "ink";
+import { useState } from "react";
 import { LogStream } from "../components/LogStream";
 import useRouter from "../hooks/useRouter";
 import Home from "../screens/Home";
@@ -8,36 +9,31 @@ const App = () => {
 	const { currentPage, previousPage, canGoBack, goToPage, goBack } =
 		useRouter();
 
+	const [showLogs, setShowLogs] = useState<boolean>(false);
 	useInput((input, _key) => {
 		if (input === "q") process.exit();
 		if (input === "w") goToPage("home");
 		if (input === "e") goToPage("settings");
 		if (input === "t" && canGoBack) goBack();
+		if (input === "d") setShowLogs((prev) => !prev);
 	});
+
+	if (showLogs) {
+		return (
+			<Box>
+				<LogStream />
+			</Box>
+		);
+	}
 
 	return (
 		<Box flexDirection="column" padding={1}>
-			<Box flexGrow={1}>
-				<Box flexDirection="column" flexGrow={1}>
-					<Text color="green" underline={true}>
-						Mini CLI Router
-					</Text>
-					{currentPage === "home" && <Home />}
-					{currentPage === "settings" && <Settings />}
-				</Box>
-				<Box
-					borderStyle="single"
-					borderLeft={true}
-					borderTop={false}
-					borderBottom={false}
-					borderRight={false}
-					paddingLeft={1}
-					marginLeft={1}
-					flexShrink={0}
-					width="33%"
-				>
-					<LogStream />
-				</Box>
+			<Box flexDirection="column" flexGrow={1}>
+				<Text color="green" underline={true}>
+					Mini CLI Router
+				</Text>
+				{currentPage === "home" && <Home />}
+				{currentPage === "settings" && <Settings />}
 			</Box>
 			<Box>
 				<Text dimColor>

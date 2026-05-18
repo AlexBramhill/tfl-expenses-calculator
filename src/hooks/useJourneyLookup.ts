@@ -42,10 +42,10 @@ const useJourneyLookup = ({
 				);
 				setError(null);
 				setJourneyLookupResult(result);
-				logDebug(`Journey lookups set for ${Object.keys(result)} file(s)`);
+				logDebug(`Journey lookup set for ${filePath}`);
 			} catch (err) {
 				logError(
-					`useJourneyLookups error: ${err instanceof Error ? err.message : String(err)}`,
+					`useJourneyLookup error: ${err instanceof Error ? err.message : String(err)}`,
 				);
 				setError(err instanceof Error ? err : new Error(String(err)));
 			} finally {
