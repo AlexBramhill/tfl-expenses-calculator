@@ -30,9 +30,12 @@ export const CsvList = ({
 		allJourneys.map((j) => formatCharge(j.chargeAmount)),
 	);
 
+	const heading =
+		`${"Date".padEnd(dateWidth)} | ${"From".padEnd(startWidth)} | ${"To".padEnd(endWidth)} | ${"Charge".padEnd(chargeWidth)}`;
+
 	return (
 		<Box flexDirection="column">
-			<Text bold>Journey Details:</Text>
+			<Text bold underline>{heading}</Text>
 			{journeys.map((journey) => (
 				<CsvRow
 					key={journey.datetime.toISOString()}
