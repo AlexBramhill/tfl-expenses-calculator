@@ -51,7 +51,7 @@ export const FileDetailPanels = ({
 				<DaysInOfficePerWeekSummary journeysResult={journeyLookupResult} />
 			</Box>
 			<Box flexDirection="column">
-				<CsvList journeys={journeysOnPage} />
+				<CsvList journeys={journeysOnPage} allJourneys={journeys} />
 				<Text dimColor>
 					{currentPage + 1}/{totalPages} | ← → to paginate
 				</Text>
