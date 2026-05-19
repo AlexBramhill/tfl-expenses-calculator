@@ -21,7 +21,7 @@ export const DEFAULT_CONFIG: Config = {
 	ignoreWeekends: true,
 };
 
-const CONFIG_PATH = path.join(DOTFILE_FOLDER, "config.json");
+export const CONFIG_PATH = path.join(DOTFILE_FOLDER, "config.json");
 
 export const loadConfig = async () => {
 	try {

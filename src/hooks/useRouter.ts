@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { logDebug } from "../logPublisher";
 
-type Page = "home" | "settings";
+export type Page = "home" | "settings" | "help";
 
 type UseRouterReturn = {
 	currentPage: Page;

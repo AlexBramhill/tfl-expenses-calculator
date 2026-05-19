@@ -1,9 +1,10 @@
-import { Box, Text, useInput, useWindowSize } from "ink";
+import { Box, Text, useWindowSize } from "ink";
 import { useState } from "react";
 import { LogStream } from "../components/LogStream";
+import useAppInput from "../hooks/useAppInput";
 import useRouter from "../hooks/useRouter";
+import Help from "../screens/Help";
 import Home from "../screens/Home";
-import Settings from "../screens/Settings";
 
 const App = () => {
 	const { currentPage, previousPage, canGoBack, goToPage, goBack } =
@@ -11,21 +12,19 @@ const App = () => {
 
 	const [showLogs, setShowLogs] = useState<boolean>(false);
 	const { rows } = useWindowSize();
-	useInput((input, _key) => {
-		if (input === "q") process.exit();
-		if (input === "w") goToPage("home");
-		if (input === "e") goToPage("settings");
-		if (input === "t" && canGoBack) goBack();
-		if (input === "d") setShowLogs((prev) => !prev);
+	useAppInput({
+		goToPage,
+		goBack,
+		canGoBack,
+		onToggleLogs: () => setShowLogs((prev) => !prev),
 	});
 
-	if (showLogs) {
-		return (
-			<Box>
-				<LogStream />
-			</Box>
-		);
-	}
+	if (showLogs)
+		<Box>
+			<LogStream />
+		</Box>;
+
+	if (currentPage === "help") <Help />;
 
 	return (
 		<Box flexDirection="column" height={rows}>
@@ -34,13 +33,14 @@ const App = () => {
 					TFL CSV Expense Parser
 				</Text>
 				<Text dimColor>
-					q=quit | w=home | e=settings
+					q=quit | w=home | r=help
 					{canGoBack ? ` | t=back (${previousPage})` : ""}
 				</Text>
 			</Box>
 			<Box flexDirection="column" padding={1}>
 				{currentPage === "home" && <Home />}
-				{currentPage === "settings" && <Settings />}
+				{/*{currentPage === "settings" && <Settings />}*/}
+				{currentPage === "help" && <Help />}
 			</Box>
 		</Box>
 	);

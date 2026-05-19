@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { logDebug } from "../logPublisher";
-import type { Config } from "../repos/configRepo";
 import { listCsvFiles } from "../repos/csvRepo";
 
 export type CsvFilesResult =
