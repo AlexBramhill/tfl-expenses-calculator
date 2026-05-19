@@ -10,7 +10,7 @@ const App = () => {
 		useRouter();
 
 	const [showLogs, setShowLogs] = useState<boolean>(false);
-	useWindowSize();
+	const { rows } = useWindowSize();
 	useInput((input, _key) => {
 		if (input === "q") process.exit();
 		if (input === "w") goToPage("home");
@@ -28,7 +28,7 @@ const App = () => {
 	}
 
 	return (
-		<Box flexDirection="column">
+		<Box flexDirection="column" height={rows}>
 			<Box flexDirection="column" padding={1}>
 				<Text bold color="green" underline>
 					TFL CSV Expense Parser

@@ -6,9 +6,6 @@ const useFileNavigation = (csvFilesResult: CsvFilesResult) => {
 	const [currentSelectedFile, setCurrentSelectedFile] = useState<string | null>(
 		null,
 	);
-	const [visibleSummaries, setVisibleSummaries] = useState<Set<string>>(
-		new Set(),
-	);
 
 	useEffect(() => {
 		if (csvFilesResult.isLoading || csvFilesResult.filePaths.length === 0)
@@ -38,22 +35,9 @@ const useFileNavigation = (csvFilesResult: CsvFilesResult) => {
 				csvFilesResult.filePaths[Math.max(currentIndex - 1, 0)],
 			);
 		}
-		if (key.return) {
-			setVisibleSummaries((prev) => {
-				const next = new Set(prev);
-				if (next.has(currentSelectedFile)) {
-					next.delete(currentSelectedFile);
-				} else {
-					next.add(currentSelectedFile);
-				}
-				return next;
-			});
-		}
 	});
 
-	const isSummaryVisible = (filePath: string) => visibleSummaries.has(filePath);
-
-	return { currentSelectedFile, isSummaryVisible };
+	return { currentSelectedFile };
 };
 
 export default useFileNavigation;
