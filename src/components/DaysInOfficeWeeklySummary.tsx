@@ -21,7 +21,7 @@ export const DaysInOfficePerWeekSummary = ({
 			))}
 			{hasAnyAsterisk && (
 				<Text dimColor>
-					*Week proceeds to next month, weekly summary may be incomplete
+					* Week proceeds to next month,{"\n  "}weekly summary may be incomplete
 				</Text>
 			)}
 		</Box>
