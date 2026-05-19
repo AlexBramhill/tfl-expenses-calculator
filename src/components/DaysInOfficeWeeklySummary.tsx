@@ -1,24 +1,22 @@
 import { Box, Text } from "ink";
-import type { ProcessedJourneysResult } from "../repos/journeyCalculator";
+import type { WeeklySummaryByDate } from "../repos/journeyCalculator";
 
 export const DaysInOfficePerWeekSummary = ({
-	journeysResult,
+	weeklySummaries,
 }: {
-	journeysResult: ProcessedJourneysResult;
+	weeklySummaries: WeeklySummaryByDate;
 }) => {
 	return (
 		<Box flexDirection="column">
 			<Text bold>Days in office per week: </Text>
-			{Object.entries(journeysResult.weeklySummaries).map(
-				([dateStart, summary]) => (
-					<Box key={dateStart}>
-						<DaysInOfficeSummary
-							dateStart={dateStart}
-							daysInOffice={summary.totalDaysInOffice}
-						/>
-					</Box>
-				),
-			)}
+			{Object.entries(weeklySummaries).map(([dateStart, summary]) => (
+				<Box key={dateStart}>
+					<DaysInOfficeSummary
+						dateStart={dateStart}
+						daysInOffice={summary.totalDaysInOffice}
+					/>
+				</Box>
+			))}
 		</Box>
 	);
 };

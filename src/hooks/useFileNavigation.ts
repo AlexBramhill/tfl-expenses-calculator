@@ -1,39 +1,30 @@
 import { useInput } from "ink";
 import { useEffect, useState } from "react";
-import type { CsvFilesResult } from "./useCsvFiles";
 
-const useFileNavigation = (csvFilesResult: CsvFilesResult) => {
+const useFileNavigation = (filePaths: string[]) => {
 	const [currentSelectedFile, setCurrentSelectedFile] = useState<string | null>(
 		null,
 	);
 
 	useEffect(() => {
-		if (csvFilesResult.isLoading || csvFilesResult.filePaths.length === 0)
+		if (filePaths.length === 0) return;
+		if (currentSelectedFile != null && filePaths.includes(currentSelectedFile))
 			return;
-		if (
-			currentSelectedFile != null &&
-			csvFilesResult.filePaths.includes(currentSelectedFile)
-		)
-			return;
-		setCurrentSelectedFile(csvFilesResult.filePaths[0]);
-	}, [csvFilesResult, currentSelectedFile]);
+		setCurrentSelectedFile(filePaths[0]);
+	}, [filePaths, currentSelectedFile]);
 
 	useInput((_input, key) => {
-		if (!currentSelectedFile || csvFilesResult.isLoading) return;
+		if (!currentSelectedFile) return;
 
-		const currentIndex = csvFilesResult.filePaths.indexOf(currentSelectedFile);
+		const currentIndex = filePaths.indexOf(currentSelectedFile);
 
 		if (key.downArrow) {
 			setCurrentSelectedFile(
-				csvFilesResult.filePaths[
-					Math.min(currentIndex + 1, csvFilesResult.filePaths.length - 1)
-				],
+				filePaths[Math.min(currentIndex + 1, filePaths.length - 1)],
 			);
 		}
 		if (key.upArrow) {
-			setCurrentSelectedFile(
-				csvFilesResult.filePaths[Math.max(currentIndex - 1, 0)],
-			);
+			setCurrentSelectedFile(filePaths[Math.max(currentIndex - 1, 0)]);
 		}
 	});
 

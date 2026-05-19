@@ -1,8 +1,9 @@
 import { Box, Text, useWindowSize } from "ink";
-import useJourneyLookup from "../hooks/useJourneyLookup";
 import usePagination from "../hooks/usePagination";
-import type { Config } from "../repos/configRepo";
-import type { ProcessedJourney } from "../repos/journeyCalculator";
+import type {
+	ProcessedJourney,
+	ProcessedJourneysResult,
+} from "../repos/journeyCalculator";
 import { CsvList } from "./CsvList";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import { Summary } from "./Summary";
@@ -12,23 +13,14 @@ import { Summary } from "./Summary";
 const MAGIC_NUMBER_FOR_HEADER_ETC = 9;
 
 export const FileDetailPanels = ({
-	filePath,
-	config,
+	journeysResult,
 }: {
-	filePath: string;
-	config: Config;
+	journeysResult: ProcessedJourneysResult;
 }) => {
-	const { journeyLookupResult, isLoading, error } = useJourneyLookup({
-		filePath,
-		homeStations: config.homeStations ?? [],
-		officeStations: config.officeStations ?? [],
-		ignoreWeekends: config.ignoreWeekends,
-	});
-
 	const { rows } = useWindowSize();
 	const itemsPerPage = Math.max(1, rows - MAGIC_NUMBER_FOR_HEADER_ETC);
 
-	const journeys = [...(journeyLookupResult?.processedJourneys ?? [])].sort(
+	const journeys = [...journeysResult.processedJourneys].sort(
 		(a, b) => a.datetime.getTime() - b.datetime.getTime(),
 	);
 
@@ -41,14 +33,13 @@ export const FileDetailPanels = ({
 		itemsPerPage,
 	});
 
-	if (isLoading) return <Text>Loading...</Text>;
-	if (error) return <Text>Error: {error.message}</Text>;
-
 	return (
 		<>
 			<Box flexDirection="column" gap={1}>
-				<Summary summary={journeyLookupResult.summary} />
-				<DaysInOfficePerWeekSummary journeysResult={journeyLookupResult} />
+				<Summary summary={journeysResult.summary} />
+				<DaysInOfficePerWeekSummary
+					weeklySummaries={journeysResult.weeklySummaries}
+				/>
 			</Box>
 			<Box flexDirection="column">
 				<CsvList journeys={journeysOnPage} allJourneys={journeys} />
