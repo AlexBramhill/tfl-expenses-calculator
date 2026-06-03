@@ -1,4 +1,6 @@
 #!/bin/sh
-npm install -g tsx
 npm install
+npm run build
+chmod +x dist/tfl.js
 npm link
+

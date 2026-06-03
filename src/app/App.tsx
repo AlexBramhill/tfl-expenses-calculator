@@ -1,5 +1,5 @@
-import { Box, Text, useWindowSize } from "ink";
 import { useState } from "react";
+import { Box, Text, useWindowSize } from "ink";
 import { LogStream } from "../components/LogStream";
 import useAppInput from "../hooks/useAppInput";
 import useRouter from "../hooks/useRouter";
