@@ -1,20 +1,6 @@
-import { Box, Text } from "ink";
-import type { ProcessedJourney } from "../repos/journeyCalculator";
-
-const formatDate = (date: Date) =>
-	date.toLocaleString("en-GB", {
-		weekday: "short",
-		year: "2-digit",
-		month: "2-digit",
-		day: "2-digit",
-		hour: "2-digit",
-		minute: "2-digit",
-	});
-
-const formatCharge = (amount: number) => `£${amount.toFixed(2)}`;
-
-const maxLength = (strings: string[]) =>
-	Math.max(0, ...strings.map((s) => s.length));
+import {Box, Text} from "ink";
+import type {ProcessedJourney} from "../repos/journeyCalculator";
+import {formatCharge, formatDate, maxLength} from "../utils/TextFormatters";
 
 export const CsvList = ({
 	journeys,
