@@ -22,7 +22,7 @@ const useCsvFiles = (folder: string | undefined): CsvFilesResult => {
 		(async () => {
 			try {
 				logDebug(`Fetching CSV files from: ${folder}`);
-				const csvs = await listCsvFiles(folder) ?? [];
+				const csvs = (await listCsvFiles(folder)) ?? [];
 				setFilePaths(csvs);
 			} catch (err) {
 				setError(err instanceof Error ? err : new Error(String(err)));

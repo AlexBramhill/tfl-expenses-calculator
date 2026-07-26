@@ -1,6 +1,6 @@
-import {Box, Text} from "ink";
-import type {ProcessedJourney} from "../repos/journeyCalculator";
-import {formatCharge, formatDate, maxLength} from "../utils/TextFormatters";
+import { Box, Text } from "ink";
+import type { ProcessedJourney } from "../repos/journeyCalculator";
+import { formatCharge, formatDate, maxLength } from "../utils/TextFormatters";
 
 export const CsvList = ({
 	journeys,

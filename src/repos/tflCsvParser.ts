@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import path from "node:path";
 import Papa from "papaparse";
 import { z } from "zod";
 
@@ -28,13 +29,20 @@ const csvRowSchema = csvRawRow.transform((row, ctx) => {
 	return { datetime, startStation, endStation, chargeAmount };
 });
 
-export type Journey = z.infer<typeof csvRowSchema>;
+export type JourneyMetaData = {
+	fileName: string;
+};
+
+export type Journey = z.infer<typeof csvRowSchema> & JourneyMetaData;
 
 export const parseCsv = async (filePath: string): Promise<Journey[]> => {
+	const fileName = path.basename(filePath);
 	const content = await fs.readFile(filePath, "utf8");
 	const { data } = Papa.parse(content, { header: true, skipEmptyLines: true });
-	return data.flatMap((row) => {
-		const result = csvRowSchema.safeParse(row);
-		return result.success ? [result.data] : [];
-	});
+	return data
+		.map((row) => {
+			const result = csvRowSchema.safeParse(row);
+			return result.success ? { ...result.data, fileName } : null;
+		})
+		.filter((row) => row !== null);
 };

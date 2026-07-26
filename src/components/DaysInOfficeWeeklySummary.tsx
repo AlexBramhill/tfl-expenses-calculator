@@ -6,7 +6,8 @@ export const DaysInOfficePerWeekSummary = ({
 }: {
 	weeklySummaries: WeeklySummaryByDate;
 }) => {
-	const isAnyWeekCrossingMonth = Object.keys(weeklySummaries).some(isWeekCrossingMonth);
+	const isAnyWeekCrossingMonth =
+		Object.keys(weeklySummaries).some(isWeekCrossingMonth);
 
 	return (
 		<Box flexDirection="column">
