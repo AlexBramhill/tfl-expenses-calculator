@@ -6,7 +6,7 @@ export const DaysInOfficePerWeekSummary = ({
 }: {
 	weeklySummaries: WeeklySummaryByDate;
 }) => {
-	const hasAnyAsterisk = Object.keys(weeklySummaries).some(isWeekCrossingMonth);
+	const isAnyWeekCrossingMonth = Object.keys(weeklySummaries).some(isWeekCrossingMonth);
 
 	return (
 		<Box flexDirection="column">
@@ -19,7 +19,7 @@ export const DaysInOfficePerWeekSummary = ({
 					/>
 				</Box>
 			))}
-			{hasAnyAsterisk && (
+			{isAnyWeekCrossingMonth && (
 				<Text dimColor>
 					* Week not entirely in current month,{"\n  "}weekly summary may be
 					incomplete
