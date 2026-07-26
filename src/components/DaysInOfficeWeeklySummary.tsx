@@ -6,7 +6,7 @@ export const DaysInOfficePerWeekSummary = ({
 }: {
 	weeklySummaries: WeeklySummaryByDate;
 }) => {
-	const hasAnyAsterisk = Object.keys(weeklySummaries).some(weekCrossesMonth);
+	const hasAnyAsterisk = Object.keys(weeklySummaries).some(isWeekCrossingMonth);
 
 	return (
 		<Box flexDirection="column">
@@ -36,7 +36,7 @@ const DaysInOfficeSummary = ({
 	dateStart: string;
 	daysInOffice: number;
 }) => {
-	const crossesMonth = weekCrossesMonth(dateStart);
+	const crossesMonth = isWeekCrossingMonth(dateStart);
 	const formattedDateStart = new Date(dateStart).toLocaleDateString();
 	return (
 		<Text>
@@ -45,7 +45,7 @@ const DaysInOfficeSummary = ({
 	);
 };
 
-const weekCrossesMonth = (dateStart: string): boolean => {
+const isWeekCrossingMonth = (dateStart: string): boolean => {
 	const start = new Date(dateStart);
 	const end = new Date(start);
 	end.setDate(end.getDate() + 6);
