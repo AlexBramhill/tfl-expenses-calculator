@@ -1,5 +1,5 @@
 import { Text } from "ink";
-import { FileExplorer } from "../components/FileExplorer";
+import { JourneyExplorer } from "../components/JourneyExplorer";
 import useConfig from "../hooks/useConfig";
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
 			<Text bold underline>
 				Home
 			</Text>
-			<FileExplorer config={config} />
+			<JourneyExplorer config={config} />
 		</>
 	);
 };

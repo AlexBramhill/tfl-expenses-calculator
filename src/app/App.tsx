@@ -19,12 +19,13 @@ const App = () => {
 		onToggleLogs: () => setShowLogs((prev) => !prev),
 	});
 
-	if (showLogs)
-		<Box>
-			<LogStream />
-		</Box>;
-
-	if (currentPage === "help") <Help />;
+	if (showLogs) {
+		return (
+			<Box>
+				<LogStream />
+			</Box>
+		);
+	}
 
 	return (
 		<Box flexDirection="column" height={rows}>

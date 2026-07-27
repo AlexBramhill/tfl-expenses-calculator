@@ -8,7 +8,7 @@ async function loadData(folder: string) {
 	return (await Promise.all(journeyPromises)).flat();
 }
 
-type CsvState<T> =
+export type CsvState<T> =
 	| { status: "loading" }
 	| { status: "error"; error: Error }
 	| { status: "success"; data: T[] };
@@ -29,7 +29,7 @@ const reducer = <T>(_state: CsvState<T>, action: CsvAction<T>): CsvState<T> => {
 	}
 };
 
-const useCsvs = (folder: string) => {
+const useCsvsData = (folder: string) => {
 	const [state, dispatch] = useReducer(reducer<Journey>, { status: "loading" });
 
 	useEffect(() => {
@@ -51,3 +51,5 @@ const useCsvs = (folder: string) => {
 
 	return state;
 };
+
+export default useCsvsData;
