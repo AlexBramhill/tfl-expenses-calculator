@@ -1,4 +1,4 @@
-import { Box, Text } from "ink";
+import {Box, Text, useInput} from "ink";
 import useGroupedJourneys, {
 	type JourneyGroup,
 } from "../hooks/useGroupedJourneys";
@@ -20,11 +20,26 @@ const journeyGroupRow = (item: JourneyGroup, isSelected: boolean) => (
 
 export const JourneyExplorer = ({ config }: { config: Config }) => {
 	const ungroupedJourneys = useJourneys(config.csvFolder);
-	const { groupedJourneys } = useGroupedJourneys(ungroupedJourneys);
+	const { groupedJourneys , journeyGrouping, setJourneyGrouping} = useGroupedJourneys(ungroupedJourneys);
 	const { selectedItem } = useListNavigation(
 		groupedJourneys,
 		(item) => item.displayName,
 	);
+
+	useInput((input) => {
+		if (input === "t") {
+			// Todo: refactor this so we have an easy list to manage state change
+			setJourneyGrouping(oldValue => {
+				switch (oldValue) {
+					case "month":
+						return "file";
+					case "file":
+						return "month";
+				}
+			})
+		};
+	});
+
 
 	if (ungroupedJourneys.status === "loading") return <Text>Loading...</Text>;
 	if (ungroupedJourneys.status === "error")
@@ -34,6 +49,7 @@ export const JourneyExplorer = ({ config }: { config: Config }) => {
 	return (
 		<Box flexDirection="row" gap={2} flexGrow={1}>
 			<Box flexDirection="column">
+				<Text dimColor={true}>Sort: {journeyGrouping}</Text>
 				{groupedJourneys.map((item) =>
 					journeyGroupRow(item, selectedItem === item),
 				)}

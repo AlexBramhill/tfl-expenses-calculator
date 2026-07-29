@@ -24,9 +24,9 @@ export const JourneyList = ({
 				{heading}
 			</Text>
 			{journeys.map((journey) => (
-				<CsvRow
+				<JourneyRow
 					key={journey.datetime.toISOString()}
-					journeyRow={journey}
+					journey={journey}
 					dateWidth={dateWidth}
 					startWidth={startWidth}
 					endWidth={endWidth}
@@ -37,26 +37,26 @@ export const JourneyList = ({
 	);
 };
 
-const CsvRow = ({
-	journeyRow,
+const JourneyRow = ({
+	journey,
 	dateWidth,
 	startWidth,
 	endWidth,
 	chargeWidth,
 }: {
-	journeyRow: Journey;
+	journey: Journey;
 	dateWidth: number;
 	startWidth: number;
 	endWidth: number;
 	chargeWidth: number;
 }) => {
-	const date = formatDate(journeyRow.datetime).padEnd(dateWidth);
-	const charge = formatCharge(journeyRow.chargeAmount).padEnd(chargeWidth);
-	const hasEnd = journeyRow.endStation.length > 0;
+	const date = formatDate(journey.datetime).padEnd(dateWidth);
+	const charge = formatCharge(journey.chargeAmount).padEnd(chargeWidth);
+	const hasEnd = journey.endStation.length > 0;
 
 	const stations = hasEnd
-		? `${journeyRow.startStation.padEnd(startWidth)} | ${journeyRow.endStation.padEnd(endWidth)}`
-		: journeyRow.startStation.padEnd(startWidth + 3 + endWidth);
+		? `${journey.startStation.padEnd(startWidth)} | ${journey.endStation.padEnd(endWidth)}`
+		: journey.startStation.padEnd(startWidth + 3 + endWidth);
 
 	return (
 		// <Text color={journeyRow.isHomeOfficeJourney ? "green" : "grey"}>
