@@ -20,7 +20,7 @@ const Help = () => (
 			</Text>
 			<Text>
 				Edit the config found here: <Text color="yellow">{CONFIG_PATH}</Text>{" "}
-				adding all home/office stations{" "}
+				adding all home/office stations
 			</Text>
 		</Box>
 
@@ -28,8 +28,8 @@ const Help = () => (
 			<Text bold underline>
 				Example config
 			</Text>
-			{EXAMPLE_CONFIG.split("\n").map((l, _i) => (
-				<Text color="yellow" key={l}>
+			{EXAMPLE_CONFIG.split("\n").map((l, i) => (
+				<Text color="yellow" key={`l${i.toLocaleString()}`}>
 					{l}
 				</Text>
 			))}
