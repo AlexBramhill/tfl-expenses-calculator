@@ -1,13 +1,13 @@
 import { Box, Text } from "ink";
-import type { ProcessedJourney } from "../repos/journeyCalculator";
+import type { Journey } from "../repos/tflCsvParser";
 import { formatCharge, formatDate, maxLength } from "../utils/TextFormatters";
 
-export const CsvList = ({
+export const JourneyList = ({
 	journeys,
 	allJourneys,
 }: {
-	journeys: ProcessedJourney[];
-	allJourneys: ProcessedJourney[];
+	journeys: Journey[];
+	allJourneys: Journey[];
 }) => {
 	const dateWidth = maxLength(allJourneys.map((j) => formatDate(j.datetime)));
 	const startWidth = maxLength(allJourneys.map((j) => j.startStation));
@@ -44,7 +44,7 @@ const CsvRow = ({
 	endWidth,
 	chargeWidth,
 }: {
-	journeyRow: ProcessedJourney;
+	journeyRow: Journey;
 	dateWidth: number;
 	startWidth: number;
 	endWidth: number;
@@ -59,7 +59,8 @@ const CsvRow = ({
 		: journeyRow.startStation.padEnd(startWidth + 3 + endWidth);
 
 	return (
-		<Text color={journeyRow.isHomeOfficeJourney ? "green" : "grey"}>
+		// <Text color={journeyRow.isHomeOfficeJourney ? "green" : "grey"}>
+		<Text>
 			{date} | {stations} | {charge}
 		</Text>
 	);

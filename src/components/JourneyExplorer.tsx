@@ -5,6 +5,7 @@ import useGroupedJourneys, {
 import useJourneys from "../hooks/useJourneys";
 import useListNavigation from "../hooks/useListNavigation";
 import type { Config } from "../repos/configRepo";
+import JourneyDetailPanel from "./JourneyDetailPanel";
 
 const journeyGroupRow = (item: JourneyGroup, isSelected: boolean) => (
 	<Text
@@ -37,14 +38,12 @@ export const JourneyExplorer = ({ config }: { config: Config }) => {
 					journeyGroupRow(item, selectedItem === item),
 				)}
 			</Box>
-			{/*{currentSelectedFile &&*/}
-			{/*    selectedResult &&*/}
-			{/*    !(selectedResult instanceof Error) && (*/}
-			{/*        <FileDetailPanels*/}
-			{/*            key={currentSelectedFile}*/}
-			{/*            journeysResult={selectedResult}*/}
-			{/*        />*/}
-			{/*    )}*/}
+			{selectedItem && (
+				<JourneyDetailPanel
+					key={selectedItem.displayName}
+					journeys={selectedItem.journeys}
+				/>
+			)}
 		</Box>
 	);
 };

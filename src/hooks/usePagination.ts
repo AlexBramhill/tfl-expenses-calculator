@@ -16,8 +16,8 @@ const usePagination = <T>({
 	const [currentPage, setCurrentPage] = useState(0);
 
 	useInput((_input, key) => {
-		if (key.rightArrow) setCurrentPage((p) => Math.min(p + 1, totalPages - 1));
-		if (key.leftArrow) setCurrentPage((p) => Math.max(p - 1, 0));
+		if (key.downArrow) setCurrentPage((p) => Math.min(p + 1, totalPages - 1));
+		if (key.upArrow) setCurrentPage((p) => Math.max(p - 1, 0));
 	});
 
 	const itemsOnPage = items.slice(
