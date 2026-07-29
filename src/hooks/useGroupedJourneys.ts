@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import type { Journey } from "../repos/tflCsvParser";
 import type { State } from "./useJourneys";
+import {infer} from "zod";
 
-export type JourneyGrouping = "file" | "month";
+export const journeyGroupings=["file", "month"] as const;
+type JourneyGrouping = typeof journeyGroupings[number];
 
 type DisplayName = string;
 type SortValue = string | number;

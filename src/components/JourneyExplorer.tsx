@@ -1,6 +1,6 @@
 import { Box, Text, useInput } from "ink";
 import useGroupedJourneys, {
-	type JourneyGroup,
+	type JourneyGroup, journeyGroupings,
 } from "../hooks/useGroupedJourneys";
 import useJourneys from "../hooks/useJourneys";
 import useListNavigation from "../hooks/useListNavigation";
@@ -13,7 +13,7 @@ const journeyGroupRow = (item: JourneyGroup, isSelected: boolean) => (
 		color={isSelected ? "green" : undefined}
 		dimColor={!isSelected}
 	>
-		{isSelected ? ">" : " "}
+		{isSelected ? "> " : "  "}
 		{item.displayName}
 	</Text>
 );
@@ -27,16 +27,13 @@ export const JourneyExplorer = ({ config }: { config: Config }) => {
 		(item) => item.displayName,
 	);
 
+	const SORT_KEY = "t"
 	useInput((input) => {
-		if (input === "t") {
-			// Todo: refactor this so we have an easy list to manage state change
+		if (input === SORT_KEY) {
 			setJourneyGrouping((oldValue) => {
-				switch (oldValue) {
-					case "month":
-						return "file";
-					case "file":
-						return "month";
-				}
+				const index = journeyGroupings.indexOf(oldValue);
+				const newIndex = (index + 1) % journeyGroupings.length;
+				return journeyGroupings[newIndex];
 			});
 		}
 	});
@@ -49,7 +46,7 @@ export const JourneyExplorer = ({ config }: { config: Config }) => {
 	return (
 		<Box flexDirection="row" gap={2} flexGrow={1}>
 			<Box flexDirection="column">
-				<Text dimColor={true}>Sort: {journeyGrouping}</Text>
+				<Text dimColor={true}>Sort ({SORT_KEY}): {journeyGrouping}</Text>
 				{groupedJourneys.map((item) =>
 					journeyGroupRow(item, selectedItem === item),
 				)}
