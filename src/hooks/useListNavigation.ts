@@ -1,31 +1,52 @@
 import { useInput } from "ink";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
-const useListNavigation = (filePaths: string[]) => {
-	const [selectedItem, setSelectedItem] = useState<string | null>(null);
-
-	useEffect(() => {
-		if (filePaths.length === 0) return;
-		if (selectedItem != null && filePaths.includes(selectedItem)) return;
-		setSelectedItem(filePaths[0]);
-	}, [filePaths, selectedItem]);
+const useListNavigation = <TItem, TKey>(
+	list: TItem[],
+	getListItemKey: (item: TItem) => TKey,
+) => {
+	const [currentKey, setCurrentKey] = useState<TKey>();
 
 	useInput((_input, key) => {
-		if (!selectedItem) return;
-
-		const currentIndex = filePaths.indexOf(selectedItem);
-
-		if (key.downArrow) {
-			setSelectedItem(
-				filePaths[Math.min(currentIndex + 1, filePaths.length - 1)],
-			);
-		}
-		if (key.upArrow) {
-			setSelectedItem(filePaths[Math.max(currentIndex - 1, 0)]);
-		}
+		if (key.downArrow) moveToNextItem();
+		if (key.upArrow) moveToPreviousItem();
 	});
 
-	return { currentSelectedFile: selectedItem };
+	var currentItem = useMemo(() => {
+		if (list.length === 0) {
+			return undefined;
+		}
+		const currentIndex = list.findIndex(
+			(x) => getListItemKey(x) === currentKey,
+		);
+		if (currentIndex === -1) {
+			return list[0];
+		}
+		return list[currentIndex];
+	}, [list, currentKey, getListItemKey]);
+
+	const moveToNextItem = () => {
+		if (list.length === 0) return;
+
+		setCurrentKey((oldKey) => {
+			const currentIndex = list.findIndex((x) => getListItemKey(x) === oldKey);
+			const nextIndex = (currentIndex + 1) % list.length;
+			return getListItemKey(list[nextIndex]);
+		});
+	};
+
+	const moveToPreviousItem = () => {
+		if (list.length === 0) return;
+
+		setCurrentKey((oldKey) => {
+			const foundIndex = list.findIndex((x) => getListItemKey(x) === oldKey);
+			const currentIndex = foundIndex === -1 ? 0 : foundIndex;
+			const previousIndex = (currentIndex - 1 + list.length) % list.length;
+			return getListItemKey(list[previousIndex]);
+		});
+	};
+
+	return { currentItem };
 };
 
 export default useListNavigation;
