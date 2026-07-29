@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import { useMemo, useState } from "react";
 import type { Journey } from "../repos/tflCsvParser";
 import type { State } from "./useJourneys";
 
@@ -65,14 +65,15 @@ function useGroupedJourneys(
 	journeys: State<Journey>,
 	initialState: JourneyGrouping = "month",
 ) {
-	const [journeyGrouping, setJourneyGrouping] = useState<JourneyGrouping>(initialState);
+	const [journeyGrouping, setJourneyGrouping] =
+		useState<JourneyGrouping>(initialState);
 
 	const groupedJourneys = useMemo(
 		() => groupJourneys(journeys, journeyGrouping),
 		[journeys, journeyGrouping],
 	);
 
-	return {groupedJourneys, journeyGrouping, setJourneyGrouping};
+	return { groupedJourneys, journeyGrouping, setJourneyGrouping };
 }
 
 export default useGroupedJourneys;

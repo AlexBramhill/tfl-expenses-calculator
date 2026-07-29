@@ -46,7 +46,7 @@ const useListNavigation = <TItem, TKey>(
 		});
 	};
 
-	return { currentItem };
+	return { selectedItem: currentItem };
 };
 
 export default useListNavigation;

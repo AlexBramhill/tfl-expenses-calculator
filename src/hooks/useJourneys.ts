@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { listCsvFiles } from "../repos/csvRepo";
 import { type Journey, parseCsv } from "../repos/tflCsvParser";
-import useGroupedJourneys from "./useGroupedJourneys";
 
 async function loadJourneys(folder: string) {
 	const csvFiles = (await listCsvFiles(folder)) ?? [];
