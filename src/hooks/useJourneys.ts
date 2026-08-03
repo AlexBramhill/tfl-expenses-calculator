@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import type { Config } from "../repos/configRepo";
 import { listCsvFiles } from "../repos/csvRepo";
-import { type Journey, parseCsv } from "../repos/tflCsvParser";
+import { type Journey, processJourneys } from "../repos/journeyCalculator2";
+import { parseCsv, type UnprocessedJourney } from "../repos/tflCsvParser";
 
 async function loadJourneys(folder: string) {
 	const csvFiles = (await listCsvFiles(folder)) ?? [];
@@ -13,17 +15,21 @@ export type State<T> =
 	| { status: "error"; error: Error }
 	| { status: "success"; data: T[] };
 
-const useJourneys = (folder: string) => {
-	const [state, setState] = useState<State<Journey>>({ status: "loading" });
+const useJourneys = (config: Config): State<Journey> => {
+	const [csvState, setCsvState] = useState<State<UnprocessedJourney>>({
+		status: "loading",
+	});
+
+	const { csvFolder, ...otherConfig } = config;
 
 	useEffect(() => {
 		async function run() {
-			setState({ status: "loading" });
+			setCsvState({ status: "loading" });
 			try {
-				const newData = await loadJourneys(folder);
-				setState({ status: "success", data: newData });
+				const newData = await loadJourneys(csvFolder);
+				setCsvState({ status: "success", data: newData });
 			} catch (err) {
-				setState({
+				setCsvState({
 					status: "error",
 					error: err instanceof Error ? err : new Error(String(err)),
 				});
@@ -31,8 +37,17 @@ const useJourneys = (folder: string) => {
 		}
 
 		void run();
-	}, [folder]);
-	return state;
+	}, [csvFolder]);
+
+	if (csvState.status !== "success") return csvState;
+
+	return {
+		status: csvState.status,
+		data: processJourneys({
+			journeys: csvState.data,
+			...otherConfig,
+		}),
+	};
 };
 
 export default useJourneys;

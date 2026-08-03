@@ -5,13 +5,14 @@ import useGroupedJourneys, {
 import useJourneys from "../hooks/useJourneys";
 import useListNavigation from "../hooks/useListNavigation";
 import type { Config } from "../repos/configRepo";
+import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
 
 function JourneyExplorer({ config }: { config: Config }) {
 	const { isFocused } = useFocus({ autoFocus: true });
 
-	const ungroupedJourneys = useJourneys(config.csvFolder);
+	const ungroupedJourneys = useJourneys(config);
 	const { groupedJourneys, journeyGrouping, setJourneyGrouping } =
 		useGroupedJourneys(ungroupedJourneys);
 	const { selectedItem: selectedJourney } = useListNavigation(
@@ -36,10 +37,13 @@ function JourneyExplorer({ config }: { config: Config }) {
 				isFocused={isFocused}
 			/>
 			{selectedJourney && (
-				<JourneyDetailPanel
-					key={selectedJourney.displayName}
-					journeys={selectedJourney.journeys}
-				/>
+				<>
+					<DaysInOfficePerWeekSummary selectedJourney={selectedJourney} />
+					<JourneyDetailPanel
+						key={selectedJourney.displayName}
+						journeys={selectedJourney.journeys}
+					/>
+				</>
 			)}
 		</Box>
 	);

@@ -1,13 +1,13 @@
 import { Box, Text } from "ink";
-import type { Journey } from "../repos/tflCsvParser";
+import type { UnprocessedJourney } from "../repos/tflCsvParser";
 import { formatCharge, formatDate, maxLength } from "../utils/TextFormatters";
 
 export const JourneyList = ({
 	journeys,
 	allJourneys,
 }: {
-	journeys: Journey[];
-	allJourneys: Journey[];
+	journeys: UnprocessedJourney[];
+	allJourneys: UnprocessedJourney[];
 }) => {
 	const dateWidth = maxLength(allJourneys.map((j) => formatDate(j.datetime)));
 	const startWidth = maxLength(allJourneys.map((j) => j.startStation));
@@ -44,7 +44,7 @@ const JourneyRow = ({
 	endWidth,
 	chargeWidth,
 }: {
-	journey: Journey;
+	journey: UnprocessedJourney;
 	dateWidth: number;
 	startWidth: number;
 	endWidth: number;

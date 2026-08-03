@@ -9,7 +9,7 @@ export const ConfigSchema = z.object({
 	csvFolder: z.string(),
 	homeStations: z.array(z.string()).default([]),
 	officeStations: z.array(z.string()).default([]),
-	ignoreWeekends: z.boolean().default(true),
+	isIncludingWeekends: z.boolean().default(false),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -18,7 +18,7 @@ export const DEFAULT_CONFIG: Config = {
 	csvFolder: path.join(DOTFILE_FOLDER, "csv"),
 	homeStations: [],
 	officeStations: [],
-	ignoreWeekends: true,
+	isIncludingWeekends: false,
 };
 
 export const CONFIG_PATH = path.join(DOTFILE_FOLDER, "config.json");

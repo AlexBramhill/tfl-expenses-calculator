@@ -1,6 +1,6 @@
 import { Box, Text, useWindowSize } from "ink";
 import usePagination from "../hooks/usePagination";
-import type { Journey } from "../repos/tflCsvParser";
+import type { UnprocessedJourney } from "../repos/tflCsvParser";
 import withFocusBoxWrapper, { type FocusProps } from "./FocusBox";
 import { JourneyList } from "./JourneyList";
 
@@ -9,7 +9,7 @@ import { JourneyList } from "./JourneyList";
 const MAGIC_NUMBER_FOR_HEADER_ETC = 9;
 
 type JourneyDetailPanelProps = {
-	journeys: Journey[];
+	journeys: UnprocessedJourney[];
 };
 
 type JourneyDetailPanelComponentProps = JourneyDetailPanelProps & FocusProps;
@@ -25,7 +25,7 @@ function JourneyDetailPanelComponent({
 		currentPage,
 		totalPages,
 		itemsOnPage: journeysOnPage,
-	} = usePagination<Journey>({
+	} = usePagination<UnprocessedJourney>({
 		items: journeys,
 		itemsPerPage,
 		isFocused,

@@ -1,7 +1,7 @@
 import { Box, Text } from "ink";
-import type { ProcessedJourneysSummary } from "../repos/journeyCalculator";
+import type { WeeklyJourneySubSummary } from "../repos/journeyCalculator";
 
-export const Summary = ({ summary }: { summary: ProcessedJourneysSummary }) => {
+export const Summary = ({ summary }: { summary: WeeklyJourneySubSummary }) => {
 	return (
 		<Box flexDirection={"column"}>
 			<Text bold>Summary:</Text>

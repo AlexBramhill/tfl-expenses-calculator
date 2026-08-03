@@ -1,6 +1,6 @@
 import { useInput } from "ink";
 import { useMemo, useState } from "react";
-import type { Journey } from "../repos/tflCsvParser";
+import type { UnprocessedJourney } from "../repos/tflCsvParser";
 import type { State } from "./useJourneys";
 
 export type JourneyGrouping = "file" | "month";
@@ -9,11 +9,14 @@ type DisplayName = string;
 type SortValue = string | number;
 
 type JourneyGroupByKey = { displayName: DisplayName; sortValue: SortValue };
-export type JourneyGroup = { displayName: DisplayName; journeys: Journey[] };
+export type JourneyGroup = {
+	displayName: DisplayName;
+	journeys: UnprocessedJourney[];
+};
 
 const journeyReducerKeys: Record<
 	JourneyGrouping,
-	(journey: Journey) => JourneyGroupByKey
+	(journey: UnprocessedJourney) => JourneyGroupByKey
 > = {
 	file: (journey) => ({
 		displayName: journey.fileName,
@@ -29,12 +32,12 @@ const journeyReducerKeys: Record<
 
 function groupByKey(
 	journeySort: "file" | "month",
-	journeys: Journey[],
+	journeys: UnprocessedJourney[],
 ): JourneyGroup[] {
 	const groupsByKey = new Map<SortValue, JourneyGroup>();
 	const getKey = journeyReducerKeys[journeySort];
 
-	journeys.forEach((journey: Journey) => {
+	journeys.forEach((journey: UnprocessedJourney) => {
 		const { displayName, sortValue } = getKey(journey);
 		const group = groupsByKey.get(sortValue) ?? { displayName, journeys: [] };
 		group.journeys.push(journey);
@@ -55,7 +58,7 @@ function groupByKey(
 }
 
 const groupJourneys = (
-	journeys: State<Journey>,
+	journeys: State<UnprocessedJourney>,
 	journeyGrouping: JourneyGrouping,
 ): JourneyGroup[] => {
 	if (journeys.status !== "success") return [];
@@ -63,7 +66,7 @@ const groupJourneys = (
 };
 
 function useGroupedJourneys(
-	journeys: State<Journey>,
+	journeys: State<UnprocessedJourney>,
 	initialState: JourneyGrouping = "month",
 ) {
 	const [journeyGrouping, setJourneyGrouping] =
