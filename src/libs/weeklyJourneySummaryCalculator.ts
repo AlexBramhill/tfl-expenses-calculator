@@ -30,9 +30,9 @@ function isPotentiallyIncomplete(
 	lastWeekStart: Date,
 	ignoreWeekends: boolean,
 ) {
-	if (weekStart === firstWeekStart)
+	if (weekStart.getTime() === firstWeekStart.getTime())
 		return isFirstGroupPotentiallyIncomplete(journeys);
-	if (weekStart === lastWeekStart)
+	if (weekStart.getTime() === lastWeekStart.getTime())
 		return isLastGroupPotentiallyIncomplete(journeys, ignoreWeekends);
 	return false;
 }
@@ -42,21 +42,24 @@ export const getWeeklySummaries = (
 	ignoreWeekends: boolean,
 ): WeeklySummaryByDate => {
 	const groups = Map.groupBy(journeys, (journey) =>
-		getWeekStart(journey.datetime),
+		getWeekStart(journey.datetime).getTime(),
 	);
 
-	const firstWeekStart = getWeekStart(
-		journeys.sort((x) => x.datetime.getTime())[0].datetime,
+	const sortedJourneys = [...journeys].sort(
+		(x, y) => x.datetime.getTime() - y.datetime.getTime(),
 	);
+
+	const firstWeekStart = getWeekStart(sortedJourneys[0].datetime);
 
 	const lastWeekStart = getWeekStart(
-		journeys.sort((x) => x.datetime.getTime())[-1].datetime,
+		sortedJourneys[sortedJourneys.length - 1].datetime,
 	);
 
 	return Object.fromEntries(
-		[...groups.entries()].map(([weekStart, journeys]) => {
+		[...groups.entries()].map(([weekStartTime, journeys]) => {
+			const weekStart = new Date(weekStartTime);
 			return [
-				weekStart,
+				weekStart.toISOString(),
 				{
 					...getTotalSummary(journeys),
 					isPotentiallyIncomplete: isPotentiallyIncomplete(
