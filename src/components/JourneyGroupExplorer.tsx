@@ -2,7 +2,7 @@ import { Text } from "ink";
 import type {
 	JourneyGroup,
 	JourneyGrouping,
-} from "../hooks/useGroupedJourneys";
+} from "../hooks/useJourneyGrouping";
 import { FocusBox } from "./FocusBox";
 
 const journeyGroupRow = (item: JourneyGroup, isSelected: boolean) => (

@@ -1,5 +1,5 @@
 import { Box, Text } from "ink";
-import type { UnprocessedJourney } from "../repos/tflCsvParser";
+import type { UnprocessedJourney } from "../libs/tflCsvParser";
 import { formatCharge, formatDate, maxLength } from "../utils/TextFormatters";
 
 export const JourneyList = ({

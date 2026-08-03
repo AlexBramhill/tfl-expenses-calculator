@@ -1,10 +1,10 @@
 import { Box, Text, useFocus } from "ink";
-import useGroupedJourneys, {
-	useGroupedJourneyNavigation,
-} from "../hooks/useGroupedJourneys";
+import useJourneyGrouping, {
+	useJourneyGroupingSelection,
+} from "../hooks/useJourneyGrouping";
 import useJourneys from "../hooks/useJourneys";
 import useListNavigation from "../hooks/useListNavigation";
-import type { Config } from "../repos/configRepo";
+import type { Config } from "../libs/configRepo";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
@@ -14,14 +14,15 @@ function JourneyExplorer({ config }: { config: Config }) {
 
 	const ungroupedJourneys = useJourneys(config);
 	const { groupedJourneys, journeyGrouping, setJourneyGrouping } =
-		useGroupedJourneys(ungroupedJourneys);
+		useJourneyGrouping(ungroupedJourneys);
+
 	const { selectedItem: selectedJourney } = useListNavigation(
 		groupedJourneys,
 		(item) => item.displayName,
 		isFocused,
 	);
 
-	useGroupedJourneyNavigation(setJourneyGrouping);
+	useJourneyGroupingSelection(setJourneyGrouping);
 
 	if (ungroupedJourneys.status === "loading") return <Text>Loading...</Text>;
 	if (ungroupedJourneys.status === "error")
@@ -38,7 +39,10 @@ function JourneyExplorer({ config }: { config: Config }) {
 			/>
 			{selectedJourney && (
 				<>
-					<DaysInOfficePerWeekSummary selectedJourney={selectedJourney} />
+					<DaysInOfficePerWeekSummary
+						journeys={selectedJourney.journeys}
+						isIncludingWeekends={config.isIncludingWeekends}
+					/>
 					<JourneyDetailPanel
 						key={selectedJourney.displayName}
 						journeys={selectedJourney.journeys}

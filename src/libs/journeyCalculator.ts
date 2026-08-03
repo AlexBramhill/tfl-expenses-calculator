@@ -9,12 +9,12 @@ export const processJourneys = ({
 	journeys,
 	homeStations,
 	officeStations,
-	ignoreWeekends = true,
+	isIncludingWeekends,
 }: {
 	journeys: UnprocessedJourney[];
 	homeStations: string[];
 	officeStations: string[];
-	ignoreWeekends?: boolean;
+	isIncludingWeekends: boolean;
 }): Journey[] => {
 	return journeys.map(
 		(journey: UnprocessedJourney): Journey => ({
@@ -23,7 +23,7 @@ export const processJourneys = ({
 				journey,
 				homeStations,
 				officeStations,
-				isIncludingWeekends: ignoreWeekends,
+				isIncludingWeekends,
 			}),
 		}),
 	);
@@ -33,17 +33,17 @@ const isHomeToWorkJourney = ({
 	journey,
 	homeStations,
 	officeStations,
-	ignoreWeekends,
+	isIncludingWeekends,
 }: {
 	journey: UnprocessedJourney;
 	homeStations: string[];
 	officeStations: string[];
-	ignoreWeekends: boolean;
+	isIncludingWeekends: boolean;
 }): boolean => {
 	const day = journey.datetime.getDay();
 	const isWeekend = day === 0 || day === 6;
 
-	if (ignoreWeekends && isWeekend) {
+	if (!isIncludingWeekends && isWeekend) {
 		return false;
 	}
 

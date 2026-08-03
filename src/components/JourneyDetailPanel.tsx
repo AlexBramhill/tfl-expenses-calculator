@@ -1,6 +1,6 @@
 import { Box, Text, useWindowSize } from "ink";
 import usePagination from "../hooks/usePagination";
-import type { UnprocessedJourney } from "../repos/tflCsvParser";
+import type { UnprocessedJourney } from "../libs/tflCsvParser";
 import withFocusBoxWrapper, { type FocusProps } from "./FocusBox";
 import { JourneyList } from "./JourneyList";
 

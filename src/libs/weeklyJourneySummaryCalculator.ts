@@ -1,4 +1,4 @@
-import type { Journey } from "./journeyCalculator2";
+import type { Journey } from "./journeyCalculator";
 
 export type WeeklyJourneySubSummary = {
 	totalDaysInOffice: number;

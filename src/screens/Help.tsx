@@ -1,5 +1,5 @@
 import { Box, Text } from "ink";
-import { CONFIG_PATH, DEFAULT_CONFIG } from "../repos/configRepo";
+import { CONFIG_PATH, DEFAULT_CONFIG } from "../libs/configRepo";
 
 const EXAMPLE_CONFIG = JSON.stringify(
 	{

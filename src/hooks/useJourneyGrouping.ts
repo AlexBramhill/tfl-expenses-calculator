@@ -1,6 +1,6 @@
 import { useInput } from "ink";
 import { useMemo, useState } from "react";
-import type { UnprocessedJourney } from "../repos/tflCsvParser";
+import type { Journey } from "../libs/journeyCalculator";
 import type { State } from "./useJourneys";
 
 export type JourneyGrouping = "file" | "month";
@@ -11,12 +11,12 @@ type SortValue = string | number;
 type JourneyGroupByKey = { displayName: DisplayName; sortValue: SortValue };
 export type JourneyGroup = {
 	displayName: DisplayName;
-	journeys: UnprocessedJourney[];
+	journeys: Journey[];
 };
 
 const journeyReducerKeys: Record<
 	JourneyGrouping,
-	(journey: UnprocessedJourney) => JourneyGroupByKey
+	(journey: Journey) => JourneyGroupByKey
 > = {
 	file: (journey) => ({
 		displayName: journey.fileName,
@@ -32,12 +32,12 @@ const journeyReducerKeys: Record<
 
 function groupByKey(
 	journeySort: "file" | "month",
-	journeys: UnprocessedJourney[],
+	journeys: Journey[],
 ): JourneyGroup[] {
 	const groupsByKey = new Map<SortValue, JourneyGroup>();
 	const getKey = journeyReducerKeys[journeySort];
 
-	journeys.forEach((journey: UnprocessedJourney) => {
+	journeys.forEach((journey: Journey) => {
 		const { displayName, sortValue } = getKey(journey);
 		const group = groupsByKey.get(sortValue) ?? { displayName, journeys: [] };
 		group.journeys.push(journey);
@@ -58,15 +58,15 @@ function groupByKey(
 }
 
 const groupJourneys = (
-	journeys: State<UnprocessedJourney>,
+	journeys: State<Journey>,
 	journeyGrouping: JourneyGrouping,
 ): JourneyGroup[] => {
 	if (journeys.status !== "success") return [];
 	return groupByKey(journeyGrouping, journeys.data);
 };
 
-function useGroupedJourneys(
-	journeys: State<UnprocessedJourney>,
+function useJourneyGrouping(
+	journeys: State<Journey>,
 	initialState: JourneyGrouping = "month",
 ) {
 	const [journeyGrouping, setJourneyGrouping] =
@@ -80,7 +80,7 @@ function useGroupedJourneys(
 	return { groupedJourneys, journeyGrouping, setJourneyGrouping };
 }
 
-export function useGroupedJourneyNavigation(
+export function useJourneyGroupingSelection(
 	setJourneyGrouping: (
 		value: (prevState: JourneyGrouping) => JourneyGrouping,
 	) => void,
@@ -100,4 +100,4 @@ export function useGroupedJourneyNavigation(
 	});
 }
 
-export default useGroupedJourneys;
+export default useJourneyGrouping;

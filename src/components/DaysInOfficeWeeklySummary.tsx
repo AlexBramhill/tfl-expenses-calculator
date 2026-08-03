@@ -1,18 +1,15 @@
 import { Box, Text } from "ink";
-import type { Journey } from "../repos/journeyCalculator2";
-import { getWeeklySummaries } from "../repos/weeklyJourneySummaryCalculator";
+import type { Journey } from "../libs/journeyCalculator";
+import { getWeeklySummaries } from "../libs/weeklyJourneySummaryCalculator";
 
 export const DaysInOfficePerWeekSummary = ({
-	selectedJourney,
+	journeys,
 	isIncludingWeekends,
 }: {
-	selectedJourney: Journey[];
+	journeys: Journey[];
 	isIncludingWeekends: boolean;
 }) => {
-	const weeklySummaries = getWeeklySummaries(
-		selectedJourney,
-		isIncludingWeekends,
-	);
+	const weeklySummaries = getWeeklySummaries(journeys, isIncludingWeekends);
 
 	const isAnyWeekPotentiallyIncomplete = Object.entries(weeklySummaries).some(
 		([_, { isPotentiallyIncomplete }]) => isPotentiallyIncomplete,
