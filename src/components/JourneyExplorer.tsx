@@ -1,45 +1,26 @@
-import { Box, Text, useInput } from "ink";
+import { Box, Text, useFocus } from "ink";
 import useGroupedJourneys, {
-	type JourneyGroup,
+	useGroupedJourneyNavigation,
 } from "../hooks/useGroupedJourneys";
 import useJourneys from "../hooks/useJourneys";
 import useListNavigation from "../hooks/useListNavigation";
 import type { Config } from "../repos/configRepo";
 import JourneyDetailPanel from "./JourneyDetailPanel";
-
-const journeyGroupRow = (item: JourneyGroup, isSelected: boolean) => (
-	<Text
-		key={item.displayName}
-		color={isSelected ? "green" : undefined}
-		dimColor={!isSelected}
-	>
-		{isSelected ? ">" : " "}
-		{item.displayName}
-	</Text>
-);
+import JourneyGroupExplorer from "./JourneyGroupExplorer";
 
 export const JourneyExplorer = ({ config }: { config: Config }) => {
+	const { isFocused } = useFocus({ autoFocus: true });
+
 	const ungroupedJourneys = useJourneys(config.csvFolder);
 	const { groupedJourneys, journeyGrouping, setJourneyGrouping } =
 		useGroupedJourneys(ungroupedJourneys);
-	const { selectedItem } = useListNavigation(
+	const { selectedItem: selectedJourney } = useListNavigation(
 		groupedJourneys,
 		(item) => item.displayName,
+		isFocused,
 	);
 
-	useInput((input) => {
-		if (input === "t") {
-			// Todo: refactor this so we have an easy list to manage state change
-			setJourneyGrouping((oldValue) => {
-				switch (oldValue) {
-					case "month":
-						return "file";
-					case "file":
-						return "month";
-				}
-			});
-		}
-	});
+	useGroupedJourneyNavigation(setJourneyGrouping);
 
 	if (ungroupedJourneys.status === "loading") return <Text>Loading...</Text>;
 	if (ungroupedJourneys.status === "error")
@@ -48,16 +29,16 @@ export const JourneyExplorer = ({ config }: { config: Config }) => {
 
 	return (
 		<Box flexDirection="row" gap={2} flexGrow={1}>
-			<Box flexDirection="column">
-				<Text dimColor={true}>Sort: {journeyGrouping}</Text>
-				{groupedJourneys.map((item) =>
-					journeyGroupRow(item, selectedItem === item),
-				)}
-			</Box>
-			{selectedItem && (
+			<JourneyGroupExplorer
+				journeyGrouping={journeyGrouping}
+				groupedJourneys={groupedJourneys}
+				selectedJourney={selectedJourney}
+				isFocused={isFocused}
+			/>
+			{selectedJourney && (
 				<JourneyDetailPanel
-					key={selectedItem.displayName}
-					journeys={selectedItem.journeys}
+					key={selectedJourney.displayName}
+					journeys={selectedJourney.journeys}
 				/>
 			)}
 		</Box>

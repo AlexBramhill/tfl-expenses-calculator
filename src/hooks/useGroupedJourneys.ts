@@ -1,3 +1,4 @@
+import { useInput } from "ink";
 import { useMemo, useState } from "react";
 import type { Journey } from "../repos/tflCsvParser";
 import type { State } from "./useJourneys";
@@ -74,6 +75,26 @@ function useGroupedJourneys(
 	);
 
 	return { groupedJourneys, journeyGrouping, setJourneyGrouping };
+}
+
+export function useGroupedJourneyNavigation(
+	setJourneyGrouping: (
+		value: (prevState: JourneyGrouping) => JourneyGrouping,
+	) => void,
+) {
+	useInput((input) => {
+		if (input === "t") {
+			// Todo: refactor this so we have an easy list to manage state change
+			setJourneyGrouping((oldValue) => {
+				switch (oldValue) {
+					case "month":
+						return "file";
+					case "file":
+						return "month";
+				}
+			});
+		}
+	});
 }
 
 export default useGroupedJourneys;
