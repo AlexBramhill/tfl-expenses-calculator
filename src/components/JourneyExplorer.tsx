@@ -8,7 +8,7 @@ import type { Config } from "../repos/configRepo";
 import JourneyDetailPanel from "./JourneyDetailPanel";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
 
-export const JourneyExplorer = ({ config }: { config: Config }) => {
+function JourneyExplorer({ config }: { config: Config }) {
 	const { isFocused } = useFocus({ autoFocus: true });
 
 	const ungroupedJourneys = useJourneys(config.csvFolder);
@@ -43,4 +43,6 @@ export const JourneyExplorer = ({ config }: { config: Config }) => {
 			)}
 		</Box>
 	);
-};
+}
+
+export default JourneyExplorer;
