@@ -1,15 +1,15 @@
 import { Box, Text, useWindowSize } from "ink";
 import usePagination from "../hooks/usePagination";
-import type { UnprocessedJourney } from "../libs/tflCsvParser";
+import type { Journey } from "../libs/journeyCalculator";
 import withFocusBoxWrapper, { type FocusProps } from "./FocusBox";
 import { JourneyList } from "./JourneyList";
 
 // TOOD: consider a more robust way to determine how many items to show per page
 // e.g. by measuring the height of the header components instead of using a magic number
-const MAGIC_NUMBER_FOR_HEADER_ETC = 9;
+const MAGIC_NUMBER_FOR_HEADER_ETC = 15;
 
 type JourneyDetailPanelProps = {
-	journeys: UnprocessedJourney[];
+	journeys: Journey[];
 };
 
 type JourneyDetailPanelComponentProps = JourneyDetailPanelProps & FocusProps;
@@ -25,7 +25,7 @@ function JourneyDetailPanelComponent({
 		currentPage,
 		totalPages,
 		itemsOnPage: journeysOnPage,
-	} = usePagination<UnprocessedJourney>({
+	} = usePagination<Journey>({
 		items: journeys,
 		itemsPerPage,
 		isFocused,
