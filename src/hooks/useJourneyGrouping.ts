@@ -1,5 +1,6 @@
+import { useInput } from "ink";
 import { useMemo, useState } from "react";
-import type { Journey } from "../repos/tflCsvParser";
+import type { Journey } from "../libs/journeyCalculator";
 import type { State } from "./useJourneys";
 import {infer} from "zod";
 
@@ -10,7 +11,10 @@ type DisplayName = string;
 type SortValue = string | number;
 
 type JourneyGroupByKey = { displayName: DisplayName; sortValue: SortValue };
-export type JourneyGroup = { displayName: DisplayName; journeys: Journey[] };
+export type JourneyGroup = {
+	displayName: DisplayName;
+	journeys: Journey[];
+};
 
 const journeyReducerKeys: Record<
 	JourneyGrouping,
@@ -63,7 +67,7 @@ const groupJourneys = (
 	return groupByKey(journeyGrouping, journeys.data);
 };
 
-function useGroupedJourneys(
+function useJourneyGrouping(
 	journeys: State<Journey>,
 	initialState: JourneyGrouping = "month",
 ) {
@@ -78,4 +82,24 @@ function useGroupedJourneys(
 	return { groupedJourneys, journeyGrouping, setJourneyGrouping };
 }
 
-export default useGroupedJourneys;
+export function useJourneyGroupingSelection(
+	setJourneyGrouping: (
+		value: (prevState: JourneyGrouping) => JourneyGrouping,
+	) => void,
+) {
+	useInput((input) => {
+		if (input === "t") {
+			// Todo: refactor this so we have an easy list to manage state change
+			setJourneyGrouping((oldValue) => {
+				switch (oldValue) {
+					case "month":
+						return "file";
+					case "file":
+						return "month";
+				}
+			});
+		}
+	});
+}
+
+export default useJourneyGrouping;

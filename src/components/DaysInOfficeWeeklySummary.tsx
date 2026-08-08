@@ -1,13 +1,19 @@
 import { Box, Text } from "ink";
-import type { WeeklySummaryByDate } from "../repos/journeyCalculator";
+import type { Journey } from "../libs/journeyCalculator";
+import { getWeeklySummaries } from "../libs/weeklyJourneySummaryCalculator";
 
 export const DaysInOfficePerWeekSummary = ({
-	weeklySummaries,
+	journeys,
+	isIncludingWeekends,
 }: {
-	weeklySummaries: WeeklySummaryByDate;
+	journeys: Journey[];
+	isIncludingWeekends: boolean;
 }) => {
-	const isAnyWeekCrossingMonth =
-		Object.keys(weeklySummaries).some(isWeekCrossingMonth);
+	const weeklySummaries = getWeeklySummaries(journeys, isIncludingWeekends);
+
+	const isAnyWeekPotentiallyIncomplete = Object.entries(weeklySummaries).some(
+		([_, { isPotentiallyIncomplete }]) => isPotentiallyIncomplete,
+	);
 
 	return (
 		<Box flexDirection="column">
@@ -17,14 +23,12 @@ export const DaysInOfficePerWeekSummary = ({
 					<DaysInOfficeSummary
 						dateStart={dateStart}
 						daysInOffice={summary.totalDaysInOffice}
+						isPotentiallyIncomplete={summary.isPotentiallyIncomplete}
 					/>
 				</Box>
 			))}
-			{isAnyWeekCrossingMonth && (
-				<Text dimColor>
-					* Week not entirely in current month,{"\n  "}weekly summary may be
-					incomplete
-				</Text>
+			{isAnyWeekPotentiallyIncomplete && (
+				<Text dimColor>* Week potentially incomplete</Text>
 			)}
 		</Box>
 	);
@@ -33,22 +37,16 @@ export const DaysInOfficePerWeekSummary = ({
 const DaysInOfficeSummary = ({
 	dateStart,
 	daysInOffice,
+	isPotentiallyIncomplete,
 }: {
 	dateStart: string;
 	daysInOffice: number;
+	isPotentiallyIncomplete: boolean;
 }) => {
-	const crossesMonth = isWeekCrossingMonth(dateStart);
 	const formattedDateStart = new Date(dateStart).toLocaleDateString();
 	return (
 		<Text>
-			{crossesMonth ? "*" : " "} {formattedDateStart}: {daysInOffice}
+			{isPotentiallyIncomplete ? "*" : " "} {formattedDateStart}: {daysInOffice}
 		</Text>
 	);
-};
-
-const isWeekCrossingMonth = (dateStart: string): boolean => {
-	const start = new Date(dateStart);
-	const end = new Date(start);
-	end.setDate(end.getDate() + 6);
-	return start.getMonth() !== end.getMonth();
 };

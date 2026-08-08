@@ -1,13 +1,23 @@
 import { Box, Text, useWindowSize } from "ink";
 import usePagination from "../hooks/usePagination";
-import type { Journey } from "../repos/tflCsvParser";
+import type { Journey } from "../libs/journeyCalculator";
+import withFocusBoxWrapper, { type FocusProps } from "./FocusBox";
 import { JourneyList } from "./JourneyList";
 
 // TOOD: consider a more robust way to determine how many items to show per page
 // e.g. by measuring the height of the header components instead of using a magic number
-const MAGIC_NUMBER_FOR_HEADER_ETC = 9;
+const MAGIC_NUMBER_FOR_HEADER_ETC = 15;
 
-function JourneyDetailPanel({ journeys }: { journeys: Journey[] }) {
+type JourneyDetailPanelProps = {
+	journeys: Journey[];
+};
+
+type JourneyDetailPanelComponentProps = JourneyDetailPanelProps & FocusProps;
+
+function JourneyDetailPanelComponent({
+	journeys,
+	isFocused,
+}: JourneyDetailPanelComponentProps) {
 	const { rows } = useWindowSize();
 	const itemsPerPage = Math.max(1, rows - MAGIC_NUMBER_FOR_HEADER_ETC);
 
@@ -18,23 +28,22 @@ function JourneyDetailPanel({ journeys }: { journeys: Journey[] }) {
 	} = usePagination<Journey>({
 		items: journeys,
 		itemsPerPage,
+		isFocused,
 	});
 
 	return (
-		<>
-			{/*<Box flexDirection="column" gap={1}>*/}
-			{/*	<Summary summary={journeysResult.summary} />*/}
-			{/*	<DaysInOfficePerWeekSummary*/}
-			{/*		weeklySummaries={journeysResult.weeklySummaries}*/}
-			{/*	/>*/}
-			{/*</Box>*/}
-			<Box flexDirection="column">
-				<JourneyList journeys={journeysOnPage} allJourneys={journeys} />
-				<Text dimColor>
-					{currentPage + 1}/{totalPages} ↑ | ↓ to paginate
-				</Text>
-			</Box>
-		</>
+		<Box flexDirection="column" flexGrow={1}>
+			<JourneyList journeys={journeysOnPage} allJourneys={journeys} />
+			<Text dimColor>
+				{currentPage + 1}/{totalPages} ↑ | ↓ to paginate
+			</Text>
+		</Box>
 	);
 }
+
+const JourneyDetailPanel = withFocusBoxWrapper<JourneyDetailPanelProps>(
+	JourneyDetailPanelComponent,
+	true,
+);
+
 export default JourneyDetailPanel;

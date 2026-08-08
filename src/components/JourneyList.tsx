@@ -1,5 +1,5 @@
 import { Box, Text } from "ink";
-import type { Journey } from "../repos/tflCsvParser";
+import type { Journey } from "../libs/journeyCalculator";
 import { formatCharge, formatDate, maxLength } from "../utils/TextFormatters";
 
 export const JourneyList = ({
@@ -59,8 +59,10 @@ const JourneyRow = ({
 		: journey.startStation.padEnd(startWidth + 3 + endWidth);
 
 	return (
-		// <Text color={journeyRow.isHomeOfficeJourney ? "green" : "grey"}>
-		<Text>
+		<Text
+			color={journey.isHomeOfficeJourney ? "green" : undefined}
+			dimColor={!journey.isHomeOfficeJourney}
+		>
 			{date} | {stations} | {charge}
 		</Text>
 	);

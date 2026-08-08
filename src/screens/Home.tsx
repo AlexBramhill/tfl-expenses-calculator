@@ -1,5 +1,5 @@
 import { Text } from "ink";
-import { JourneyExplorer } from "../components/JourneyExplorer";
+import JourneyExplorer from "../components/JourneyExplorer";
 import useConfig from "../hooks/useConfig";
 
 const Home = () => {

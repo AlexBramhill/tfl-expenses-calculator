@@ -1,42 +1,28 @@
-import { Box, Text, useInput } from "ink";
-import useGroupedJourneys, {
-	type JourneyGroup, journeyGroupings,
-} from "../hooks/useGroupedJourneys";
+import { Box, Text, useFocus } from "ink";
+import useJourneyGrouping, {
+	useJourneyGroupingSelection,
+} from "../hooks/useJourneyGrouping";
 import useJourneys from "../hooks/useJourneys";
 import useListNavigation from "../hooks/useListNavigation";
-import type { Config } from "../repos/configRepo";
+import type { Config } from "../libs/configRepo";
+import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
+import JourneyGroupExplorer from "./JourneyGroupExplorer";
 
-const journeyGroupRow = (item: JourneyGroup, isSelected: boolean) => (
-	<Text
-		key={item.displayName}
-		color={isSelected ? "green" : undefined}
-		dimColor={!isSelected}
-	>
-		{isSelected ? "> " : "  "}
-		{item.displayName}
-	</Text>
-);
+function JourneyExplorer({ config }: { config: Config }) {
+	const { isFocused } = useFocus({ autoFocus: true });
 
-export const JourneyExplorer = ({ config }: { config: Config }) => {
-	const ungroupedJourneys = useJourneys(config.csvFolder);
+	const ungroupedJourneys = useJourneys(config);
 	const { groupedJourneys, journeyGrouping, setJourneyGrouping } =
-		useGroupedJourneys(ungroupedJourneys);
-	const { selectedItem } = useListNavigation(
+		useJourneyGrouping(ungroupedJourneys);
+
+	const { selectedItem: selectedJourney } = useListNavigation(
 		groupedJourneys,
 		(item) => item.displayName,
+		isFocused,
 	);
 
-	const SORT_KEY = "t"
-	useInput((input) => {
-		if (input === SORT_KEY) {
-			setJourneyGrouping((oldValue) => {
-				const index = journeyGroupings.indexOf(oldValue);
-				const newIndex = (index + 1) % journeyGroupings.length;
-				return journeyGroupings[newIndex];
-			});
-		}
-	});
+	useJourneyGroupingSelection(setJourneyGrouping);
 
 	if (ungroupedJourneys.status === "loading") return <Text>Loading...</Text>;
 	if (ungroupedJourneys.status === "error")
@@ -45,18 +31,26 @@ export const JourneyExplorer = ({ config }: { config: Config }) => {
 
 	return (
 		<Box flexDirection="row" gap={2} flexGrow={1}>
-			<Box flexDirection="column">
-				<Text dimColor={true}>Sort ({SORT_KEY}): {journeyGrouping}</Text>
-				{groupedJourneys.map((item) =>
-					journeyGroupRow(item, selectedItem === item),
-				)}
-			</Box>
-			{selectedItem && (
-				<JourneyDetailPanel
-					key={selectedItem.displayName}
-					journeys={selectedItem.journeys}
-				/>
+			<JourneyGroupExplorer
+				journeyGrouping={journeyGrouping}
+				groupedJourneys={groupedJourneys}
+				selectedJourney={selectedJourney}
+				isFocused={isFocused}
+			/>
+			{selectedJourney && (
+				<>
+					<DaysInOfficePerWeekSummary
+						journeys={selectedJourney.journeys}
+						isIncludingWeekends={config.isIncludingWeekends}
+					/>
+					<JourneyDetailPanel
+						key={selectedJourney.displayName}
+						journeys={selectedJourney.journeys}
+					/>
+				</>
 			)}
 		</Box>
 	);
-};
+}
+
+export default JourneyExplorer;

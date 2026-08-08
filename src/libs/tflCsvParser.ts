@@ -29,13 +29,15 @@ const csvRowSchema = csvRawRow.transform((row, ctx) => {
 	return { datetime, startStation, endStation, chargeAmount };
 });
 
-export type JourneyMetaData = {
+export type CsvMetaData = {
 	fileName: string;
 };
 
-export type Journey = z.infer<typeof csvRowSchema> & JourneyMetaData;
+export type UnprocessedJourney = z.infer<typeof csvRowSchema> & CsvMetaData;
 
-export const parseCsv = async (filePath: string): Promise<Journey[]> => {
+export const parseCsv = async (
+	filePath: string,
+): Promise<UnprocessedJourney[]> => {
 	const fileName = path.basename(filePath);
 	const content = await fs.readFile(filePath, "utf8");
 	const { data } = Papa.parse(content, { header: true, skipEmptyLines: true });

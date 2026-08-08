@@ -13,12 +13,13 @@ function getCurrentIndexOrFirst<TItem, TKey>(
 const useListNavigation = <TItem, TKey>(
 	list: TItem[],
 	getListItemKey: (item: TItem) => TKey,
+	isFocused: boolean,
 ) => {
 	const [currentKey, setCurrentKey] = useState<TKey>();
 
 	useInput((_input, key) => {
-		if (key.downArrow) moveToNextItem();
-		if (key.upArrow) moveToPreviousItem();
+		if (key.downArrow && isFocused) moveToNextItem();
+		if (key.upArrow && isFocused) moveToPreviousItem();
 	});
 
 	var currentItem = useMemo(() => {

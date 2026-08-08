@@ -4,9 +4,11 @@ import { useState } from "react";
 const usePagination = <T>({
 	items,
 	itemsPerPage,
+	isFocused,
 }: {
 	items: T[];
 	itemsPerPage: number;
+	isFocused: boolean;
 }): {
 	currentPage: number;
 	totalPages: number;
@@ -16,8 +18,9 @@ const usePagination = <T>({
 	const [currentPage, setCurrentPage] = useState(0);
 
 	useInput((_input, key) => {
-		if (key.downArrow) setCurrentPage((p) => Math.min(p + 1, totalPages - 1));
-		if (key.upArrow) setCurrentPage((p) => Math.max(p - 1, 0));
+		if (key.downArrow && isFocused)
+			setCurrentPage((p) => Math.min(p + 1, totalPages - 1));
+		if (key.upArrow && isFocused) setCurrentPage((p) => Math.max(p - 1, 0));
 	});
 
 	const itemsOnPage = items.slice(
