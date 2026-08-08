@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { addLogListener, deleteLogListener, logEntries } from "../logPublisher";
+import {
+	addLogListener,
+	deleteLogListener,
+	logEntries,
+} from "../data/logPublisher";
 
 export const useLogs = () => {
 	const [, rerender] = useState(0);

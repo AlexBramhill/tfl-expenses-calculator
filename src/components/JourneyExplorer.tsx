@@ -1,10 +1,10 @@
 import { Box, Text, useFocus } from "ink";
+import type { Config } from "../data/configRepo";
 import useJourneyGrouping, {
 	useJourneyGroupingSelection,
 } from "../hooks/useJourneyGrouping";
 import useJourneys from "../hooks/useJourneys";
 import useListNavigation from "../hooks/useListNavigation";
-import type { Config } from "../libs/configRepo";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";

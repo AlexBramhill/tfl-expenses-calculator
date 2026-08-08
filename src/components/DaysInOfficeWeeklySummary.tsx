@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
-import type { Journey } from "../libs/journeyCalculator";
-import { getWeeklySummaries } from "../libs/weeklyJourneySummaryCalculator";
+import type { Journey } from "../domain/journeyCalculator";
+import { getWeeklySummaries } from "../domain/weeklyJourneySummaryCalculator";
 
 export const DaysInOfficePerWeekSummary = ({
 	journeys,

@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
+import type { LogEntry } from "../data/logPublisher";
 import { useLogs } from "../hooks/useLogs";
-import type { LogEntry } from "../logPublisher";
 
 const severityColor = (s: LogEntry["severity"]) => {
 	if (s === "error") return "red";

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { logDebug } from "../logPublisher";
+import { logDebug } from "./logPublisher";
 
 export const listCsvFiles = async (folder: string) => {
 	logDebug(`Listing CSV files in folder: ${folder}`);

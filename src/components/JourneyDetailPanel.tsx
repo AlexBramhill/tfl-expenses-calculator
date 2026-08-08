@@ -1,6 +1,6 @@
 import { Box, Text, useWindowSize } from "ink";
+import type { Journey } from "../domain/journeyCalculator";
 import usePagination from "../hooks/usePagination";
-import type { Journey } from "../libs/journeyCalculator";
 import withFocusBoxWrapper, { type FocusProps } from "./FocusBox";
 import { JourneyList } from "./JourneyList";
 
