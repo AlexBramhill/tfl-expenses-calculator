@@ -1,6 +1,7 @@
 import { Box, Text, useWindowSize } from "ink";
 import { useState } from "react";
 import { LogStream } from "@/features/logs";
+import ConfigScreen from "../screens/Config";
 import Help from "../screens/Help";
 import Home from "../screens/Home";
 import useAppInput from "./useAppInput";
@@ -13,6 +14,7 @@ const App = () => {
 	const [showLogs, setShowLogs] = useState<boolean>(false);
 	const { rows } = useWindowSize();
 	useAppInput({
+		currentPage,
 		goToPage,
 		goBack,
 		canGoBack,
@@ -34,13 +36,14 @@ const App = () => {
 					TFL CSV Expense Parser
 				</Text>
 				<Text dimColor>
-					q=quit | w=home | r=help
-					{canGoBack ? ` | t=back (${previousPage})` : ""}
+					{currentPage === "settings"
+						? "esc=back"
+						: `q=quit | w=home | s=settings | r=help${canGoBack ? ` | t=back (${previousPage})` : ""}`}
 				</Text>
 			</Box>
 			<Box flexDirection="column" padding={1}>
 				{currentPage === "home" && <Home />}
-				{/*{currentPage === "settings" && <Settings />}*/}
+				{currentPage === "settings" && <ConfigScreen />}
 				{currentPage === "help" && <Help />}
 			</Box>
 		</Box>

@@ -33,13 +33,23 @@ const useConfig = (): ConfigResult => {
 		})();
 	}, []);
 
-	const saveConfig: SaveConfigCallback = async (updates: Partial<Config>) => {
+	const saveConfig: SaveConfigCallback = async (config: Config) => {
 		if (!config) return;
 		const updated = await writeConfig({ ...config, ...updates });
 		setConfig(updated);
 	};
 
-	return { config, isLoading, error, saveConfig } as ConfigResult;
+	const updateLocalConfig = (updates: Partial<Config>) => {
+		setConfig((oldConfig) => ({ ...oldConfig, ...updates }));
+	};
+
+	return {
+		config,
+		isLoading,
+		error,
+		saveConfig,
+		updateLocalConfig,
+	} as ConfigResult;
 };
 
 export default useConfig;
