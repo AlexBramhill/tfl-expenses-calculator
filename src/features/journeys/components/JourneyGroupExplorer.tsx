@@ -1,3 +1,4 @@
+import { Select } from "@inkjs/ui";
 import { Text } from "ink";
 import type {
 	JourneyGroup,
@@ -5,36 +6,38 @@ import type {
 } from "../hooks/useJourneyGrouping";
 import { FocusBox } from "./FocusBox";
 
-const journeyGroupRow = (item: JourneyGroup, isSelected: boolean) => (
-	<Text
-		key={item.displayName}
-		color={isSelected ? "green" : undefined}
-		dimColor={!isSelected}
-	>
-		{isSelected ? ">" : " "}
-		{item.displayName}
-	</Text>
-);
-
 type JourneyGroupExplorerProps = {
 	journeyGrouping: JourneyGrouping;
 	groupedJourneys: JourneyGroup[];
-	selectedJourney?: JourneyGroup;
+	onSelectJourney: (journeyGroup: JourneyGroup) => void;
 	isFocused: boolean;
 };
 
 function JourneyGroupExplorer({
 	journeyGrouping,
 	groupedJourneys,
-	selectedJourney,
+	onSelectJourney,
 	isFocused,
 }: JourneyGroupExplorerProps) {
 	return (
 		<FocusBox isFocused={isFocused}>
 			<Text dimColor={true}>Sor(t): {journeyGrouping}</Text>
-			{groupedJourneys.map((journeyGroup) =>
-				journeyGroupRow(journeyGroup, selectedJourney === journeyGroup),
-			)}
+			<Select
+				key={journeyGrouping}
+				isDisabled={!isFocused}
+				visibleOptionCount={groupedJourneys.length}
+				defaultValue={groupedJourneys[0]?.displayName}
+				options={groupedJourneys.map((journeyGroup) => ({
+					label: journeyGroup.displayName,
+					value: journeyGroup.displayName,
+				}))}
+				onChange={(value) => {
+					const journeyGroup = groupedJourneys.find(
+						(group) => group.displayName === value,
+					);
+					if (journeyGroup) onSelectJourney(journeyGroup);
+				}}
+			/>
 		</FocusBox>
 	);
 }

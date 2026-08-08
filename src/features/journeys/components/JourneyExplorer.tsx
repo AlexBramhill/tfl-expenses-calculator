@@ -1,11 +1,12 @@
 import { Alert, Spinner } from "@inkjs/ui";
 import { Box, useFocus } from "ink";
+import { useEffect, useState } from "react";
 import type { Config } from "@/api/configRepo";
 import useJourneyGrouping, {
+	type JourneyGroup,
 	useJourneyGroupingSelection,
 } from "../hooks/useJourneyGrouping";
 import useJourneys from "../hooks/useJourneys";
-import useListNavigation from "../hooks/useListNavigation";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
@@ -17,11 +18,11 @@ function JourneyExplorer({ config }: { config: Config }) {
 	const { groupedJourneys, journeyGrouping, setJourneyGrouping } =
 		useJourneyGrouping(ungroupedJourneys);
 
-	const { selectedItem: selectedJourney } = useListNavigation(
-		groupedJourneys,
-		(item) => item.displayName,
-		isFocused,
-	);
+	const [selectedJourney, setSelectedJourney] = useState<JourneyGroup>();
+
+	useEffect(() => {
+		setSelectedJourney(groupedJourneys[0]);
+	}, [groupedJourneys]);
 
 	useJourneyGroupingSelection(setJourneyGrouping);
 
@@ -39,7 +40,7 @@ function JourneyExplorer({ config }: { config: Config }) {
 			<JourneyGroupExplorer
 				journeyGrouping={journeyGrouping}
 				groupedJourneys={groupedJourneys}
-				selectedJourney={selectedJourney}
+				onSelectJourney={setSelectedJourney}
 				isFocused={isFocused}
 			/>
 			{selectedJourney && (
