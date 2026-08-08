@@ -1,17 +1,22 @@
-import { useInput } from "ink";
+import { Text, useInput } from "ink";
 
 export function BooleanToggle({
 	isChecked,
+	isFocused,
 	switchBoolean,
 }: {
 	isChecked: boolean;
+	isFocused: boolean;
 	switchBoolean: () => void;
 }) {
-	useInput((_, key) => {
-		if (key.return) {
-			switchBoolean();
-		}
-	});
+	useInput(
+		(_, key) => {
+			if (key.return) {
+				switchBoolean();
+			}
+		},
+		{ isActive: isFocused },
+	);
 
-	return <>{isChecked}</>;
+	return <Text>{isChecked ? "[X]" : "[ ]"}</Text>;
 }

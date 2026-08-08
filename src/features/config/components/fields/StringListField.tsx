@@ -1,0 +1,32 @@
+import { TextInput } from "@inkjs/ui";
+import { Box, Text, useFocus } from "ink";
+
+export function StringListField({
+	label,
+	value,
+	onChange,
+}: {
+	label: string;
+	value: string[];
+	onChange: (value: string[]) => void;
+}) {
+	const { isFocused } = useFocus();
+
+	return (
+		<Box gap={1}>
+			<Text color={isFocused ? "green" : undefined}>{label}:</Text>
+			<TextInput
+				isDisabled={!isFocused}
+				defaultValue={value.join(", ")}
+				onChange={(newValue) =>
+					onChange(
+						newValue
+							.split(",")
+							.map((s) => s.trim())
+							.filter(Boolean),
+					)
+				}
+			/>
+		</Box>
+	);
+}
