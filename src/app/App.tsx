@@ -1,9 +1,9 @@
+import { Alert, Spinner } from "@inkjs/ui";
 import { Box, Text, useWindowSize } from "ink";
 import { useState } from "react";
-import { ConfigProvider } from "@/features/config";
 import { LogStream } from "@/features/logs/components/LogStream";
+import { useConfig } from "@/hooks/useConfig";
 import ConfigScreen from "../screens/ConfigScreen";
-import HelpScreen from "../screens/HelpScreen";
 import HomeScreen from "../screens/HomeScreen";
 import useAppInput from "./useAppInput";
 import useRouter from "./useRouter";
@@ -14,6 +14,7 @@ const App = () => {
 
 	const [showLogs, setShowLogs] = useState<boolean>(false);
 	const { rows } = useWindowSize();
+	const { config, isLoading, error, saveConfig } = useConfig();
 	useAppInput({
 		currentPage,
 		goToPage,
@@ -31,25 +32,26 @@ const App = () => {
 	}
 
 	return (
-		<ConfigProvider>
-			<Box flexDirection="column" height={rows}>
-				<Box flexDirection="column" padding={1}>
-					<Text bold color="green" underline>
-						TFL CSV Expense Parser
-					</Text>
-					<Text dimColor>
-						{currentPage === "settings"
-							? "esc=back"
-							: `q=quit | w=home | s=settings | r=help${canGoBack ? ` | t=back (${previousPage})` : ""}`}
-					</Text>
-				</Box>
-				<Box flexDirection="column" padding={1}>
-					{currentPage === "home" && <HomeScreen />}
-					{currentPage === "settings" && <ConfigScreen />}
-					{currentPage === "help" && <HelpScreen />}
-				</Box>
+		<Box flexDirection="column" height={rows}>
+			<Box flexDirection="column" padding={1}>
+				<Text bold color="green" underline>
+					TFL CSV Expense Parser
+				</Text>
+				<Text dimColor>
+					{currentPage === "settings"
+						? "esc=back"
+						: `q=quit | w=home | s=settings | r=help${canGoBack ? ` | t=back (${previousPage})` : ""}`}
+				</Text>
 			</Box>
-		</ConfigProvider>
+			<Box flexDirection="column" padding={1}>
+				{isLoading && <Spinner label="Loading config" />}
+				{error && <Alert variant="error">Error: {error.message}</Alert>}
+				{config && currentPage === "home" && <HomeScreen config={config} />}
+				{config && currentPage === "settings" && (
+					<ConfigScreen config={config} saveConfig={saveConfig} />
+				)}
+			</Box>
+		</Box>
 	);
 };
 

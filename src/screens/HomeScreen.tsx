@@ -1,13 +1,8 @@
 import { Text } from "ink";
-import { useConfig } from "@/features/config";
+import type { Config } from "@/api/configRepo";
 import { JourneyExplorer } from "@/features/journeys";
 
-const HomeScreen = () => {
-	const { config, isLoading, error } = useConfig();
-
-	if (isLoading) return <Text>Loading...</Text>;
-	if (error) return <Text>Error loading config: {error.message}.</Text>;
-
+const HomeScreen = ({ config }: { config: Config }) => {
 	return (
 		<>
 			<Text bold underline>

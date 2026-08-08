@@ -1,10 +1,4 @@
-import {
-	createContext,
-	type ReactNode,
-	useContext,
-	useEffect,
-	useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { logDebug } from "@/features/logs";
 import { type Config, loadConfig, writeConfig } from "../api/configRepo";
 
@@ -13,13 +7,7 @@ type ConfigState =
 	| { isLoading: true; config?: undefined; error?: undefined }
 	| { isLoading: false; config: Config; error?: undefined };
 
-type ConfigContextValue = {
-	saveConfig: (config: Config) => void;
-} & ConfigState;
-
-const ConfigContext = createContext<ConfigContextValue | undefined>(undefined);
-
-export function ConfigProvider({ children }: { children: ReactNode }) {
+export function useConfig() {
 	const [configState, setConfigState] = useState<ConfigState>({
 		isLoading: true,
 	});
@@ -47,18 +35,5 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 		setConfigState({ isLoading: false, config });
 	};
 
-	return (
-		<ConfigContext.Provider value={{ saveConfig, ...configState }}>
-			{" "}
-			{children}{" "}
-		</ConfigContext.Provider>
-	);
+	return { saveConfig, ...configState };
 }
-
-export const useConfig = () => {
-	const context = useContext(ConfigContext);
-	if (!context) {
-		throw new Error("useConfig must be used within the context provider");
-	}
-	return context;
-};

@@ -1,6 +1,6 @@
 import { Alert, Spinner } from "@inkjs/ui";
 import { Box, useFocus } from "ink";
-import type { Config } from "@/features/config";
+import type { Config } from "@/api/configRepo";
 import useJourneyGrouping, {
 	useJourneyGroupingSelection,
 } from "../hooks/useJourneyGrouping";

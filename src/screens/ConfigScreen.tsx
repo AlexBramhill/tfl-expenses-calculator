@@ -1,13 +1,20 @@
 import { Text } from "ink";
-import { ConfigEditor } from "@/features/config";
+import type { Config } from "@/api/configRepo";
+import ConfigEditor from "@/features/config/components/ConfigEditor";
 
-function ConfigScreen() {
+function ConfigScreen({
+	config,
+	saveConfig,
+}: {
+	config: Config;
+	saveConfig: (config: Config) => void;
+}) {
 	return (
 		<>
 			<Text bold underline>
 				Config
 			</Text>
-			<ConfigEditor />
+			<ConfigEditor config={config} saveConfig={saveConfig} />
 		</>
 	);
 }

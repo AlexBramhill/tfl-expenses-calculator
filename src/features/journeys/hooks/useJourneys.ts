@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Config } from "@/features/config";
+import type { Config } from "@/api/configRepo";
 import { listCsvFiles } from "../api/csvRepo";
 import { parseCsv, type UnprocessedJourney } from "../api/tflCsvParser";
 import { type Journey, processJourneys } from "../utils/journeyCalculator";

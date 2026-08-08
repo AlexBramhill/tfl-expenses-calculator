@@ -1,23 +1,18 @@
-import {useEffect, useMemo, useState} from "react";
+import { useEffect, useState } from "react";
 import type { Config } from "@/api/configRepo";
 
 const useLocalConfig = (remoteConfig: Config) => {
-	const [localConfig, setLocalConfig] = useState<Config | undefined>(undefined);
+	const [localConfig, setLocalConfig] = useState<Config>({ ...remoteConfig });
 
 	useEffect(() => {
 		setLocalConfig({ ...remoteConfig });
 	}, [remoteConfig]);
 
 	const updateLocalConfig = (configUpdate: Partial<Config>) => {
-		setLocalConfig((oldConfig) => {
-			if (oldConfig === undefined) {
-				return;
-			}
-			return {
-				...oldConfig,
-				...configUpdate,
-			};
-		});
+		setLocalConfig((oldConfig) => ({
+			...oldConfig,
+			...configUpdate,
+		}));
 	};
 	return { localConfig, updateLocalConfig };
 };
