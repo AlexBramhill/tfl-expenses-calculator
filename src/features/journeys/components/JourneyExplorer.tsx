@@ -1,4 +1,5 @@
-import { Box, Text, useFocus } from "ink";
+import { Alert, Spinner } from "@inkjs/ui";
+import { Box, useFocus } from "ink";
 import type { Config } from "@/features/config";
 import useJourneyGrouping, {
 	useJourneyGroupingSelection,
@@ -24,10 +25,14 @@ function JourneyExplorer({ config }: { config: Config }) {
 
 	useJourneyGroupingSelection(setJourneyGrouping);
 
-	if (ungroupedJourneys.status === "loading") return <Text>Loading...</Text>;
+	if (ungroupedJourneys.status === "loading")
+		return <Spinner label="Loading" />;
 	if (ungroupedJourneys.status === "error")
-		return <Text>Error: {ungroupedJourneys.error.message}</Text>;
-	if (groupedJourneys.length === 0) return <Text>No journeys found.</Text>;
+		return (
+			<Alert variant="error">Error: {ungroupedJourneys.error.message}</Alert>
+		);
+	if (groupedJourneys.length === 0)
+		return <Alert variant="error">No journeys found</Alert>;
 
 	return (
 		<Box flexDirection="row" gap={2} flexGrow={1}>
