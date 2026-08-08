@@ -16,7 +16,7 @@ function ConfigEditor({
 	const { localConfig, updateLocalConfig } = UseLocalConfig(config);
 
 	return (
-		<FocusBox isFocused={true}>
+		<FocusBox isFocused={false}>
 			<Box flexDirection="column">
 				<StringField
 					label="CSV Folder"
