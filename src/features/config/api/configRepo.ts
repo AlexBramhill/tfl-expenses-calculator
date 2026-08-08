@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
 import { z } from "zod";
-import { logError, logInfo } from "./logPublisher";
+import { logError, logInfo } from "@/features/logs";
 
 const DOTFILE_FOLDER = path.join(os.homedir(), ".tfl-expense-calculator");
 export const ConfigSchema = z.object({

@@ -1,5 +1,5 @@
 import { Box, Text, useFocus } from "ink";
-import type { Config } from "../data/configRepo";
+import type { Config } from "@/features/config";
 import useJourneyGrouping, {
 	useJourneyGroupingSelection,
 } from "../hooks/useJourneyGrouping";

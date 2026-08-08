@@ -1,6 +1,6 @@
 import { useInput } from "ink";
 import { useMemo, useState } from "react";
-import type { Journey } from "../domain/journeyCalculator";
+import type { Journey } from "../utils/journeyCalculator";
 import type { State } from "./useJourneys";
 
 export type JourneyGrouping = "file" | "month";

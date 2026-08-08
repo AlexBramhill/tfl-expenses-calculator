@@ -1,5 +1,5 @@
 import { Box, Text } from "ink";
-import type { WeeklyJourneySubSummary } from "../domain/weeklyJourneySummaryCalculator";
+import type { WeeklyJourneySubSummary } from "../utils/weeklyJourneySummaryCalculator";
 
 export const Summary = ({ summary }: { summary: WeeklyJourneySubSummary }) => {
 	return (

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Config } from "../data/configRepo";
-import { listCsvFiles } from "../data/csvRepo";
-import { parseCsv, type UnprocessedJourney } from "../data/tflCsvParser";
-import { type Journey, processJourneys } from "../domain/journeyCalculator";
+import type { Config } from "@/features/config";
+import { listCsvFiles } from "../api/csvRepo";
+import { parseCsv, type UnprocessedJourney } from "../api/tflCsvParser";
+import { type Journey, processJourneys } from "../utils/journeyCalculator";
 
 async function loadJourneys(folder: string) {
 	const csvFiles = (await listCsvFiles(folder)) ?? [];

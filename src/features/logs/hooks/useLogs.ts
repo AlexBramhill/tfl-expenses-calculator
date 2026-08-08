@@ -3,7 +3,7 @@ import {
 	addLogListener,
 	deleteLogListener,
 	logEntries,
-} from "../data/logPublisher";
+} from "../api/logPublisher";
 
 export const useLogs = () => {
 	const [, rerender] = useState(0);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { logDebug } from "../data/logPublisher";
+import { logDebug } from "@/features/logs";
 
 export type Page = "home" | "settings" | "help";
 

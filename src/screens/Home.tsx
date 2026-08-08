@@ -1,6 +1,6 @@
 import { Text } from "ink";
-import JourneyExplorer from "../components/JourneyExplorer";
-import useConfig from "../hooks/useConfig";
+import { useConfig } from "@/features/config";
+import { JourneyExplorer } from "@/features/journeys";
 
 const Home = () => {
 	const { config, isLoading, error } = useConfig();

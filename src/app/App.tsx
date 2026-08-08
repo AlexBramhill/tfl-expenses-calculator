@@ -1,10 +1,10 @@
 import { Box, Text, useWindowSize } from "ink";
 import { useState } from "react";
-import { LogStream } from "../components/LogStream";
-import useAppInput from "../hooks/useAppInput";
-import useRouter from "../hooks/useRouter";
+import { LogStream } from "@/features/logs";
 import Help from "../screens/Help";
 import Home from "../screens/Home";
+import useAppInput from "./useAppInput";
+import useRouter from "./useRouter";
 
 const App = () => {
 	const { currentPage, previousPage, canGoBack, goToPage, goBack } =

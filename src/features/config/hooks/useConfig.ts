@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { type Config, loadConfig, writeConfig } from "../data/configRepo";
-import { logDebug } from "../data/logPublisher";
+import { logDebug } from "@/features/logs";
+import { type Config, loadConfig, writeConfig } from "../api/configRepo";
 
 type SaveConfigCallback = (config: Config) => void;
 

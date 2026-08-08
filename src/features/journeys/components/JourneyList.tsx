@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
-import type { Journey } from "../domain/journeyCalculator";
-import { formatCharge, formatDate, maxLength } from "../utils/TextFormatters";
+import type { Journey } from "../utils/journeyCalculator";
+import { formatCharge, formatDate, maxLength } from "../utils/textFormatters";
 
 export const JourneyList = ({
 	journeys,
