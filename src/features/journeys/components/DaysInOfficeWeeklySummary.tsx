@@ -1,4 +1,5 @@
 import { Box, Text } from "ink";
+import { DimBox } from "@/components/DimBox";
 import type { Journey } from "../utils/journeyCalculator";
 import { getWeeklySummaries } from "../utils/weeklyJourneySummaryCalculator";
 
@@ -16,7 +17,7 @@ export const DaysInOfficePerWeekSummary = ({
 	);
 
 	return (
-		<Box flexDirection="column">
+		<DimBox>
 			<Text bold>Days in office per week: </Text>
 			{Object.entries(weeklySummaries).map(([dateStart, summary]) => (
 				<Box key={dateStart}>
@@ -30,7 +31,7 @@ export const DaysInOfficePerWeekSummary = ({
 			{isAnyWeekPotentiallyIncomplete && (
 				<Text dimColor>* Week potentially incomplete</Text>
 			)}
-		</Box>
+		</DimBox>
 	);
 };
 
