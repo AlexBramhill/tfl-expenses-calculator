@@ -12,7 +12,7 @@ const EXAMPLE_CONFIG = JSON.stringify(
 	2,
 );
 
-const Help = () => (
+const HelpScreen = () => (
 	<Box flexDirection="column" gap={1}>
 		<Box flexDirection="column">
 			<Text bold underline>
@@ -37,4 +37,4 @@ const Help = () => (
 	</Box>
 );
 
-export default Help;
+export default HelpScreen;

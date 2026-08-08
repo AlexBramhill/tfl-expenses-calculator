@@ -1,5 +1,6 @@
-import { TextInput } from "@inkjs/ui";
+import { Alert, Spinner, TextInput } from "@inkjs/ui";
 import { Box, Text, useFocus } from "ink";
+import { useEffect, useState } from "react";
 import { BooleanToggle } from "@/components/BooleanToggle";
 import { type Config, useConfig } from "@/features/config";
 import { FocusBox } from "@/features/journeys/components/FocusBox";
@@ -78,9 +79,21 @@ function ConfigEditorRow(props: ConfigEditorRowProps) {
 
 function ConfigEditor() {
 	const { config, isLoading, error, saveConfig } = useConfig();
+	const [localConfig, setLocalConfig] = useState<Config | undefined>(config);
 
-	if (isLoading) return <Text>Loading...</Text>;
-	if (error) return <Text>Error loading config: {error.message}.</Text>;
+	useEffect(() => {
+		if (config) {
+			setLocalConfig(config);
+		}
+	}, [config]);
+
+	if (isLoading) return <Spinner label="Loading" />;
+
+	if (error) return <Alert variant="error">Error: {error.message}</Alert>;
+
+	if (localConfig === undefined) {
+		return <Alert variant="error">Error: local state unset</Alert>;
+	}
 
 	return (
 		<FocusBox isFocused={true}>

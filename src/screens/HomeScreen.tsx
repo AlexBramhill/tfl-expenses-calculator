@@ -2,7 +2,7 @@ import { Text } from "ink";
 import { useConfig } from "@/features/config";
 import { JourneyExplorer } from "@/features/journeys";
 
-const Home = () => {
+const HomeScreen = () => {
 	const { config, isLoading, error } = useConfig();
 
 	if (isLoading) return <Text>Loading...</Text>;
@@ -18,4 +18,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default HomeScreen;
