@@ -1,17 +1,12 @@
 import { Box, Text } from "ink";
 import { DimBox } from "@/components/DimBox";
-import type { Journey } from "../utils/journeyCalculator";
-import { getWeeklySummaries } from "../utils/weeklyJourneySummaryCalculator";
+import type { WeeklySummaryByDate } from "../utils/weeklyJourneySummaryCalculator";
 
 export const DaysInOfficePerWeekSummary = ({
-	journeys,
-	isIncludingWeekends,
+	weeklySummaries,
 }: {
-	journeys: Journey[];
-	isIncludingWeekends: boolean;
+	weeklySummaries: WeeklySummaryByDate;
 }) => {
-	const weeklySummaries = getWeeklySummaries(journeys, isIncludingWeekends);
-
 	const isAnyWeekPotentiallyIncomplete = Object.entries(weeklySummaries).some(
 		([_, { isPotentiallyIncomplete }]) => isPotentiallyIncomplete,
 	);

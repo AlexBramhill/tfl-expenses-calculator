@@ -1,12 +1,10 @@
 import type { Journey } from "./journeyCalculator";
+import {
+	getTotalSummary,
+	type JourneySummaryTotals,
+} from "./journeySummaryCalculator";
 
-export type WeeklyJourneySubSummary = {
-	totalDaysInOffice: number;
-	totalTrips: number;
-	totalCharge: number;
-};
-
-export type WeeklyJourneySummary = WeeklyJourneySubSummary & {
+export type WeeklyJourneySummary = JourneySummaryTotals & {
 	isPotentiallyIncomplete: boolean;
 };
 export type WeeklySummaryByDate = Record<string, WeeklyJourneySummary>;
@@ -96,24 +94,4 @@ const isLastGroupPotentiallyIncomplete = (
 	return !dayIndexes.some((dayIndex) =>
 		getJourneysContainDay(lastWeekJourneys, dayIndex),
 	);
-};
-
-const getTotalSummary = (journeys: Journey[]): WeeklyJourneySubSummary => {
-	const homeOfficeJourneys = journeys.filter(
-		(journey) => journey.isHomeOfficeJourney,
-	);
-	const totalDaysInOffice = new Set(
-		homeOfficeJourneys.map((x) => x.datetime.toDateString()),
-	).size;
-	const totalTrips = homeOfficeJourneys.length;
-	const totalCharge = homeOfficeJourneys.reduce(
-		(sum, journey) => sum + journey.chargeAmount,
-		0,
-	);
-
-	return {
-		totalDaysInOffice,
-		totalTrips,
-		totalCharge,
-	};
 };

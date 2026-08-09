@@ -7,9 +7,12 @@ import useJourneyGrouping, {
 	useJourneyGroupingSelection,
 } from "../hooks/useJourneyGrouping";
 import useJourneys from "../hooks/useJourneys";
+import { getTotalSummary } from "../utils/journeySummaryCalculator";
+import { getWeeklySummaries } from "../utils/weeklyJourneySummaryCalculator";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
+import { Summary } from "./Summary";
 
 function JourneyExplorer({ config }: { config: Config }) {
 	const { isFocused } = useFocus({ autoFocus: true });
@@ -45,9 +48,12 @@ function JourneyExplorer({ config }: { config: Config }) {
 			/>
 			{selectedJourney && (
 				<>
+					<Summary summary={getTotalSummary(selectedJourney.journeys)} />
 					<DaysInOfficePerWeekSummary
-						journeys={selectedJourney.journeys}
-						isIncludingWeekends={config.isIncludingWeekends}
+						weeklySummaries={getWeeklySummaries(
+							selectedJourney.journeys,
+							config.isIncludingWeekends,
+						)}
 					/>
 					<JourneyDetailPanel
 						key={selectedJourney.displayName}
