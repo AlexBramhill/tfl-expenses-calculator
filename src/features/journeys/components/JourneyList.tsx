@@ -78,7 +78,7 @@ const JourneyRow = ({
 	journey: Journey;
 	widths: Map<Column, number>;
 }) => {
-	const seperator = " | "
+	const seperator = " | ";
 	const dateWidth = widths.get(dateColumn) ?? 0;
 	const fromWidth = widths.get(fromColumn) ?? 0;
 	const toWidth = widths.get(toColumn) ?? 0;
@@ -99,7 +99,11 @@ const JourneyRow = ({
 			color={journey.isHomeOfficeJourney ? "green" : undefined}
 			dimColor={!journey.isHomeOfficeJourney}
 		>
-			{date}{seperator}{stations}{seperator}{charge}
+			{date}
+			{seperator}
+			{stations}
+			{seperator}
+			{charge}
 		</Text>
 	);
 };

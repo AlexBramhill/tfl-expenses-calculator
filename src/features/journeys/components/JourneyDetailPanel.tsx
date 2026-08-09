@@ -1,8 +1,8 @@
-import { Box, Text, useWindowSize } from "ink";
-import usePagination from "../hooks/usePagination";
+import { useWindowSize } from "ink";
 import type { Journey } from "../utils/journeyCalculator";
 import withFocusBoxWrapper, { type FocusProps } from "./FocusBox";
 import { JourneyList } from "./JourneyList";
+import Pagination from "./Pagination";
 
 // TOOD: consider a more robust way to determine how many items to show per page
 // e.g. by measuring the height of the header components instead of using a magic number
@@ -21,23 +21,16 @@ function JourneyDetailPanelComponent({
 	const { rows } = useWindowSize();
 	const itemsPerPage = Math.max(1, rows - MAGIC_NUMBER_FOR_HEADER_ETC);
 
-	const {
-		currentPage,
-		totalPages,
-		itemsOnPage: journeysOnPage,
-	} = usePagination<Journey>({
-		items: journeys,
-		itemsPerPage,
-		isFocused,
-	});
-
 	return (
-		<Box flexDirection="column" flexGrow={1}>
-			<JourneyList journeys={journeysOnPage} allJourneys={journeys} />
-			<Text dimColor>
-				{currentPage + 1}/{totalPages} ↑ | ↓ to paginate
-			</Text>
-		</Box>
+		<Pagination
+			items={journeys}
+			itemsPerPage={itemsPerPage}
+			isFocused={isFocused}
+		>
+			{(journeysOnPage) => (
+				<JourneyList journeys={journeysOnPage} allJourneys={journeys} />
+			)}
+		</Pagination>
 	);
 }
 
