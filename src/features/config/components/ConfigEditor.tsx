@@ -1,4 +1,5 @@
 import { useInput } from "ink";
+import { useCallback } from "react";
 import type { Config } from "@/api/configRepo";
 import { SpacedBox } from "@/components/SpacedBox";
 import { BooleanField } from "@/features/config/components/fields/BooleanField";
@@ -19,27 +20,44 @@ function ConfigEditor({
 		if (key.escape) saveConfig(localConfig);
 	});
 
+	const onCsvFolderChange = useCallback(
+		(value: string) => updateLocalConfig({ csvFolder: value }),
+		[updateLocalConfig],
+	);
+	const onHomeStationsChange = useCallback(
+		(value: string[]) => updateLocalConfig({ homeStations: value }),
+		[updateLocalConfig],
+	);
+	const onOfficeStationsChange = useCallback(
+		(value: string[]) => updateLocalConfig({ officeStations: value }),
+		[updateLocalConfig],
+	);
+	const onIncludeWeekendsChange = useCallback(
+		(value: boolean) => updateLocalConfig({ isIncludingWeekends: value }),
+		[updateLocalConfig],
+	);
+
 	return (
 		<SpacedBox>
 			<StringField
 				label="CSV Folder"
 				value={localConfig.csvFolder}
-				onChange={(value) => updateLocalConfig({ csvFolder: value })}
+				onChange={onCsvFolderChange}
 			/>
 			<StringListField
 				label="Home stations"
 				value={localConfig.homeStations}
-				onChange={(value) => updateLocalConfig({ homeStations: value })}
+				onChange={onHomeStationsChange}
 			/>
 			<StringListField
 				label="Office stations"
 				value={localConfig.officeStations}
-				onChange={(value) => updateLocalConfig({ officeStations: value })}
+				onChange={onOfficeStationsChange}
 			/>
 			<BooleanField
 				label="Include weekends"
 				value={localConfig.isIncludingWeekends}
-				onChange={(value) => updateLocalConfig({ isIncludingWeekends: value })}
+				onChange={onIncludeWeekendsChange}
 			/>
 		</SpacedBox>
 	);

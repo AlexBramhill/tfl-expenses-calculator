@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Config } from "@/api/configRepo";
 
 const useLocalConfig = (remoteConfig: Config) => {
@@ -8,12 +8,12 @@ const useLocalConfig = (remoteConfig: Config) => {
 		setLocalConfig({ ...remoteConfig });
 	}, [remoteConfig]);
 
-	const updateLocalConfig = (configUpdate: Partial<Config>) => {
+	const updateLocalConfig = useCallback((configUpdate: Partial<Config>) => {
 		setLocalConfig((oldConfig) => ({
 			...oldConfig,
 			...configUpdate,
 		}));
-	};
+	}, []);
 	return { localConfig, updateLocalConfig };
 };
 
