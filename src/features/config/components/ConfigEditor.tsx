@@ -1,3 +1,4 @@
+import { useInput } from "ink";
 import type { Config } from "@/api/configRepo";
 import { DimBox } from "@/components/DimBox";
 import { BooleanField } from "@/features/config/components/fields/BooleanField";
@@ -7,12 +8,16 @@ import UseLocalConfig from "@/features/config/hooks/useLocalConfig";
 
 function ConfigEditor({
 	config,
-	saveConfig: _,
+	saveConfig,
 }: {
 	config: Config;
 	saveConfig: (config: Config) => void;
 }) {
 	const { localConfig, updateLocalConfig } = UseLocalConfig(config);
+
+	useInput((_input, key) => {
+		if (key.escape) saveConfig(localConfig);
+	});
 
 	return (
 		<DimBox>
