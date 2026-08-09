@@ -43,7 +43,7 @@ const App = () => {
 						: `q=quit | w=home | s=settings | r=help${canGoBack ? ` | t=back (${previousPage})` : ""}`}
 				</Text>
 			</Box>
-			<Box flexDirection="column" padding={1}>
+			<Box flexDirection="column" flexGrow={1} padding={1}>
 				{isLoading && <Spinner label="Loading config" />}
 				{error && <Alert variant="error">Error: {error.message}</Alert>}
 				{config && currentPage === "home" && <HomeScreen config={config} />}
