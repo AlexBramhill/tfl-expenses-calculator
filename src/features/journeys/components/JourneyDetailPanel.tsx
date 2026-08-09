@@ -1,12 +1,12 @@
-import { useWindowSize } from "ink";
-import type { Journey } from "../utils/journeyCalculator";
+import { Box, type DOMElement, measureElement, useWindowSize } from "ink";
+import { useEffect, useRef, useState } from "react";
+import type { Journey } from "@/features/journeys";
 import withFocusBoxWrapper, { type FocusProps } from "./FocusBox";
 import { JourneyList } from "./JourneyList";
 import Pagination from "./Pagination";
 
-// TOOD: consider a more robust way to determine how many items to show per page
-// e.g. by measuring the height of the header components instead of using a magic number
-const MAGIC_NUMBER_FOR_HEADER_ETC = 15;
+// JourneyList renders one heading row and Pagination renders one footer row
+const OVERHEAD_ROWS = 2;
 
 type JourneyDetailPanelProps = {
 	journeys: Journey[];
@@ -19,18 +19,28 @@ function JourneyDetailPanelComponent({
 	isFocused,
 }: JourneyDetailPanelComponentProps) {
 	const { rows } = useWindowSize();
-	const itemsPerPage = Math.max(1, rows - MAGIC_NUMBER_FOR_HEADER_ETC);
+	const containerRef = useRef<DOMElement>(null);
+	const [itemsPerPage, setItemsPerPage] = useState(1);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: row change means terminal height change
+	useEffect(() => {
+		if (!containerRef.current) return;
+		const { height } = measureElement(containerRef.current);
+		setItemsPerPage(Math.max(1, height - OVERHEAD_ROWS));
+	}, [rows]);
 
 	return (
-		<Pagination
-			items={journeys}
-			itemsPerPage={itemsPerPage}
-			isFocused={isFocused}
-		>
-			{(journeysOnPage) => (
-				<JourneyList journeys={journeysOnPage} allJourneys={journeys} />
-			)}
-		</Pagination>
+		<Box ref={containerRef} flexDirection="column" flexGrow={1}>
+			<Pagination
+				items={journeys}
+				itemsPerPage={itemsPerPage}
+				isFocused={isFocused}
+			>
+				{(journeysOnPage) => (
+					<JourneyList journeys={journeysOnPage} allJourneys={journeys} />
+				)}
+			</Pagination>
+		</Box>
 	);
 }
 
