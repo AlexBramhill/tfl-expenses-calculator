@@ -1,6 +1,41 @@
 import { Box, Text } from "ink";
-import type { Journey } from "../utils/journeyCalculator";
-import { formatCharge, formatDate, maxLength } from "../utils/textFormatters";
+import type { Journey } from "@/features/journeys";
+import {
+	columnWidth,
+	formatCharge,
+	formatDate,
+	truncate,
+} from "../utils/textFormatters";
+
+type Column = {
+	header: string;
+	getValue: (journey: Journey) => string;
+	maxLength?: number;
+};
+
+const dateColumn: Column = {
+	header: "Date",
+	getValue: (journey) => formatDate(journey.datetime),
+};
+const fromColumn: Column = {
+	header: "From",
+	getValue: (journey) => journey.startStation,
+	maxLength: 30,
+};
+const toColumn: Column = {
+	header: "To",
+	getValue: (journey) => journey.endStation,
+	maxLength: 30,
+};
+const chargeColumn: Column = {
+	header: "Charge",
+	getValue: (journey) => formatCharge(journey.chargeAmount),
+};
+
+const columns: Column[] = [dateColumn, fromColumn, toColumn, chargeColumn];
+
+const cellValue = (column: Column, journey: Journey, width: number) =>
+	truncate(column.getValue(journey), column.maxLength).padEnd(width);
 
 export const JourneyList = ({
 	journeys,
@@ -9,14 +44,16 @@ export const JourneyList = ({
 	journeys: Journey[];
 	allJourneys: Journey[];
 }) => {
-	const dateWidth = maxLength(allJourneys.map((j) => formatDate(j.datetime)));
-	const startWidth = maxLength(allJourneys.map((j) => j.startStation));
-	const endWidth = maxLength(allJourneys.map((j) => j.endStation));
-	const chargeWidth = maxLength(
-		allJourneys.map((j) => formatCharge(j.chargeAmount)),
+	const widths = new Map(
+		columns.map((column) => [
+			column,
+			columnWidth(allJourneys.map(column.getValue), column.maxLength),
+		]),
 	);
 
-	const heading = `${"Date".padEnd(dateWidth)} | ${"From".padEnd(startWidth)} | ${"To".padEnd(endWidth)} | ${"Charge".padEnd(chargeWidth)}`;
+	const heading = columns
+		.map((column) => column.header.padEnd(widths.get(column) ?? 0))
+		.join(" | ");
 
 	return (
 		<Box flexDirection="column">
@@ -27,10 +64,7 @@ export const JourneyList = ({
 				<JourneyRow
 					key={journey.datetime.toISOString()}
 					journey={journey}
-					dateWidth={dateWidth}
-					startWidth={startWidth}
-					endWidth={endWidth}
-					chargeWidth={chargeWidth}
+					widths={widths}
 				/>
 			))}
 		</Box>
@@ -39,31 +73,33 @@ export const JourneyList = ({
 
 const JourneyRow = ({
 	journey,
-	dateWidth,
-	startWidth,
-	endWidth,
-	chargeWidth,
+	widths,
 }: {
 	journey: Journey;
-	dateWidth: number;
-	startWidth: number;
-	endWidth: number;
-	chargeWidth: number;
+	widths: Map<Column, number>;
 }) => {
-	const date = formatDate(journey.datetime).padEnd(dateWidth);
-	const charge = formatCharge(journey.chargeAmount).padEnd(chargeWidth);
+	const seperator = " | "
+	const dateWidth = widths.get(dateColumn) ?? 0;
+	const fromWidth = widths.get(fromColumn) ?? 0;
+	const toWidth = widths.get(toColumn) ?? 0;
+	const chargeWidth = widths.get(chargeColumn) ?? 0;
+
+	const date = cellValue(dateColumn, journey, dateWidth);
+	const charge = cellValue(chargeColumn, journey, chargeWidth);
 	const hasEnd = journey.endStation.length > 0;
 
 	const stations = hasEnd
-		? `${journey.startStation.padEnd(startWidth)} | ${journey.endStation.padEnd(endWidth)}`
-		: journey.startStation.padEnd(startWidth + 3 + endWidth);
+		? `${cellValue(fromColumn, journey, fromWidth)}${seperator}${cellValue(toColumn, journey, toWidth)}`
+		: truncate(journey.startStation, fromColumn.maxLength).padEnd(
+				fromWidth + seperator.length + toWidth,
+			);
 
 	return (
 		<Text
 			color={journey.isHomeOfficeJourney ? "green" : undefined}
 			dimColor={!journey.isHomeOfficeJourney}
 		>
-			{date} | {stations} | {charge}
+			{date}{seperator}{stations}{seperator}{charge}
 		</Text>
 	);
 };
