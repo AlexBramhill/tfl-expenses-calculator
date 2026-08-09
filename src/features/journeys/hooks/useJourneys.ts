@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Config } from "@/api/configRepo";
 import { listCsvFiles } from "../api/csvRepo";
 import { parseCsv, type UnprocessedJourney } from "../api/tflCsvParser";
@@ -39,15 +39,20 @@ const useJourneys = (config: Config): State<Journey> => {
 		void run();
 	}, [csvFolder]);
 
-	if (csvState.status !== "success") return csvState;
+	// otherConfig is a fresh object every render; depend on config itself so
+	// this only recomputes when the config actually changes.
+	// biome-ignore lint/correctness/useExhaustiveDependencies: see above
+	return useMemo(() => {
+		if (csvState.status !== "success") return csvState;
 
-	return {
-		status: csvState.status,
-		data: processJourneys({
-			journeys: csvState.data,
-			...otherConfig,
-		}),
-	};
+		return {
+			status: csvState.status,
+			data: processJourneys({
+				journeys: csvState.data,
+				...otherConfig,
+			}),
+		};
+	}, [csvState, config]);
 };
 
 export default useJourneys;
