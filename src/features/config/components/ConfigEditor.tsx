@@ -1,6 +1,6 @@
 import { useInput } from "ink";
 import type { Config } from "@/api/configRepo";
-import { DimBox } from "@/components/DimBox";
+import { SpacedBox } from "@/components/SpacedBox";
 import { BooleanField } from "@/features/config/components/fields/BooleanField";
 import { StringField } from "@/features/config/components/fields/StringField";
 import { StringListField } from "@/features/config/components/fields/StringListField";
@@ -20,7 +20,7 @@ function ConfigEditor({
 	});
 
 	return (
-		<DimBox>
+		<SpacedBox>
 			<StringField
 				label="CSV Folder"
 				value={localConfig.csvFolder}
@@ -41,7 +41,7 @@ function ConfigEditor({
 				value={localConfig.isIncludingWeekends}
 				onChange={(value) => updateLocalConfig({ isIncludingWeekends: value })}
 			/>
-		</DimBox>
+		</SpacedBox>
 	);
 }
 

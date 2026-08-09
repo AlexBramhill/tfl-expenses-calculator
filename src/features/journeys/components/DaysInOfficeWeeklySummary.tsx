@@ -1,5 +1,5 @@
 import { Box, Text } from "ink";
-import { DimBox } from "@/components/DimBox";
+import { SpacedBox } from "@/components/SpacedBox";
 import type { WeeklySummaryByDate } from "../utils/weeklyJourneySummaryCalculator";
 
 export const DaysInOfficePerWeekSummary = ({
@@ -12,7 +12,7 @@ export const DaysInOfficePerWeekSummary = ({
 	);
 
 	return (
-		<DimBox>
+		<SpacedBox>
 			<Text bold>Days in office per week: </Text>
 			{Object.entries(weeklySummaries).map(([dateStart, summary]) => (
 				<Box key={dateStart}>
@@ -26,7 +26,7 @@ export const DaysInOfficePerWeekSummary = ({
 			{isAnyWeekPotentiallyIncomplete && (
 				<Text dimColor>* Week potentially incomplete</Text>
 			)}
-		</DimBox>
+		</SpacedBox>
 	);
 };
 
