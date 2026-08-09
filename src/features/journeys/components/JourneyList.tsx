@@ -37,6 +37,9 @@ const columns: Column[] = [dateColumn, fromColumn, toColumn, chargeColumn];
 const cellValue = (column: Column, journey: Journey, width: number) =>
 	truncate(column.getValue(journey), column.maxLength).padEnd(width);
 
+const journeyKey = (journey: Journey) =>
+	`${journey.datetime.toISOString()}-${journey.startStation}-${journey.endStation}-${journey.chargeAmount}-${journey.fileName}`;
+
 export const JourneyList = ({
 	journeys,
 	allJourneys,
@@ -62,7 +65,7 @@ export const JourneyList = ({
 			</Text>
 			{journeys.map((journey) => (
 				<JourneyRow
-					key={journey.datetime.toISOString()}
+					key={journeyKey(journey)}
 					journey={journey}
 					widths={widths}
 				/>
