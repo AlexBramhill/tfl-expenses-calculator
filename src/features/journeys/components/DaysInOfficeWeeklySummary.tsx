@@ -39,7 +39,7 @@ const DaysInOfficeSummary = ({
 	daysInOffice: number;
 	isPotentiallyIncomplete: boolean;
 }) => {
-	const formattedDateStart = new Date(dateStart).toLocaleDateString();
+	const formattedDateStart = new Date(dateStart).toLocaleDateString("en-GB");
 	return (
 		<Text>
 			{isPotentiallyIncomplete ? "*" : " "} {formattedDateStart}: {daysInOffice}
