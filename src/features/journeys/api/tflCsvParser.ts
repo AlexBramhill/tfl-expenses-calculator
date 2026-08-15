@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import Papa from "papaparse";
 import { z } from "zod";
+import { logDebug } from "@/features/logs";
 
 const csvRawRow = z.object({
 	Date: z.string(),
@@ -44,7 +45,13 @@ export const parseCsv = async (
 	return data
 		.map((row) => {
 			const result = csvRowSchema.safeParse(row);
-			return result.success ? { ...result.data, fileName } : null;
+			if (!result.success) {
+				logDebug(
+					`Skipping unparseable row in ${fileName}: ${JSON.stringify(row)} (${result.error.message})`,
+				);
+				return null;
+			}
+			return { ...result.data, fileName };
 		})
 		.filter((row) => row !== null);
 };
