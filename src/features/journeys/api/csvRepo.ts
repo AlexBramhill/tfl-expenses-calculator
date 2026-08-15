@@ -21,5 +21,6 @@ export const listCsvFiles = async (folder: string) => {
 			await fs.mkdir(folder, { recursive: true });
 			return [];
 		}
+		throw err;
 	}
 };
