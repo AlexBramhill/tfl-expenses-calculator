@@ -3,6 +3,7 @@ import * as os from "node:os";
 import * as path from "node:path";
 import { z } from "zod";
 import { logError, logInfo } from "@/features/logs";
+import { isErrnoCode } from "@/utils/errors";
 
 const DOTFILE_FOLDER = path.join(os.homedir(), ".tfl-expense-calculator");
 export const ConfigSchema = z.object({
@@ -28,10 +29,7 @@ export const loadConfig = async () => {
 		const raw = await fs.readFile(CONFIG_PATH, "utf8");
 		return ConfigSchema.parse(JSON.parse(raw));
 	} catch (err) {
-		if (
-			err instanceof Error &&
-			(err as NodeJS.ErrnoException).code === "ENOENT"
-		) {
+		if (isErrnoCode(err, "ENOENT")) {
 			logInfo("Creating config file");
 			return createDefaultConfig();
 		}

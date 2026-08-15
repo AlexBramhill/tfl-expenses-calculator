@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { logDebug } from "@/features/logs";
+import { isErrnoCode } from "@/utils/errors";
 
 export const listCsvFiles = async (folder: string) => {
 	logDebug(`Listing CSV files in folder: ${folder}`);
@@ -14,10 +15,7 @@ export const listCsvFiles = async (folder: string) => {
 		logDebug(`Found ${csvs.length} CSV files in folder: ${folder}`);
 		return csvs;
 	} catch (err) {
-		if (
-			err instanceof Error &&
-			(err as NodeJS.ErrnoException).code === "ENOENT"
-		) {
+		if (isErrnoCode(err, "ENOENT")) {
 			await fs.mkdir(folder, { recursive: true });
 			return [];
 		}
