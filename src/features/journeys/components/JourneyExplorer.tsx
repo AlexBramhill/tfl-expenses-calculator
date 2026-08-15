@@ -50,10 +50,7 @@ function JourneyExplorer({ config }: { config: Config }) {
 				<>
 					<Summary summary={getTotalSummary(selectedJourney.journeys)} />
 					<DaysInOfficePerWeekSummary
-						weeklySummaries={getWeeklySummaries(
-							ungroupedJourneys.data,
-							config.isIncludingWeekends,
-						)}
+						weeklySummaries={getWeeklySummaries(ungroupedJourneys.data)}
 						currentGroupWeeks={getWeekKeys(selectedJourney.journeys)}
 					/>
 					<JourneyDetailPanel

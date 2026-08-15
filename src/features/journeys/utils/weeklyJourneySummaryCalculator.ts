@@ -26,79 +26,46 @@ const getWeekStart = (date: Date): Date => {
 	return d;
 };
 
+const addWeeks = (date: Date, weeks: number): Date => {
+	const d = new Date(date);
+	d.setDate(d.getDate() + weeks * 7);
+	return d;
+};
+
 function isPotentiallyIncomplete(
 	weekStart: Date,
-	firstWeekStart: Date,
-	journeys: Journey[],
-	lastWeekStart: Date,
-	ignoreWeekends: boolean,
-) {
-	if (weekStart.getTime() === firstWeekStart.getTime())
-		return isFirstGroupPotentiallyIncomplete(journeys);
-	if (weekStart.getTime() === lastWeekStart.getTime())
-		return isLastGroupPotentiallyIncomplete(journeys, ignoreWeekends);
-	return false;
+	weekStartKeys: Set<string>,
+): boolean {
+	return (
+		!weekStartKeys.has(addWeeks(weekStart, -1).toISOString()) ||
+		!weekStartKeys.has(addWeeks(weekStart, 1).toISOString())
+	);
 }
 
 export const getWeeklySummaries = (
 	journeys: Journey[],
-	ignoreWeekends: boolean,
 ): WeeklySummaryByDate => {
 	if (journeys.length === 0) return {};
 
 	const groups = Map.groupBy(journeys, (journey) =>
-		getWeekStart(journey.datetime).getTime(),
+		getWeekStart(journey.datetime).toISOString(),
 	);
 
-	const sortedJourneys = [...journeys].sort(
-		(x, y) => x.datetime.getTime() - y.datetime.getTime(),
-	);
-
-	const firstWeekStart = getWeekStart(sortedJourneys[0].datetime);
-
-	const lastWeekStart = getWeekStart(
-		sortedJourneys[sortedJourneys.length - 1].datetime,
-	);
+	const weekStartKeys = new Set(groups.keys());
 
 	return Object.fromEntries(
-		[...groups.entries()].map(([weekStartTime, journeys]) => {
-			const weekStart = new Date(weekStartTime);
+		[...groups.entries()].map(([weekStartIso, journeys]) => {
+			const weekStart = new Date(weekStartIso);
 			return [
-				weekStart.toISOString(),
+				weekStartIso,
 				{
 					...getTotalSummary(journeys),
 					isPotentiallyIncomplete: isPotentiallyIncomplete(
 						weekStart,
-						firstWeekStart,
-						journeys,
-						lastWeekStart,
-						ignoreWeekends,
+						weekStartKeys,
 					),
 				},
 			];
 		}),
-	);
-};
-
-function getJourneysContainDay(lastWeekJourneys: Journey[], dayIndex: number) {
-	return lastWeekJourneys.some(
-		(journey) => journey.datetime.getDay() === dayIndex,
-	);
-}
-
-const isFirstGroupPotentiallyIncomplete = (
-	firstWeekJourneys: Journey[],
-): boolean => {
-	const dayIndex = 1;
-	return !getJourneysContainDay(firstWeekJourneys, dayIndex);
-};
-
-const isLastGroupPotentiallyIncomplete = (
-	lastWeekJourneys: Journey[],
-	isIncludingWeekends: boolean,
-): boolean => {
-	const dayIndexes = isIncludingWeekends ? [0] : [5, 6, 0];
-	return !dayIndexes.some((dayIndex) =>
-		getJourneysContainDay(lastWeekJourneys, dayIndex),
 	);
 };
