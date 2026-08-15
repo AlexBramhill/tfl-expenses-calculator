@@ -20,6 +20,9 @@ export const DaysInOfficePerWeekSummary = ({
 	return (
 		<FocusBox isFocused={isFocused}>
 			<Text bold>Days in office per week: </Text>
+			{isAnyWeekPotentiallyIncomplete && (
+				<Text dimColor>* Week potentially incomplete</Text>
+			)}
 			<Pagination items={weeklyEntries} isFocused={isFocused}>
 				{(entriesOnPage) => (
 					<>
@@ -35,9 +38,6 @@ export const DaysInOfficePerWeekSummary = ({
 					</>
 				)}
 			</Pagination>
-			{isAnyWeekPotentiallyIncomplete && (
-				<Text dimColor>* Week potentially incomplete</Text>
-			)}
 		</FocusBox>
 	);
 };
