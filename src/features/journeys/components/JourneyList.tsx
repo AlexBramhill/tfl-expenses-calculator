@@ -81,7 +81,7 @@ const JourneyRow = ({
 	journey: Journey;
 	widths: Map<Column, number>;
 }) => {
-	const seperator = " | ";
+	const separator = " | ";
 	const dateWidth = widths.get(dateColumn) ?? 0;
 	const fromWidth = widths.get(fromColumn) ?? 0;
 	const toWidth = widths.get(toColumn) ?? 0;
@@ -92,9 +92,9 @@ const JourneyRow = ({
 	const hasEnd = journey.endStation.length > 0;
 
 	const stations = hasEnd
-		? `${cellValue(fromColumn, journey, fromWidth)}${seperator}${cellValue(toColumn, journey, toWidth)}`
+		? `${cellValue(fromColumn, journey, fromWidth)}${separator}${cellValue(toColumn, journey, toWidth)}`
 		: truncate(journey.startStation, fromColumn.maxLength).padEnd(
-				fromWidth + seperator.length + toWidth,
+				fromWidth + separator.length + toWidth,
 			);
 
 	return (
@@ -103,9 +103,9 @@ const JourneyRow = ({
 			dimColor={!journey.isHomeOfficeJourney}
 		>
 			{date}
-			{seperator}
+			{separator}
 			{stations}
-			{seperator}
+			{separator}
 			{charge}
 		</Text>
 	);
