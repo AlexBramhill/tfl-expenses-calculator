@@ -12,9 +12,9 @@ export const DaysInOfficePerWeekSummary = ({
 	currentGroupWeeks: Set<string>;
 }) => {
 	const isFocused = useFocusBox();
-	const weeklyEntries = Object.entries(weeklySummaries).sort(([a], [b]) =>
-		b.localeCompare(a),
-	);
+	const weeklyEntries = Object.entries(weeklySummaries)
+		.filter(([dateStart]) => currentGroupWeeks.has(dateStart))
+		.sort(([a], [b]) => a.localeCompare(b));
 	const isAnyWeekPotentiallyIncomplete = weeklyEntries.some(
 		([, { isPotentiallyIncomplete }]) => isPotentiallyIncomplete,
 	);
@@ -34,7 +34,6 @@ export const DaysInOfficePerWeekSummary = ({
 									dateStart={dateStart}
 									daysInOffice={summary.totalDaysInOffice}
 									isPotentiallyIncomplete={summary.isPotentiallyIncomplete}
-									isInCurrentGroup={currentGroupWeeks.has(dateStart)}
 								/>
 							</Box>
 						))}
@@ -49,16 +48,14 @@ const DaysInOfficeSummary = ({
 	dateStart,
 	daysInOffice,
 	isPotentiallyIncomplete,
-	isInCurrentGroup,
 }: {
 	dateStart: string;
 	daysInOffice: number;
 	isPotentiallyIncomplete: boolean;
-	isInCurrentGroup: boolean;
 }) => {
 	const formattedDateStart = new Date(dateStart).toLocaleDateString("en-GB");
 	return (
-		<Text dimColor={!isInCurrentGroup}>
+		<Text>
 			{isPotentiallyIncomplete ? "*" : " "} {formattedDateStart}: {daysInOffice}
 		</Text>
 	);
