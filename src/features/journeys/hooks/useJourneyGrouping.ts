@@ -31,7 +31,7 @@ const journeyReducerKeys: Record<
 };
 
 function groupByKey(
-	journeySort: "file" | "month",
+	journeySort: JourneyGrouping,
 	journeys: Journey[],
 ): JourneyGroup[] {
 	const groupsByKey = new Map<SortValue, JourneyGroup>();
