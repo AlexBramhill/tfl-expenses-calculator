@@ -8,7 +8,10 @@ import useJourneyGrouping, {
 } from "../hooks/useJourneyGrouping";
 import useJourneys from "../hooks/useJourneys";
 import { getTotalSummary } from "../utils/journeySummaryCalculator";
-import { getWeeklySummaries } from "../utils/weeklyJourneySummaryCalculator";
+import {
+	getWeekKeys,
+	getWeeklySummaries,
+} from "../utils/weeklyJourneySummaryCalculator";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
@@ -51,6 +54,7 @@ function JourneyExplorer({ config }: { config: Config }) {
 							ungroupedJourneys.data,
 							config.isIncludingWeekends,
 						)}
+						currentGroupWeeks={getWeekKeys(selectedJourney.journeys)}
 					/>
 					<JourneyDetailPanel
 						key={selectedJourney.displayName}

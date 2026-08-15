@@ -9,6 +9,11 @@ export type WeeklyJourneySummary = JourneySummaryTotals & {
 };
 export type WeeklySummaryByDate = Record<string, WeeklyJourneySummary>;
 
+export const getWeekKeys = (journeys: Journey[]): Set<string> =>
+	new Set(
+		journeys.map((journey) => getWeekStart(journey.datetime).toISOString()),
+	);
+
 const getWeekStart = (date: Date): Date => {
 	const d = new Date(date);
 	const day = d.getDay();

@@ -6,8 +6,10 @@ import { FocusBox } from "./FocusBox";
 
 export const DaysInOfficePerWeekSummary = ({
 	weeklySummaries,
+	currentGroupWeeks,
 }: {
 	weeklySummaries: WeeklySummaryByDate;
+	currentGroupWeeks: Set<string>;
 }) => {
 	const isFocused = useFocusBox();
 	const weeklyEntries = Object.entries(weeklySummaries).sort(([a], [b]) =>
@@ -32,6 +34,7 @@ export const DaysInOfficePerWeekSummary = ({
 									dateStart={dateStart}
 									daysInOffice={summary.totalDaysInOffice}
 									isPotentiallyIncomplete={summary.isPotentiallyIncomplete}
+									isInCurrentGroup={currentGroupWeeks.has(dateStart)}
 								/>
 							</Box>
 						))}
@@ -46,14 +49,16 @@ const DaysInOfficeSummary = ({
 	dateStart,
 	daysInOffice,
 	isPotentiallyIncomplete,
+	isInCurrentGroup,
 }: {
 	dateStart: string;
 	daysInOffice: number;
 	isPotentiallyIncomplete: boolean;
+	isInCurrentGroup: boolean;
 }) => {
 	const formattedDateStart = new Date(dateStart).toLocaleDateString("en-GB");
 	return (
-		<Text>
+		<Text dimColor={!isInCurrentGroup}>
 			{isPotentiallyIncomplete ? "*" : " "} {formattedDateStart}: {daysInOffice}
 		</Text>
 	);
