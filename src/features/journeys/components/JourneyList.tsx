@@ -1,4 +1,5 @@
 import { Box, Text } from "ink";
+import Pagination from "@/components/Pagination";
 import type { Journey } from "@/features/journeys";
 import {
 	columnWidth,
@@ -42,15 +43,15 @@ const journeyKey = (journey: Journey) =>
 
 export const JourneyList = ({
 	journeys,
-	allJourneys,
+	isFocused,
 }: {
 	journeys: Journey[];
-	allJourneys: Journey[];
+	isFocused: boolean;
 }) => {
 	const widths = new Map(
 		columns.map((column) => [
 			column,
-			columnWidth(allJourneys.map(column.getValue), column.maxLength),
+			columnWidth(journeys.map(column.getValue), column.maxLength),
 		]),
 	);
 
@@ -59,17 +60,23 @@ export const JourneyList = ({
 		.join(" | ");
 
 	return (
-		<Box flexDirection="column">
+		<Box flexDirection="column" flexGrow={1}>
 			<Text bold underline>
 				{heading}
 			</Text>
-			{journeys.map((journey) => (
-				<JourneyRow
-					key={journeyKey(journey)}
-					journey={journey}
-					widths={widths}
-				/>
-			))}
+			<Pagination items={journeys} isFocused={isFocused}>
+				{(journeysOnPage) => (
+					<>
+						{journeysOnPage.map((journey) => (
+							<JourneyRow
+								key={journeyKey(journey)}
+								journey={journey}
+								widths={widths}
+							/>
+						))}
+					</>
+				)}
+			</Pagination>
 		</Box>
 	);
 };
