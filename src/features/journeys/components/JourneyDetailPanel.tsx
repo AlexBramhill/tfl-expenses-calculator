@@ -1,9 +1,10 @@
 import { Box, type DOMElement, measureElement, useWindowSize } from "ink";
 import { useEffect, useRef, useState } from "react";
 import type { Journey } from "@/features/journeys";
-import withFocusBoxWrapper, { type FocusProps } from "./FocusBox";
+import type { FocusProps } from "./FocusBox";
 import { JourneyList } from "./JourneyList";
 import Pagination from "./Pagination";
+import withFocusBoxWrapper from "./withFocusBoxWrapper";
 
 // JourneyList renders one heading row and Pagination renders one footer row
 const OVERHEAD_ROWS = 2;
