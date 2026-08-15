@@ -30,9 +30,16 @@ export function useConfig() {
 		})();
 	}, []);
 
-	const saveConfig = (config: Config) => {
-		writeConfig(config);
-		setConfigState({ isLoading: false, config });
+	const saveConfig = async (config: Config) => {
+		try {
+			await writeConfig(config);
+			setConfigState({ isLoading: false, config });
+		} catch (err) {
+			setConfigState({
+				isLoading: false,
+				error: err instanceof Error ? err : new Error(String(err)),
+			});
+		}
 	};
 
 	return { saveConfig, ...configState };
