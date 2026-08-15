@@ -48,7 +48,7 @@ function JourneyExplorer({ config }: { config: Config }) {
 					<Summary summary={getTotalSummary(selectedJourney.journeys)} />
 					<DaysInOfficePerWeekSummary
 						weeklySummaries={getWeeklySummaries(
-							selectedJourney.journeys,
+							ungroupedJourneys.data,
 							config.isIncludingWeekends,
 						)}
 					/>
