@@ -3,7 +3,7 @@ import * as os from "node:os";
 import * as path from "node:path";
 import { z } from "zod";
 import { logError, logInfo } from "@/features/logs";
-import { isErrnoCode } from "@/utils/errors";
+import { isErrnoCode, toError } from "@/utils/errors";
 
 const DOTFILE_FOLDER = path.join(os.homedir(), ".tfl-expense-calculator");
 export const ConfigSchema = z.object({
@@ -33,9 +33,7 @@ export const loadConfig = async () => {
 			logInfo("Creating config file");
 			return createDefaultConfig();
 		}
-		if (err instanceof Error) {
-			logError(err.message);
-		}
+		logError(toError(err).message);
 		throw err;
 	}
 };
