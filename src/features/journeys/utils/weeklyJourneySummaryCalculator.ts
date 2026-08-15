@@ -39,6 +39,8 @@ export const getWeeklySummaries = (
 	journeys: Journey[],
 	ignoreWeekends: boolean,
 ): WeeklySummaryByDate => {
+	if (journeys.length === 0) return {};
+
 	const groups = Map.groupBy(journeys, (journey) =>
 		getWeekStart(journey.datetime).getTime(),
 	);
