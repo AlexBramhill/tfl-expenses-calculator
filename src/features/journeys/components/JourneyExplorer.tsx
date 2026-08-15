@@ -1,6 +1,6 @@
 import { Alert, Spinner } from "@inkjs/ui";
 import { Box } from "ink";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Config } from "@/api/configRepo";
 import useJourneyGrouping, {
 	type JourneyGroup,
@@ -30,6 +30,14 @@ function JourneyExplorer({ config }: { config: Config }) {
 
 	useJourneyGroupingSelection(setJourneyGrouping);
 
+	const weeklySummaries = useMemo(
+		() =>
+			ungroupedJourneys.status === "success"
+				? getWeeklySummaries(ungroupedJourneys.data)
+				: {},
+		[ungroupedJourneys],
+	);
+
 	if (ungroupedJourneys.status === "loading")
 		return <Spinner label="Loading" />;
 	if (ungroupedJourneys.status === "error")
@@ -50,7 +58,7 @@ function JourneyExplorer({ config }: { config: Config }) {
 				<>
 					<Summary summary={getTotalSummary(selectedJourney.journeys)} />
 					<DaysInOfficePerWeekSummary
-						weeklySummaries={getWeeklySummaries(ungroupedJourneys.data)}
+						weeklySummaries={weeklySummaries}
 						currentGroupWeeks={getWeekKeys(selectedJourney.journeys)}
 					/>
 					<JourneyDetailPanel
