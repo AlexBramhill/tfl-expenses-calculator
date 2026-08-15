@@ -90,9 +90,9 @@ const isFirstGroupPotentiallyIncomplete = (
 
 const isLastGroupPotentiallyIncomplete = (
 	lastWeekJourneys: Journey[],
-	IsIncludingWeekends: boolean,
+	isIncludingWeekends: boolean,
 ): boolean => {
-	const dayIndexes = IsIncludingWeekends ? [0] : [5, 6, 0];
+	const dayIndexes = isIncludingWeekends ? [0] : [5, 6, 0];
 	return !dayIndexes.some((dayIndex) =>
 		getJourneysContainDay(lastWeekJourneys, dayIndex),
 	);

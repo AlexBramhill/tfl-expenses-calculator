@@ -5,7 +5,7 @@ import { SpacedBox } from "@/components/SpacedBox";
 import { BooleanField } from "@/features/config/components/fields/BooleanField";
 import { StringField } from "@/features/config/components/fields/StringField";
 import { StringListField } from "@/features/config/components/fields/StringListField";
-import UseLocalConfig from "@/features/config/hooks/useLocalConfig";
+import useLocalConfig from "@/features/config/hooks/useLocalConfig";
 
 function ConfigEditor({
 	config,
@@ -14,7 +14,7 @@ function ConfigEditor({
 	config: Config;
 	saveConfig: (config: Config) => void;
 }) {
-	const { localConfig, updateLocalConfig } = UseLocalConfig(config);
+	const { localConfig, updateLocalConfig } = useLocalConfig(config);
 
 	useInput((_input, key) => {
 		if (key.escape) saveConfig(localConfig);
