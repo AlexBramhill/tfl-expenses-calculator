@@ -43,7 +43,7 @@ export const loadConfig = async () => {
 };
 
 export const createDefaultConfig = async () => {
-	fs.mkdir(DOTFILE_FOLDER, { recursive: true });
+	await fs.mkdir(DOTFILE_FOLDER, { recursive: true });
 	return await writeConfig(DEFAULT_CONFIG);
 };
 
