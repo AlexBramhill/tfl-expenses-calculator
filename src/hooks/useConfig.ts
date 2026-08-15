@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { logDebug } from "@/features/logs";
+import { toError } from "@/utils/errors";
 import { type Config, loadConfig, writeConfig } from "../api/configRepo";
 
 type ConfigState =
@@ -22,10 +23,7 @@ export function useConfig() {
 				);
 				setConfigState({ isLoading: false, config: cfg });
 			} catch (err) {
-				setConfigState({
-					isLoading: false,
-					error: err instanceof Error ? err : new Error(String(err)),
-				});
+				setConfigState({ isLoading: false, error: toError(err) });
 			}
 		})();
 	}, []);
@@ -35,10 +33,7 @@ export function useConfig() {
 			await writeConfig(config);
 			setConfigState({ isLoading: false, config });
 		} catch (err) {
-			setConfigState({
-				isLoading: false,
-				error: err instanceof Error ? err : new Error(String(err)),
-			});
+			setConfigState({ isLoading: false, error: toError(err) });
 		}
 	};
 

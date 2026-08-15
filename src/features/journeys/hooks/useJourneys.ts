@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Config } from "@/api/configRepo";
+import { toError } from "@/utils/errors";
 import { listCsvFiles } from "../api/csvRepo";
 import { parseCsv, type UnprocessedJourney } from "../api/tflCsvParser";
 import { type Journey, processJourneys } from "../utils/journeyCalculator";
@@ -29,10 +30,7 @@ const useJourneys = (config: Config): State<Journey> => {
 				const newData = await loadJourneys(csvFolder);
 				setCsvState({ status: "success", data: newData });
 			} catch (err) {
-				setCsvState({
-					status: "error",
-					error: err instanceof Error ? err : new Error(String(err)),
-				});
+				setCsvState({ status: "error", error: toError(err) });
 			}
 		}
 
