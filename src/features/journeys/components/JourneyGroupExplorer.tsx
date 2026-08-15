@@ -22,7 +22,7 @@ function JourneyGroupExplorer({
 
 	return (
 		<FocusBox isFocused={isFocused}>
-			<Text dimColor={true}>Sor(t): {journeyGrouping}</Text>
+			<Text dimColor>Sor(t): {journeyGrouping}</Text>
 			<Select
 				key={journeyGrouping}
 				isDisabled={!isFocused}
