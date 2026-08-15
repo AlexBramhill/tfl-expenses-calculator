@@ -23,19 +23,19 @@ export const deleteLogListener = (listener: () => void): void => {
 };
 
 export const logDebug = (message: string) => {
-	return log({ message: message, timestamp: new Date(), severity: "debug" });
+	return log({ message, timestamp: new Date(), severity: "debug" });
 };
 
 export const logInfo = (message: string) => {
-	return log({ message: message, timestamp: new Date(), severity: "info" });
+	return log({ message, timestamp: new Date(), severity: "info" });
 };
 
 export const logWarning = (message: string) => {
-	return log({ message: message, timestamp: new Date(), severity: "warning" });
+	return log({ message, timestamp: new Date(), severity: "warning" });
 };
 
 export const logError = (message: string) => {
-	return log({ message: message, timestamp: new Date(), severity: "error" });
+	return log({ message, timestamp: new Date(), severity: "error" });
 };
 
 export const log = ({

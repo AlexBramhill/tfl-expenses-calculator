@@ -33,8 +33,8 @@ const useRouter = (initial: Page = "home"): UseRouterReturn => {
 		currentPage: history[history.length - 1],
 		previousPage: history[history.length - 2],
 		canGoBack: history.length > 1,
-		goToPage: goToPage,
-		goBack: goBack,
+		goToPage,
+		goBack,
 	};
 };
 
