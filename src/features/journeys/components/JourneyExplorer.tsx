@@ -1,5 +1,5 @@
 import { Alert, Spinner } from "@inkjs/ui";
-import { Box, useFocus } from "ink";
+import { Box } from "ink";
 import { useEffect, useState } from "react";
 import type { Config } from "@/api/configRepo";
 import useJourneyGrouping, {
@@ -15,8 +15,6 @@ import JourneyGroupExplorer from "./JourneyGroupExplorer";
 import { Summary } from "./Summary";
 
 function JourneyExplorer({ config }: { config: Config }) {
-	const { isFocused } = useFocus({ autoFocus: true });
-
 	const ungroupedJourneys = useJourneys(config);
 	const { groupedJourneys, journeyGrouping, setJourneyGrouping } =
 		useJourneyGrouping(ungroupedJourneys);
@@ -44,7 +42,6 @@ function JourneyExplorer({ config }: { config: Config }) {
 				journeyGrouping={journeyGrouping}
 				groupedJourneys={groupedJourneys}
 				onSelectJourney={setSelectedJourney}
-				isFocused={isFocused}
 			/>
 			{selectedJourney && (
 				<>

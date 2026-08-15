@@ -4,13 +4,13 @@ import type {
 	JourneyGroup,
 	JourneyGrouping,
 } from "../hooks/useJourneyGrouping";
-import { FocusBox } from "./FocusBox";
+import type { FocusProps } from "./FocusBox";
+import withFocusBoxWrapper from "./withFocusBoxWrapper";
 
 type JourneyGroupExplorerProps = {
 	journeyGrouping: JourneyGrouping;
 	groupedJourneys: JourneyGroup[];
 	onSelectJourney: (journeyGroup: JourneyGroup) => void;
-	isFocused: boolean;
 };
 
 function JourneyGroupExplorer({
@@ -18,9 +18,9 @@ function JourneyGroupExplorer({
 	groupedJourneys,
 	onSelectJourney,
 	isFocused,
-}: JourneyGroupExplorerProps) {
+}: JourneyGroupExplorerProps & FocusProps) {
 	return (
-		<FocusBox isFocused={isFocused}>
+		<>
 			<Text dimColor={true}>Sor(t): {journeyGrouping}</Text>
 			<Select
 				key={journeyGrouping}
@@ -38,8 +38,11 @@ function JourneyGroupExplorer({
 					if (journeyGroup) onSelectJourney(journeyGroup);
 				}}
 			/>
-		</FocusBox>
+		</>
 	);
 }
 
-export default JourneyGroupExplorer;
+export default withFocusBoxWrapper<JourneyGroupExplorerProps>(
+	JourneyGroupExplorer,
+	true,
+);
