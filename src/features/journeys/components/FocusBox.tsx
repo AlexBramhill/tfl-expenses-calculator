@@ -20,7 +20,3 @@ export function FocusBox({
 		</Box>
 	);
 }
-
-export type FocusProps = {
-	isFocused: boolean;
-};

@@ -1,11 +1,11 @@
 import { Select } from "@inkjs/ui";
 import { Text } from "ink";
+import useFocusBox from "../hooks/useFocusBox";
 import type {
 	JourneyGroup,
 	JourneyGrouping,
 } from "../hooks/useJourneyGrouping";
-import type { FocusProps } from "./FocusBox";
-import withFocusBoxWrapper from "./withFocusBoxWrapper";
+import { FocusBox } from "./FocusBox";
 
 type JourneyGroupExplorerProps = {
 	journeyGrouping: JourneyGrouping;
@@ -17,10 +17,11 @@ function JourneyGroupExplorer({
 	journeyGrouping,
 	groupedJourneys,
 	onSelectJourney,
-	isFocused,
-}: JourneyGroupExplorerProps & FocusProps) {
+}: JourneyGroupExplorerProps) {
+	const isFocused = useFocusBox(true);
+
 	return (
-		<>
+		<FocusBox isFocused={isFocused}>
 			<Text dimColor={true}>Sor(t): {journeyGrouping}</Text>
 			<Select
 				key={journeyGrouping}
@@ -38,11 +39,8 @@ function JourneyGroupExplorer({
 					if (journeyGroup) onSelectJourney(journeyGroup);
 				}}
 			/>
-		</>
+		</FocusBox>
 	);
 }
 
-export default withFocusBoxWrapper<JourneyGroupExplorerProps>(
-	JourneyGroupExplorer,
-	true,
-);
+export default JourneyGroupExplorer;
