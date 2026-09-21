@@ -3,6 +3,19 @@
 Tired of calculating TFL expenses? This tool provides several useful summaries to make expensing a breeze.
 ![screenshot](screenshot/app.png)
 
+## Table of contents
+
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Uninstall](#uninstall)
+- [Keyboard shortcuts](#keyboard-shortcuts)
+- [Features](#features)
+  - [Configure multiple home and work stations](#configure-multiple-home-and-work-stations)
+  - [Highlight anomalies at a glance](#highlight-anomalies-at-a-glance)
+  - [Group by file or by month](#group-by-file-or-by-month)
+  - [Count office days by week](#count-office-days-by-week)
+  - [Paginate long journey lists](#paginate-long-journey-lists)
+
 ## Installation
 
 ### Prerequisites
