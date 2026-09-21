@@ -5,6 +5,7 @@ import { LogStream } from "@/features/logs/components/LogStream";
 import { useConfig } from "@/hooks/useConfig";
 import ConfigScreen from "../screens/ConfigScreen";
 import HomeScreen from "../screens/HomeScreen";
+import NavBar from "./components/NavBar";
 import useAppInput from "./useAppInput";
 import useRouter from "./useRouter";
 
@@ -37,11 +38,11 @@ const App = () => {
 				<Text bold color="green" underline>
 					TFL CSV Expense Parser
 				</Text>
-				<Text dimColor>
-					{currentPage === "settings"
-						? "esc=back"
-						: `q=quit | w=home | s=settings | r=help${canGoBack ? ` | t=back (${previousPage})` : ""}`}
-				</Text>
+				<NavBar
+					currentPage={currentPage}
+					previousPage={previousPage}
+					canGoBack={canGoBack}
+				/>
 			</Box>
 			<Box flexDirection="column" flexGrow={1} padding={1}>
 				{isLoading && <Spinner label="Loading config" />}
