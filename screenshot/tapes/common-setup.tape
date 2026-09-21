@@ -8,7 +8,7 @@ Set Theme "Dracula"
 Hide
 Type "npm run start"
 Enter
-Sleep 2s
+Sleep 3s
 Show
 
 Sleep 1s
