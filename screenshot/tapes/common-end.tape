@@ -1,1 +1,1 @@
-Type "q"
+Sleep 1s
