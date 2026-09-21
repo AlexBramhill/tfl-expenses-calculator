@@ -11,4 +11,4 @@ Enter
 Sleep 3s
 Show
 
-Sleep 1s
+Sleep 2.5s

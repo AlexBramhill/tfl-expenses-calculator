@@ -1,1 +1,1 @@
-Sleep 1s
+Sleep 2.5s

@@ -12,4 +12,3 @@ Sleep 500ms
 Type ", Museum Quarter"
 Sleep 1.5s
 Escape
-Sleep 3s

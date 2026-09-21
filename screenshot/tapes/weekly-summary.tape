@@ -7,4 +7,3 @@ Sleep 1.5s
 Down
 Sleep 1.5s
 Up
-Sleep 1.5s
