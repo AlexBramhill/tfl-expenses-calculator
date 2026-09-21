@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LogStream } from "@/features/logs/components/LogStream";
 import { useConfig } from "@/hooks/useConfig";
 import ConfigScreen from "../screens/ConfigScreen";
+import HelpScreen from "../screens/HelpScreen";
 import HomeScreen from "../screens/HomeScreen";
 import NavBar from "./components/NavBar";
 import useAppInput from "./useAppInput";
@@ -48,6 +49,7 @@ const App = () => {
 				{isLoading && <Spinner label="Loading config" />}
 				{error && <Alert variant="error">Error: {error.message}</Alert>}
 				{config && currentPage === "home" && <HomeScreen config={config} />}
+				{currentPage === "help" && <HelpScreen />}
 				{config && currentPage === "settings" && (
 					<ConfigScreen config={config} saveConfig={saveConfig} />
 				)}
