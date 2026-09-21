@@ -9,6 +9,7 @@
 	"scripts": {
 		"build": "node esbuild.config.mjs && chmod +x dist/tfl.js",
 		"start": "tsx src/main.tsx",
+		"screenshot": "bash screenshot/run.sh",
 		"format": "biome format .",
 		"lint": "biome lint .",
 		"check": "biome check .",
