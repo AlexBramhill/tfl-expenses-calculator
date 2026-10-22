@@ -17,7 +17,6 @@ concurrency:
 
 jobs:
   lint-pr-title:
-    name: Validate PR title
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
