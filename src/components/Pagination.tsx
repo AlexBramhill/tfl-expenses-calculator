@@ -1,5 +1,5 @@
-import { Box, type DOMElement, measureElement, Text, useWindowSize } from "ink";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { Box, type DOMElement, Text, useBoxMetrics } from "ink";
+import { type ReactNode, useRef } from "react";
 import usePagination from "@/hooks/usePagination";
 
 const FOOTER_ROWS = 1;
@@ -13,16 +13,9 @@ function Pagination<T>({
 	isFocused: boolean;
 	children: (itemsOnPage: T[]) => ReactNode;
 }) {
-	const { rows } = useWindowSize();
 	const containerRef = useRef<DOMElement>(null);
-	const [itemsPerPage, setItemsPerPage] = useState(1);
-
-	// biome-ignore lint/correctness/useExhaustiveDependencies: row change means terminal height change
-	useEffect(() => {
-		if (!containerRef.current) return;
-		const { height } = measureElement(containerRef.current);
-		setItemsPerPage(Math.max(1, height - FOOTER_ROWS));
-	}, [rows]);
+	const { height } = useBoxMetrics(containerRef);
+	const itemsPerPage = Math.max(1, height - FOOTER_ROWS);
 
 	const { currentPage, totalPages, itemsOnPage } = usePagination<T>({
 		items,
