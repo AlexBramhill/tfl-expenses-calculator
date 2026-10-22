@@ -1,4 +1,4 @@
-name: Build
+name: Checks
 
 on:
   workflow_call:
@@ -6,7 +6,7 @@ on:
 permissions: {}
 
 jobs:
-  build:
+  checks:
     runs-on: ubuntu-latest
     permissions:
       contents: read

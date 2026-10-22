@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  build:
+  checks:
     permissions:
       contents: read
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/checks.yml
