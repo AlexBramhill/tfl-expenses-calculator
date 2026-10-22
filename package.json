@@ -8,6 +8,7 @@
 	},
 	"scripts": {
 		"build": "node esbuild.config.mjs && chmod +x dist/tfl.js",
+		"typecheck": "tsc --noEmit",
 		"start": "tsx src/main.tsx",
 		"screenshot": "bash screenshot/run.sh",
 		"format": "biome format .",
