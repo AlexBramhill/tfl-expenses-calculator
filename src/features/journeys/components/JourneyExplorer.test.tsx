@@ -3,6 +3,7 @@ import { render } from "ink-testing-library";
 import { describe, expect, it, vi } from "vitest";
 import { FIXTURE_CONFIG } from "@/test/fixtures";
 import { KEYS } from "@/test/keys";
+import { TERMINAL_ROWS } from "@/test/terminalSize";
 import JourneyExplorer from "./JourneyExplorer";
 
 describe("JourneyExplorer", () => {
@@ -44,8 +45,6 @@ describe("JourneyExplorer", () => {
 		expect(lastFrame()).toMatchSnapshot();
 	});
 });
-
-const TERMINAL_ROWS = 24;
 
 const FIRST_MONTH_SELECTED = [
 	"❯ July ✔",
