@@ -9,7 +9,7 @@ COMMON_END_TAPE="$TAPES_DIR/common-end.tape"
 # vhs 0.12.0 has issue writing output file
 VHS_VERSION="0.11.0"
 VHS_DIR="$REPO_ROOT/screenshot/.bin"
-VHS_BIN="$VHS_DIR/vhs-$VHS_VERSION"
+VHS_BIN="${VHS_BIN:-$VHS_DIR/vhs-$VHS_VERSION}"
 
 if [ ! -x "$VHS_BIN" ]; then
 	echo "vhs $VHS_VERSION not found at $VHS_BIN." >&2
