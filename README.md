@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/AlexBramhill/tfl-expenses-calculator/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/AlexBramhill/tfl-expenses-calculator/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/AlexBramhill/tfl-expenses-calculator)](https://github.com/AlexBramhill/tfl-expenses-calculator/releases)
-![Node.js 18+](https://img.shields.io/badge/node-18%2B-339933?logo=node.js&logoColor=white)
+![Node.js 24+](https://img.shields.io/badge/node-24%2B-339933?logo=node.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 [![Biome](https://img.shields.io/badge/lint-biome-60A5FA?logo=biome&logoColor=white)](https://biomejs.dev)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
@@ -28,7 +28,7 @@ Tired of calculating TFL expenses? This tool provides several useful summaries t
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 24+ and npm
 
 ```
 sh install.sh
