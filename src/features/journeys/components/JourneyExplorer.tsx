@@ -22,10 +22,10 @@ function JourneyExplorer({ config }: { config: Config }) {
 	const { groupedJourneys, journeyGrouping, setJourneyGrouping } =
 		useJourneyGrouping(ungroupedJourneys);
 
-	const [selectedJourney, setSelectedJourney] = useState<JourneyGroup>();
+	const [selectedGroup, setSelectedGroup] = useState<JourneyGroup>();
 
 	useEffect(() => {
-		setSelectedJourney(groupedJourneys[0]);
+		setSelectedGroup(groupedJourneys[0]);
 	}, [groupedJourneys]);
 
 	useJourneyGroupingSelection(setJourneyGrouping);
@@ -52,18 +52,18 @@ function JourneyExplorer({ config }: { config: Config }) {
 			<JourneyGroupExplorer
 				journeyGrouping={journeyGrouping}
 				groupedJourneys={groupedJourneys}
-				onSelectJourney={setSelectedJourney}
+				onSelectJourneyGroup={setSelectedGroup}
 			/>
-			{selectedJourney && (
+			{selectedGroup && (
 				<>
-					<Summary summary={getTotalSummary(selectedJourney.journeys)} />
+					<Summary summary={getTotalSummary(selectedGroup.journeys)} />
 					<DaysInOfficePerWeekSummary
 						weeklySummaries={weeklySummaries}
-						currentGroupWeeks={getWeekKeys(selectedJourney.journeys)}
+						currentGroupWeeks={getWeekKeys(selectedGroup.journeys)}
 					/>
 					<JourneyDetailPanel
-						key={selectedJourney.displayName}
-						journeys={selectedJourney.journeys}
+						key={selectedGroup.displayName}
+						journeys={selectedGroup.journeys}
 					/>
 				</>
 			)}

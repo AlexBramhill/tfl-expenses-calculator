@@ -10,13 +10,13 @@ import { FocusBox } from "./FocusBox";
 type JourneyGroupExplorerProps = {
 	journeyGrouping: JourneyGrouping;
 	groupedJourneys: JourneyGroup[];
-	onSelectJourney: (journeyGroup: JourneyGroup) => void;
+	onSelectJourneyGroup: (journeyGroup: JourneyGroup) => void;
 };
 
 function JourneyGroupExplorer({
 	journeyGrouping,
 	groupedJourneys,
-	onSelectJourney,
+	onSelectJourneyGroup,
 }: JourneyGroupExplorerProps) {
 	const isFocused = useFocusBox(true);
 
@@ -36,7 +36,7 @@ function JourneyGroupExplorer({
 					const journeyGroup = groupedJourneys.find(
 						(group) => group.displayName === value,
 					);
-					if (journeyGroup) onSelectJourney(journeyGroup);
+					if (journeyGroup) onSelectJourneyGroup(journeyGroup);
 				}}
 			/>
 		</FocusBox>
