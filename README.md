@@ -86,3 +86,8 @@ Travel a lot in a month? Look at all your journeys with ease.
 
 ![pagination](screenshot/pagination.gif)
 
+### Focus on one panel
+
+Don't let a small screen get in the way of doing your expenses. Expand your focuses panel with `f`.
+
+![fullscreen](screenshot/fullscreen.gif)

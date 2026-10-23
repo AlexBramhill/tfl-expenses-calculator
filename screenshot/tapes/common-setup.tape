@@ -3,7 +3,7 @@ Set FontSize 18
 Set Width 1750
 Set Height 700
 Set Padding 20
-Set Theme "Dracula"
+Set Theme "Catppuccin Mocha"
 
 Hide
 Type "npm run start"
