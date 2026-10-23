@@ -20,10 +20,10 @@ describe("JourneyExplorer", () => {
 		await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
 
 		stdin.write(KEYS.arrowDown);
-		await waitForScreenShowing(lastFrame, ["❯ August"]);
+		await waitForScreenShowing(lastFrame, ["❯ Aug 26"]);
 		stdin.write(KEYS.enter);
 		await waitForScreenShowing(lastFrame, [
-			"❯ August ✔",
+			"❯ Aug 26 ✔",
 			"28 total trips",
 			"1/3 ↑ | ↓ to paginate",
 		]);
@@ -47,7 +47,7 @@ describe("JourneyExplorer", () => {
 });
 
 const FIRST_MONTH_SELECTED = [
-	"❯ July ✔",
+	"❯ Jul 26 ✔",
 	"32 total trips",
 	"1/3 ↑ | ↓ to paginate",
 ];

@@ -31,8 +31,8 @@ exports[`JourneyExplorer > summarises the first month of journeys 1`] = `
 "╭───────────────╮                         ╭───────────────────────────────╮  ╭─────────────────────────────────────────────────────────────────────╮
 │               │                         │                               │  │                                                                     │
 │ Sor(t): month │    Summary:             │ Days in office per week:      │  │ Date                 | From             | To               | Charge │
-│ ❯ July ✔      │    32 total trips       │ * Week potentially incomplete │  │ Wed, 01/07/26, 08:12 | Home Station     | Office Station   | £2.80  │
-│   August      │    16 days in office    │ * 29/06/2026: 2               │  │ Wed, 01/07/26, 17:48 | Office Station   | Home Station     | £2.80  │
+│ ❯ Jul 26 ✔    │    32 total trips       │ * Week potentially incomplete │  │ Wed, 01/07/26, 08:12 | Home Station     | Office Station   | £2.80  │
+│   Aug 26      │    16 days in office    │ * 29/06/2026: 2               │  │ Wed, 01/07/26, 17:48 | Office Station   | Home Station     | £2.80  │
 │               │    £89.60 total         │   06/07/2026: 4               │  │ Thu, 02/07/26, 08:12 | Home Station     | Office Station   | £2.80  │
 │               │                         │   13/07/2026: 3               │  │ Thu, 02/07/26, 17:48 | Office Station   | Home Station     | £2.80  │
 │               │                         │   20/07/2026: 3               │  │ Fri, 03/07/26, 10:05 | Home Station     | Museum Quarter   | £3.40  │
@@ -58,8 +58,8 @@ exports[`JourneyExplorer > summarises the next month when it is selected 1`] = `
 "╭───────────────╮                         ╭───────────────────────────────╮  ╭─────────────────────────────────────────────────────────────────────╮
 │               │                         │                               │  │                                                                     │
 │ Sor(t): month │    Summary:             │ Days in office per week:      │  │ Date                 | From             | To               | Charge │
-│   July        │    28 total trips       │ * Week potentially incomplete │  │ Sat, 01/08/26, 11:20 | Home Station     | Riverside Market | £3.10  │
-│ ❯ August ✔    │    14 days in office    │   27/07/2026: 4               │  │ Sat, 01/08/26, 16:45 | Riverside Market | Home Station     | £3.10  │
+│   Jul 26      │    28 total trips       │ * Week potentially incomplete │  │ Sat, 01/08/26, 11:20 | Home Station     | Riverside Market | £3.10  │
+│ ❯ Aug 26 ✔    │    14 days in office    │   27/07/2026: 4               │  │ Sat, 01/08/26, 16:45 | Riverside Market | Home Station     | £3.10  │
 │               │    £78.40 total         │   03/08/2026: 3               │  │ Mon, 03/08/26, 10:05 | Home Station     | Museum Quarter   | £3.40  │
 │               │                         │   10/08/2026: 3               │  │ Mon, 03/08/26, 15:30 | Museum Quarter   | Home Station     | £3.40  │
 │               │                         │   17/08/2026: 4               │  │ Tue, 04/08/26, 08:12 | Home Station     | Office Station   | £2.80  │
