@@ -1,4 +1,5 @@
-import { Box, Text } from "ink";
+import { Box } from "ink";
+import { Line } from "@/components/Line";
 import Pagination from "@/components/Pagination";
 import type { Journey } from "@/features/journeys";
 import {
@@ -61,9 +62,9 @@ export const JourneyList = ({
 
 	return (
 		<Box flexDirection="column" flexGrow={1}>
-			<Text bold underline>
+			<Line bold underline>
 				{heading}
-			</Text>
+			</Line>
 			<Pagination items={journeys} isFocused={isFocused}>
 				{(journeysOnPage) => (
 					<>
@@ -105,7 +106,7 @@ const JourneyRow = ({
 			);
 
 	return (
-		<Text
+		<Line
 			color={journey.isHomeOfficeJourney ? "green" : undefined}
 			dimColor={!journey.isHomeOfficeJourney}
 		>
@@ -114,6 +115,6 @@ const JourneyRow = ({
 			{stations}
 			{separator}
 			{charge}
-		</Text>
+		</Line>
 	);
 };
