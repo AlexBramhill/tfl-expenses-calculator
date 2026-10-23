@@ -9,13 +9,13 @@ export const formatDate = (date: Date) =>
 	});
 export const formatCharge = (amount: number) => `£${amount.toFixed(2)}`;
 
-export const maxLength = (strings: string[]) =>
+export const longestLength = (strings: string[]) =>
 	Math.max(0, ...strings.map((s) => s.length));
 
-export const truncate = (value: string, maxLength?: number) =>
-	maxLength !== undefined && value.length > maxLength
-		? `${value.slice(0, Math.max(0, maxLength - 1))}…`
+export const truncate = (value: string, maxWidth?: number) =>
+	maxWidth !== undefined && value.length > maxWidth
+		? `${value.slice(0, Math.max(0, maxWidth - 1))}…`
 		: value;
 
-export const columnWidth = (values: string[], cap?: number) =>
-	Math.min(cap ?? Infinity, maxLength(values));
+export const columnWidth = (values: string[], maxWidth?: number) =>
+	Math.min(maxWidth ?? Infinity, longestLength(values));

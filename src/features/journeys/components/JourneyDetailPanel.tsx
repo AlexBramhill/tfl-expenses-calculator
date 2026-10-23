@@ -1,7 +1,7 @@
 import type { Journey } from "@/features/journeys";
 import useFocusBox from "../hooks/useFocusBox";
 import { FocusBox } from "./FocusBox";
-import { JourneyList } from "./JourneyList";
+import { JourneyTable } from "./JourneyTable";
 
 type JourneyDetailPanelProps = {
 	journeys: Journey[];
@@ -12,7 +12,7 @@ function JourneyDetailPanel({ journeys }: JourneyDetailPanelProps) {
 
 	return (
 		<FocusBox isFocused={isFocused}>
-			<JourneyList journeys={journeys} isFocused={isFocused} />
+			<JourneyTable journeys={journeys} isFocused={isFocused} />
 		</FocusBox>
 	);
 }

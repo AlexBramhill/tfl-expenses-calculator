@@ -52,7 +52,7 @@ describe("columnWidth", () => {
 		expect(columnWidth(values)).toBe(10);
 	});
 
-	it("never exceeds the cap", () => {
+	it("never exceeds the max width", () => {
 		expect(columnWidth(values, 6)).toBe(6);
 	});
 });
