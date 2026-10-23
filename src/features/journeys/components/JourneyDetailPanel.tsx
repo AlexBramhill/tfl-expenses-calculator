@@ -11,7 +11,7 @@ function JourneyDetailPanel({ journeys }: JourneyDetailPanelProps) {
 	const isFocused = useFocusBox(true);
 
 	return (
-		<FocusBox isFocused={isFocused}>
+		<FocusBox isFocused={isFocused} canGrow>
 			<JourneyTable journeys={journeys} isFocused={isFocused} />
 		</FocusBox>
 	);
