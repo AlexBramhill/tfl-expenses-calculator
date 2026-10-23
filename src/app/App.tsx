@@ -18,7 +18,6 @@ const App = () => {
 	const { rows } = useWindowSize();
 	const { config, isLoading, error, saveConfig } = useConfig();
 	useAppInput({
-		currentPage,
 		goToPage,
 		goBack,
 		canGoBack,

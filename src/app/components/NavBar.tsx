@@ -15,10 +15,6 @@ type NavBarProps = {
 };
 
 const NavBar = ({ currentPage, previousPage, canGoBack }: NavBarProps) => {
-	if (currentPage === "settings") {
-		return <NavItem title="back" shortcut="esc" isActive />;
-	}
-
 	return (
 		<Text>
 			<Text dimColor>q=quit</Text>
@@ -35,7 +31,7 @@ const NavBar = ({ currentPage, previousPage, canGoBack }: NavBarProps) => {
 			{canGoBack && (
 				<Text>
 					<Text dimColor> | </Text>
-					<NavItem title={`back (${previousPage})`} shortcut="t" />
+					<NavItem title={`back (${previousPage})`} shortcut="esc" />
 				</Text>
 			)}
 		</Text>

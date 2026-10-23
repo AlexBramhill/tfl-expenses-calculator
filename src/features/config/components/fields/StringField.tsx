@@ -5,12 +5,14 @@ export function StringField({
 	label,
 	value,
 	onChange,
+	focusId,
 }: {
 	label: string;
 	value: string;
 	onChange: (value: string) => void;
+	focusId: string;
 }) {
-	const { isFocused } = useFocus();
+	const { isFocused } = useFocus({ id: focusId });
 
 	return (
 		<Box gap={1}>

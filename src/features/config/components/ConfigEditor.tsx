@@ -6,6 +6,7 @@ import { BooleanField } from "@/features/config/components/fields/BooleanField";
 import { StringField } from "@/features/config/components/fields/StringField";
 import { StringListField } from "@/features/config/components/fields/StringListField";
 import useLocalConfig from "@/features/config/hooks/useLocalConfig";
+import { TEXT_FIELD_IDS } from "@/features/config/textFieldIds";
 
 function ConfigEditor({
 	config,
@@ -43,16 +44,19 @@ function ConfigEditor({
 				label="CSV Folder"
 				value={localConfig.csvFolder}
 				onChange={onCsvFolderChange}
+				focusId={TEXT_FIELD_IDS.csvFolder}
 			/>
 			<StringListField
 				label="Home stations"
 				value={localConfig.homeStations}
 				onChange={onHomeStationsChange}
+				focusId={TEXT_FIELD_IDS.homeStations}
 			/>
 			<StringListField
 				label="Office stations"
 				value={localConfig.officeStations}
 				onChange={onOfficeStationsChange}
+				focusId={TEXT_FIELD_IDS.officeStations}
 			/>
 			<BooleanField
 				label="Include weekends"
