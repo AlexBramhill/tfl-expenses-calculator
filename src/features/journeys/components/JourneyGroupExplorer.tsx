@@ -1,5 +1,5 @@
 import { Select } from "@inkjs/ui";
-import { Text } from "ink";
+import { Line } from "@/components/Line";
 import useFocusBox from "../hooks/useFocusBox";
 import type { JourneyGroup, JourneyGrouping } from "../utils/journeyGrouping";
 import { FocusBox } from "./FocusBox";
@@ -18,8 +18,8 @@ function JourneyGroupExplorer({
 	const isFocused = useFocusBox(true);
 
 	return (
-		<FocusBox isFocused={isFocused}>
-			<Text dimColor>Sor(t): {journeyGrouping}</Text>
+		<FocusBox isFocused={isFocused} minWidth={17}>
+			<Line dimColor>Sor(t): {journeyGrouping}</Line>
 			<Select
 				key={journeyGrouping}
 				isDisabled={!isFocused}
