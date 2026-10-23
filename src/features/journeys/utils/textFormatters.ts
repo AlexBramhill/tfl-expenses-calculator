@@ -10,7 +10,7 @@ export const formatDate = (date: Date) =>
 export const formatCharge = (amount: number) => `£${amount.toFixed(2)}`;
 
 export const longestLength = (strings: string[]) =>
-	Math.max(0, ...strings.map((s) => s.length));
+	Math.max(0, ...strings.map((string) => string.length));
 
 export const truncate = (value: string, maxWidth?: number) =>
 	maxWidth !== undefined && value.length > maxWidth
