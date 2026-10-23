@@ -15,12 +15,15 @@ const usePagination = <T>({
 	itemsOnPage: T[];
 } => {
 	const totalPages = Math.max(1, Math.ceil(items.length / itemsPerPage));
-	const [currentPage, setCurrentPage] = useState(0);
+	const lastPage = totalPages - 1;
+	const [requestedPage, setRequestedPage] = useState(0);
+	const currentPage = Math.min(requestedPage, lastPage);
 
 	useInput((_input, key) => {
 		if (key.downArrow && isFocused)
-			setCurrentPage((p) => Math.min(p + 1, totalPages - 1));
-		if (key.upArrow && isFocused) setCurrentPage((p) => Math.max(p - 1, 0));
+			setRequestedPage(Math.min(currentPage + 1, lastPage));
+		if (key.upArrow && isFocused)
+			setRequestedPage(Math.max(currentPage - 1, 0));
 	});
 
 	const itemsOnPage = items.slice(
