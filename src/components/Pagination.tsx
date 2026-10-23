@@ -28,7 +28,7 @@ function Pagination<T>({
 			<Box flexDirection="column" flexGrow={1}>
 				{children(itemsOnPage)}
 			</Box>
-			<Text dimColor>
+			<Text dimColor wrap="truncate-end">
 				{currentPage + 1}/{totalPages} ↑ | ↓ to paginate
 			</Text>
 		</Box>
