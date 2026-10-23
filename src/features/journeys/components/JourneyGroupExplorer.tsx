@@ -1,16 +1,13 @@
 import { Select } from "@inkjs/ui";
 import { Text } from "ink";
 import useFocusBox from "../hooks/useFocusBox";
-import type {
-	JourneyGroup,
-	JourneyGrouping,
-} from "../hooks/useJourneyGrouping";
+import type { JourneyGroup, JourneyGrouping } from "../utils/journeyGrouping";
 import { FocusBox } from "./FocusBox";
 
 type JourneyGroupExplorerProps = {
 	journeyGrouping: JourneyGrouping;
 	groupedJourneys: JourneyGroup[];
-	onSelectJourneyGroup: (journeyGroup: JourneyGroup) => void;
+	onSelectJourneyGroup: (journeyGroupName: string) => void;
 };
 
 function JourneyGroupExplorer({
@@ -32,12 +29,7 @@ function JourneyGroupExplorer({
 					label: journeyGroup.displayName,
 					value: journeyGroup.displayName,
 				}))}
-				onChange={(value) => {
-					const journeyGroup = groupedJourneys.find(
-						(group) => group.displayName === value,
-					);
-					if (journeyGroup) onSelectJourneyGroup(journeyGroup);
-				}}
+				onChange={onSelectJourneyGroup}
 			/>
 		</FocusBox>
 	);
