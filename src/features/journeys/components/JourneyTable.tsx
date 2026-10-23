@@ -12,7 +12,7 @@ import {
 type Column = {
 	header: string;
 	getValue: (journey: Journey) => string;
-	maxLength?: number;
+	maxWidth?: number;
 };
 
 const dateColumn: Column = {
@@ -22,12 +22,12 @@ const dateColumn: Column = {
 const fromColumn: Column = {
 	header: "From",
 	getValue: (journey) => journey.startStation,
-	maxLength: 30,
+	maxWidth: 30,
 };
 const toColumn: Column = {
 	header: "To",
 	getValue: (journey) => journey.endStation,
-	maxLength: 30,
+	maxWidth: 30,
 };
 const chargeColumn: Column = {
 	header: "Charge",
@@ -36,13 +36,13 @@ const chargeColumn: Column = {
 
 const columns: Column[] = [dateColumn, fromColumn, toColumn, chargeColumn];
 
-const cellValue = (column: Column, journey: Journey, width: number) =>
-	truncate(column.getValue(journey), column.maxLength).padEnd(width);
+const paddedCell = (column: Column, journey: Journey, width: number) =>
+	truncate(column.getValue(journey), column.maxWidth).padEnd(width);
 
-const journeyKey = (journey: Journey) =>
+const getJourneyKey = (journey: Journey) =>
 	`${journey.datetime.toISOString()}-${journey.startStation}-${journey.endStation}-${journey.chargeAmount}-${journey.fileName}`;
 
-export const JourneyList = ({
+export const JourneyTable = ({
 	journeys,
 	isFocused,
 }: {
@@ -52,7 +52,7 @@ export const JourneyList = ({
 	const widths = new Map(
 		columns.map((column) => [
 			column,
-			columnWidth(journeys.map(column.getValue), column.maxLength),
+			columnWidth(journeys.map(column.getValue), column.maxWidth),
 		]),
 	);
 
@@ -70,7 +70,7 @@ export const JourneyList = ({
 					<>
 						{journeysOnPage.map((journey) => (
 							<JourneyRow
-								key={journeyKey(journey)}
+								key={getJourneyKey(journey)}
 								journey={journey}
 								widths={widths}
 							/>
@@ -95,13 +95,13 @@ const JourneyRow = ({
 	const toWidth = widths.get(toColumn) ?? 0;
 	const chargeWidth = widths.get(chargeColumn) ?? 0;
 
-	const date = cellValue(dateColumn, journey, dateWidth);
-	const charge = cellValue(chargeColumn, journey, chargeWidth);
-	const hasEnd = journey.endStation.length > 0;
+	const date = paddedCell(dateColumn, journey, dateWidth);
+	const charge = paddedCell(chargeColumn, journey, chargeWidth);
+	const hasEndStation = journey.endStation.length > 0;
 
-	const stations = hasEnd
-		? `${cellValue(fromColumn, journey, fromWidth)}${separator}${cellValue(toColumn, journey, toWidth)}`
-		: truncate(journey.startStation, fromColumn.maxLength).padEnd(
+	const stations = hasEndStation
+		? `${paddedCell(fromColumn, journey, fromWidth)}${separator}${paddedCell(toColumn, journey, toWidth)}`
+		: truncate(journey.startStation, fromColumn.maxWidth).padEnd(
 				fromWidth + separator.length + toWidth,
 			);
 
