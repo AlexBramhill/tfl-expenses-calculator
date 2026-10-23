@@ -1,5 +1,6 @@
 import { Box } from "ink";
 import type { ReactNode } from "react";
+import useIsFullscreen from "../hooks/useIsFullscreen";
 
 export function FocusBox({
 	children,
@@ -12,6 +13,9 @@ export function FocusBox({
 	canGrow?: boolean;
 	minWidth?: number;
 }) {
+	const isFullscreen = useIsFullscreen();
+	const isHiddenByFullscreen = isFullscreen && !isFocused;
+
 	return (
 		<Box
 			flexDirection="column"
@@ -20,7 +24,8 @@ export function FocusBox({
 			borderColor={isFocused ? "green" : undefined}
 			padding={1}
 			minWidth={minWidth}
-			flexGrow={canGrow ? 1 : 0}
+			flexGrow={canGrow || isFullscreen ? 1 : 0}
+			display={isHiddenByFullscreen ? "none" : "flex"}
 		>
 			{children}
 		</Box>

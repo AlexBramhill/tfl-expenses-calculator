@@ -20,6 +20,7 @@ const helpLines: HelpLine[] = [
 	line("Tab      move focus between panels (Shift+Tab to go back)"),
 	line("↑ / ↓    scroll the focused panel, or paginate a focused list"),
 	line("t        toggle grouping by file or by month (on home)"),
+	line("f        toggle fullscreen for the focused panel (on home)"),
 	line("esc      back"),
 	blank(),
 	heading("Getting started"),

@@ -50,6 +50,7 @@ sh uninstall.sh
 - `w` home, `s` settings, `r` help, `q` quit
 - `Tab`/`Shift+Tab` to move focus between panels, arrow keys to scroll the focused one
 - `t` to toggle grouping by file or month
+- `f` to toggle fullscreen for the focused panel
 
 ## Features
 

@@ -2,9 +2,13 @@ import { Alert, Spinner } from "@inkjs/ui";
 import { Box } from "ink";
 import { useMemo } from "react";
 import type { Config } from "@/api/configRepo";
+import { Line } from "@/components/Line";
+import useFullscreenShortcut from "../hooks/useFullscreenShortcut";
+import useFullscreenToggle from "../hooks/useFullscreenToggle";
+import useGroupingShortcut from "../hooks/useGroupingShortcut";
+import { FullscreenContext } from "../hooks/useIsFullscreen";
 import useJourneyGroups from "../hooks/useJourneyGroups";
 import useJourneys from "../hooks/useJourneys";
-import useToggleGroupingKey from "../hooks/useToggleGroupingKey";
 import { getTotalSummary } from "../utils/journeySummaryCalculator";
 import {
 	getWeekKeys,
@@ -25,7 +29,10 @@ function JourneyExplorer({ config }: { config: Config }) {
 		toggleJourneyGrouping,
 	} = useJourneyGroups(ungroupedJourneys);
 
-	useToggleGroupingKey(toggleJourneyGrouping);
+	const { isFullscreen, toggleFullscreen } = useFullscreenToggle();
+
+	useGroupingShortcut(toggleJourneyGrouping);
+	useFullscreenShortcut(toggleFullscreen);
 
 	const weeklySummaries = useMemo(
 		() =>
@@ -44,22 +51,27 @@ function JourneyExplorer({ config }: { config: Config }) {
 	if (!selectedGroup) return <Alert variant="error">No journeys found</Alert>;
 
 	return (
-		<Box flexDirection="row" gap={2} flexGrow={1}>
-			<JourneyGroupExplorer
-				journeyGrouping={journeyGrouping}
-				groupedJourneys={groupedJourneys}
-				onSelectJourneyGroup={selectJourneyGroup}
-			/>
-			<Summary summary={getTotalSummary(selectedGroup.journeys)} />
-			<DaysInOfficePerWeekSummary
-				weeklySummaries={weeklySummaries}
-				currentGroupWeeks={getWeekKeys(selectedGroup.journeys)}
-			/>
-			<JourneyDetailPanel
-				key={selectedGroup.displayName}
-				journeys={selectedGroup.journeys}
-			/>
-		</Box>
+		<FullscreenContext value={isFullscreen}>
+			<Box flexDirection="column" flexGrow={1}>
+				<Line dimColor>(f)ullscreen: {isFullscreen ? "on" : "off"}</Line>
+				<Box flexDirection="row" gap={2} flexGrow={1}>
+					<JourneyGroupExplorer
+						journeyGrouping={journeyGrouping}
+						groupedJourneys={groupedJourneys}
+						onSelectJourneyGroup={selectJourneyGroup}
+					/>
+					<Summary summary={getTotalSummary(selectedGroup.journeys)} />
+					<DaysInOfficePerWeekSummary
+						weeklySummaries={weeklySummaries}
+						currentGroupWeeks={getWeekKeys(selectedGroup.journeys)}
+					/>
+					<JourneyDetailPanel
+						key={selectedGroup.displayName}
+						journeys={selectedGroup.journeys}
+					/>
+				</Box>
+			</Box>
+		</FullscreenContext>
 	);
 }
 

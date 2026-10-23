@@ -44,6 +44,39 @@ describe("JourneyExplorer", () => {
 
 		expect(lastFrame()).toMatchSnapshot();
 	});
+
+	it("shows only the focused panel after pressing f", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
+
+		stdin.write("f");
+		await waitForScreenHiding(lastFrame, ["32 total trips"]);
+
+		expect(lastFrame()).toContain("❯ Jul 26 ✔");
+	});
+
+	it("keeps fullscreen on the newly focused panel after pressing tab", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
+
+		stdin.write("f");
+		await waitForScreenHiding(lastFrame, ["32 total trips"]);
+		stdin.write(KEYS.tab);
+		await waitForScreenShowing(lastFrame, ["32 total trips"]);
+
+		expect(lastFrame()).not.toContain("❯ Jul 26 ✔");
+	});
+
+	it("shows all panels again after pressing f twice", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
+
+		stdin.write("f");
+		await waitForScreenHiding(lastFrame, ["32 total trips"]);
+		stdin.write("f");
+
+		await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
+	});
 });
 
 const FIRST_MONTH_SELECTED = [
@@ -66,6 +99,18 @@ const waitForScreenShowing = async (
 	await vi.waitFor(() => {
 		for (const text of texts) {
 			expect(lastFrame()).toContain(text);
+		}
+	});
+	await letEffectsRun();
+};
+
+const waitForScreenHiding = async (
+	lastFrame: () => string | undefined,
+	texts: string[],
+) => {
+	await vi.waitFor(() => {
+		for (const text of texts) {
+			expect(lastFrame()).not.toContain(text);
 		}
 	});
 	await letEffectsRun();
