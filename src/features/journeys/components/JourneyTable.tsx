@@ -1,46 +1,27 @@
-import { Box } from "ink";
-import { Line } from "@/components/Line";
-import Pagination from "@/components/Pagination";
+import Table, { type RowStyle, type TableColumn } from "@/components/Table";
 import type { Journey } from "@/features/journeys";
-import {
-	columnWidth,
-	formatCharge,
-	formatDate,
-	truncate,
-} from "../utils/textFormatters";
+import { formatCharge, formatDate } from "../utils/textFormatters";
 
-type Column = {
-	header: string;
-	getValue: (journey: Journey) => string;
-	maxWidth?: number;
-};
-
-const dateColumn: Column = {
-	header: "Date",
-	getValue: (journey) => formatDate(journey.datetime),
-};
-const fromColumn: Column = {
-	header: "From",
-	getValue: (journey) => journey.startStation,
-	maxWidth: 30,
-};
-const toColumn: Column = {
-	header: "To",
-	getValue: (journey) => journey.endStation,
-	maxWidth: 30,
-};
-const chargeColumn: Column = {
-	header: "Charge",
-	getValue: (journey) => formatCharge(journey.chargeAmount),
-};
-
-const columns: Column[] = [dateColumn, fromColumn, toColumn, chargeColumn];
-
-const paddedCell = (column: Column, journey: Journey, width: number) =>
-	truncate(column.getValue(journey), column.maxWidth).padEnd(width);
-
-const getJourneyKey = (journey: Journey) =>
-	`${journey.datetime.toISOString()}-${journey.startStation}-${journey.endStation}-${journey.chargeAmount}-${journey.fileName}`;
+const JOURNEY_COLUMNS: TableColumn<Journey>[] = [
+	{
+		header: "Date",
+		getValue: (journey) => formatDate(journey.datetime),
+	},
+	{
+		header: "From",
+		getValue: (journey) => journey.startStation,
+		maxWidth: 30,
+	},
+	{
+		header: "To",
+		getValue: (journey) => journey.endStation,
+		maxWidth: 30,
+	},
+	{
+		header: "Charge",
+		getValue: (journey) => formatCharge(journey.chargeAmount),
+	},
+];
 
 export const JourneyTable = ({
 	journeys,
@@ -48,73 +29,18 @@ export const JourneyTable = ({
 }: {
 	journeys: Journey[];
 	isFocused: boolean;
-}) => {
-	const widths = new Map(
-		columns.map((column) => [
-			column,
-			columnWidth(journeys.map(column.getValue), column.maxWidth),
-		]),
-	);
+}) => (
+	<Table
+		columns={JOURNEY_COLUMNS}
+		rows={journeys}
+		getRowKey={getJourneyKey}
+		getRowStyle={getJourneyRowStyle}
+		isFocused={isFocused}
+	/>
+);
 
-	const heading = columns
-		.map((column) => column.header.padEnd(widths.get(column) ?? 0))
-		.join(" | ");
+const getJourneyRowStyle = (journey: Journey): RowStyle =>
+	journey.isHomeOfficeJourney ? { color: "green" } : { dimColor: true };
 
-	return (
-		<Box flexDirection="column" flexGrow={1}>
-			<Line bold underline>
-				{heading}
-			</Line>
-			<Pagination items={journeys} isFocused={isFocused}>
-				{(journeysOnPage) => (
-					<>
-						{journeysOnPage.map((journey) => (
-							<JourneyRow
-								key={getJourneyKey(journey)}
-								journey={journey}
-								widths={widths}
-							/>
-						))}
-					</>
-				)}
-			</Pagination>
-		</Box>
-	);
-};
-
-const JourneyRow = ({
-	journey,
-	widths,
-}: {
-	journey: Journey;
-	widths: Map<Column, number>;
-}) => {
-	const separator = " | ";
-	const dateWidth = widths.get(dateColumn) ?? 0;
-	const fromWidth = widths.get(fromColumn) ?? 0;
-	const toWidth = widths.get(toColumn) ?? 0;
-	const chargeWidth = widths.get(chargeColumn) ?? 0;
-
-	const date = paddedCell(dateColumn, journey, dateWidth);
-	const charge = paddedCell(chargeColumn, journey, chargeWidth);
-	const hasEndStation = journey.endStation.length > 0;
-
-	const stations = hasEndStation
-		? `${paddedCell(fromColumn, journey, fromWidth)}${separator}${paddedCell(toColumn, journey, toWidth)}`
-		: truncate(journey.startStation, fromColumn.maxWidth).padEnd(
-				fromWidth + separator.length + toWidth,
-			);
-
-	return (
-		<Line
-			color={journey.isHomeOfficeJourney ? "green" : undefined}
-			dimColor={!journey.isHomeOfficeJourney}
-		>
-			{date}
-			{separator}
-			{stations}
-			{separator}
-			{charge}
-		</Line>
-	);
-};
+const getJourneyKey = (journey: Journey) =>
+	`${journey.datetime.toISOString()}-${journey.startStation}-${journey.endStation}-${journey.chargeAmount}-${journey.fileName}`;
