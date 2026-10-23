@@ -59,12 +59,17 @@ const renderExplorer = () =>
 		</Box>,
 	);
 
-const waitForScreenShowing = (
+const waitForScreenShowing = async (
 	lastFrame: () => string | undefined,
 	texts: string[],
-) =>
-	vi.waitFor(() => {
+) => {
+	await vi.waitFor(() => {
 		for (const text of texts) {
 			expect(lastFrame()).toContain(text);
 		}
 	});
+	await letEffectsRun();
+};
+
+// Ink attaches key listeners in effects, which run just after a frame is drawn.
+const letEffectsRun = () => new Promise((resolve) => setTimeout(resolve, 0));
