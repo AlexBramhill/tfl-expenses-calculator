@@ -20,10 +20,10 @@ describe("JourneyExplorer", () => {
 		await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
 
 		stdin.write(KEYS.arrowDown);
-		await waitForScreenShowing(lastFrame, ["❯ August"]);
+		await waitForScreenShowing(lastFrame, ["❯ Aug 26"]);
 		stdin.write(KEYS.enter);
 		await waitForScreenShowing(lastFrame, [
-			"❯ August ✔",
+			"❯ Aug 26 ✔",
 			"28 total trips",
 			"1/3 ↑ | ↓ to paginate",
 		]);
@@ -47,7 +47,7 @@ describe("JourneyExplorer", () => {
 });
 
 const FIRST_MONTH_SELECTED = [
-	"❯ July ✔",
+	"❯ Jul 26 ✔",
 	"32 total trips",
 	"1/3 ↑ | ↓ to paginate",
 ];
@@ -59,12 +59,17 @@ const renderExplorer = () =>
 		</Box>,
 	);
 
-const waitForScreenShowing = (
+const waitForScreenShowing = async (
 	lastFrame: () => string | undefined,
 	texts: string[],
-) =>
-	vi.waitFor(() => {
+) => {
+	await vi.waitFor(() => {
 		for (const text of texts) {
 			expect(lastFrame()).toContain(text);
 		}
 	});
+	await letEffectsRun();
+};
+
+// Ink attaches key listeners in effects, which run just after a frame is drawn.
+const letEffectsRun = () => new Promise((resolve) => setTimeout(resolve, 0));

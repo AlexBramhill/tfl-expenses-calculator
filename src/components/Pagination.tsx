@@ -1,5 +1,6 @@
-import { Box, type DOMElement, Text, useBoxMetrics } from "ink";
+import { Box, type DOMElement, useBoxMetrics } from "ink";
 import { type ReactNode, useRef } from "react";
+import { Line } from "@/components/Line";
 import usePagination from "@/hooks/usePagination";
 
 const FOOTER_ROWS = 1;
@@ -28,9 +29,9 @@ function Pagination<T>({
 			<Box flexDirection="column" flexGrow={1}>
 				{children(itemsOnPage)}
 			</Box>
-			<Text dimColor>
+			<Line dimColor>
 				{currentPage + 1}/{totalPages} ↑ | ↓ to paginate
-			</Text>
+			</Line>
 		</Box>
 	);
 }
