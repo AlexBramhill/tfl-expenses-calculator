@@ -4,7 +4,7 @@ import useFocusBox from "@/features/journeys/hooks/useFocusBox";
 import type { JourneySummaryTotals } from "../utils/journeySummaryCalculator";
 
 export const Summary = ({ summary }: { summary: JourneySummaryTotals }) => {
-	const isFocused = useFocusBox();
+	const {isFocused} = useFocusBox();
 
 	return (
 		<FocusBox isFocused={isFocused} minWidth={22}>
