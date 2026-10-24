@@ -31,20 +31,26 @@ Tired of calculating TFL expenses? This tool provides several useful summaries t
 
 - Node.js 24+ and npm
 
+Without linking:
 ```
-sh install.sh
+npm install
+npm run start
 ```
 
-The `tfl` command is now available anywhere in your terminal.
+With linking (adds tfl command in terminal)
+```
+npm install
+npm run build
+npm link
+```
 
-- Run `tfl`. This will create a config file in `~/.tfl-expense-calculator/config.json`
+Remove the link with
+```
+npm unlink -g tfl-expenses-calculator
+```
+
+- Run for the first time will create a config file in `~/.tfl-expense-calculator/config.json`
 - Download your Pay as you go journey history CSV from your TfL account and drop it in the app folder (default `~/.tfl-expense-calculator/`, configurable in settings)
-
-### Uninstall
-
-```
-sh uninstall.sh
-```
 
 ## Keyboard shortcuts
 
