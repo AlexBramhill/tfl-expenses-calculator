@@ -26,9 +26,13 @@ const JOURNEY_COLUMNS: TableColumn<Journey>[] = [
 export const JourneyTable = ({
 	journeys,
 	isFocused,
+	isSelectionVisible,
+	onSelectJourney,
 }: {
 	journeys: Journey[];
 	isFocused: boolean;
+	isSelectionVisible: boolean;
+	onSelectJourney: (journey: Journey) => void;
 }) => (
 	<Table
 		columns={JOURNEY_COLUMNS}
@@ -36,6 +40,8 @@ export const JourneyTable = ({
 		getRowKey={getJourneyKey}
 		getRowStyle={getJourneyRowStyle}
 		isFocused={isFocused}
+		isSelectionVisible={isSelectionVisible}
+		onSelectRow={onSelectJourney}
 	/>
 );
 

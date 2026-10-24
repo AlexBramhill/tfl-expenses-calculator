@@ -5,14 +5,26 @@ import { JourneyTable } from "./JourneyTable";
 
 type JourneyDetailPanelProps = {
 	journeys: Journey[];
+	isJourneyOpen: boolean;
+	onSelectJourney: (journey: Journey) => void;
 };
 
-function JourneyDetailPanel({ journeys }: JourneyDetailPanelProps) {
+function JourneyDetailPanel({
+	journeys,
+	isJourneyOpen,
+	onSelectJourney,
+}: JourneyDetailPanelProps) {
 	const isFocused = useFocusBox(true);
+	const isCurrentPanel = isFocused || isJourneyOpen;
 
 	return (
-		<FocusBox isFocused={isFocused} canGrow>
-			<JourneyTable journeys={journeys} isFocused={isFocused} />
+		<FocusBox isFocused={isCurrentPanel} canGrow>
+			<JourneyTable
+				journeys={journeys}
+				isFocused={isFocused}
+				isSelectionVisible={isCurrentPanel}
+				onSelectJourney={onSelectJourney}
+			/>
 		</FocusBox>
 	);
 }

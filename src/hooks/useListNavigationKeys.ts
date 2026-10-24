@@ -6,10 +6,12 @@ const useListNavigationKeys = ({
 	isFocused,
 	onMoveRows,
 	onMovePages,
+	onChoose,
 }: {
 	isFocused: boolean;
 	onMoveRows: (direction: Direction) => void;
 	onMovePages: (direction: Direction) => void;
+	onChoose?: () => void;
 }) => {
 	useInput(
 		(_input, key) => {
@@ -17,6 +19,7 @@ const useListNavigationKeys = ({
 			if (key.upArrow) onMoveRows(-1);
 			if (key.rightArrow) onMovePages(1);
 			if (key.leftArrow) onMovePages(-1);
+			if (key.return) onChoose?.();
 		},
 		{ isActive: isFocused },
 	);

@@ -1,6 +1,8 @@
-import { Box, useInput } from "ink";
-import type { ReactNode } from "react";
+import { Box, useFocus, useFocusManager, useInput } from "ink";
+import { type ReactNode, useEffect, useState } from "react";
 import { Line } from "@/components/Line";
+
+const MODAL_FOCUS_ID = "modal";
 
 function Modal({
 	title,
@@ -11,9 +13,8 @@ function Modal({
 	onClose: () => void;
 	children: ReactNode;
 }) {
-	useInput((_input, key) => {
-		if (key.escape) onClose();
-	});
+	useTakeFocusWhileOpen();
+	useCloseOnEscape(onClose);
 
 	return (
 		<Box
@@ -37,5 +38,30 @@ function Modal({
 		</Box>
 	);
 }
+
+export const useIsModalOpen = () =>
+	useFocusManager().activeId === MODAL_FOCUS_ID;
+
+const useTakeFocusWhileOpen = () => {
+	useFocus({ id: MODAL_FOCUS_ID });
+	const { activeId, disableFocus, enableFocus, focus } = useFocusManager();
+	const [focusBehindModal] = useState(activeId);
+
+	useEffect(() => {
+		disableFocus();
+		focus(MODAL_FOCUS_ID);
+
+		return () => {
+			enableFocus();
+			if (focusBehindModal) focus(focusBehindModal);
+		};
+	}, [focusBehindModal, disableFocus, enableFocus, focus]);
+};
+
+const useCloseOnEscape = (onClose: () => void) => {
+	useInput((_input, key) => {
+		if (key.escape) onClose();
+	});
+};
 
 export default Modal;

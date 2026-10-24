@@ -1,14 +1,16 @@
 import { Alert, Spinner } from "@inkjs/ui";
 import { Box } from "ink";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { Config } from "@/api/configRepo";
 import { Line } from "@/components/Line";
+import Modal from "@/components/Modal";
 import useFullscreenShortcut from "../hooks/useFullscreenShortcut";
 import useFullscreenToggle from "../hooks/useFullscreenToggle";
 import useGroupingShortcut from "../hooks/useGroupingShortcut";
 import { FullscreenContext } from "../hooks/useIsFullscreen";
 import useJourneyGroups from "../hooks/useJourneyGroups";
 import useJourneys from "../hooks/useJourneys";
+import type { Journey } from "../utils/journeyCalculator";
 import { getTotalSummary } from "../utils/journeySummaryCalculator";
 import {
 	getWeekKeys,
@@ -16,6 +18,7 @@ import {
 } from "../utils/weeklyJourneySummaryCalculator";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
+import { JourneyDetails } from "./JourneyDetails";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
 import { Summary } from "./Summary";
 
@@ -30,9 +33,11 @@ function JourneyExplorer({ config }: { config: Config }) {
 	} = useJourneyGroups(ungroupedJourneys);
 
 	const { isFullscreen, toggleFullscreen } = useFullscreenToggle();
+	const [openJourney, setOpenJourney] = useState<Journey>();
+	const isJourneyOpen = openJourney !== undefined;
 
-	useGroupingShortcut(toggleJourneyGrouping);
-	useFullscreenShortcut(toggleFullscreen);
+	useGroupingShortcut(toggleJourneyGrouping, !isJourneyOpen);
+	useFullscreenShortcut(toggleFullscreen, !isJourneyOpen);
 
 	const weeklySummaries = useMemo(
 		() =>
@@ -68,8 +73,15 @@ function JourneyExplorer({ config }: { config: Config }) {
 					<JourneyDetailPanel
 						key={selectedGroup.displayName}
 						journeys={selectedGroup.journeys}
+						isJourneyOpen={isJourneyOpen}
+						onSelectJourney={setOpenJourney}
 					/>
 				</Box>
+				{openJourney && (
+					<Modal title="Journey" onClose={() => setOpenJourney(undefined)}>
+						<JourneyDetails journey={openJourney} />
+					</Modal>
+				)}
 			</Box>
 		</FullscreenContext>
 	);

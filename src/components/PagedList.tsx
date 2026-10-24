@@ -10,11 +10,13 @@ function PagedList<T>({
 	items,
 	isFocused,
 	mode = "page",
+	onSelect,
 	children,
 }: {
 	items: T[];
 	isFocused: boolean;
 	mode?: "page" | "select";
+	onSelect?: (item: T) => void;
 	children: (itemsOnPage: T[], selectedItem: T | undefined) => ReactNode;
 }) {
 	const isSelecting = mode === "select";
@@ -29,10 +31,15 @@ function PagedList<T>({
 		moveByPageCount,
 	} = usePagination({ items, rowsPerPage });
 
+	const openSelectedItem = () => {
+		if (isSelecting && selectedItem !== undefined) onSelect?.(selectedItem);
+	};
+
 	useListNavigationKeys({
 		isFocused,
 		onMoveRows: isSelecting ? moveByRowCount : moveByPageCount,
 		onMovePages: moveByPageCount,
+		onChoose: openSelectedItem,
 	});
 
 	const footer = getFooterText({ isSelecting, pageIndex, totalPages });

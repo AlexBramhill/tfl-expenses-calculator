@@ -52,6 +52,74 @@ describe("JourneyExplorer", () => {
 		await waitForScreenShowing(lastFrame, ["2/3 ↑ | ↓ to select"]);
 	});
 
+	it("opens the selected journey after pressing enter", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+
+		stdin.write(KEYS.enter);
+
+		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+	});
+
+	it("returns to the journey table after pressing escape", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+		stdin.write(KEYS.enter);
+		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+
+		stdin.write(KEYS.escape);
+		await waitForScreenHiding(lastFrame, JOURNEY_OPEN);
+		stdin.write(KEYS.arrowRight);
+
+		await waitForScreenShowing(lastFrame, ["2/3 ↑ | ↓ to select"]);
+	});
+
+	it("ignores other keys while a journey is open", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+		stdin.write(KEYS.enter);
+		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+
+		stdin.write("t");
+		stdin.write("f");
+		stdin.write(KEYS.arrowRight);
+		await letEffectsRun();
+
+		expect(lastFrame()).toContain("(f)ullscreen: off");
+		expect(lastFrame()).toContain("32 total trips");
+		expect(lastFrame()).toContain("1/3 ↑ | ↓ to select");
+	});
+
+	it("shows only the journey table behind an open journey in fullscreen", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+		stdin.write("f");
+		await waitForScreenHiding(lastFrame, ["32 total trips"]);
+
+		stdin.write(KEYS.enter);
+
+		await waitForScreenShowing(lastFrame, [
+			...JOURNEY_OPEN,
+			"1/3 ↑ | ↓ to select",
+		]);
+		expect(lastFrame()).not.toContain("32 total trips");
+	});
+
+	it("returns to the fullscreen journey table after closing a journey", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+		stdin.write("f");
+		await waitForScreenHiding(lastFrame, ["32 total trips"]);
+		stdin.write(KEYS.enter);
+		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+
+		stdin.write(KEYS.escape);
+
+		await waitForScreenHiding(lastFrame, [...JOURNEY_OPEN, "32 total trips"]);
+		expect(lastFrame()).toContain("(f)ullscreen: on");
+		expect(lastFrame()).toContain("1/3 ↑ | ↓ to select");
+	});
+
 	it("groups journeys by file after pressing t", async () => {
 		const { lastFrame, stdin } = renderExplorer();
 		await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
@@ -105,6 +173,8 @@ const FIRST_MONTH_SELECTED = [
 	"32 total trips",
 	"1/3 ↑ | ↓ to select",
 ];
+
+const JOURNEY_OPEN = ["esc to close", "To: Office Station"];
 
 const JOURNEYS_PER_PAGE = 19;
 

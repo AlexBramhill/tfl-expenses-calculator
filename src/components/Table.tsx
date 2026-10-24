@@ -21,12 +21,16 @@ function Table<T>({
 	getRowKey,
 	getRowStyle = () => UNSTYLED,
 	isFocused,
+	isSelectionVisible = isFocused,
+	onSelectRow,
 }: {
 	columns: TableColumn<T>[];
 	rows: T[];
 	getRowKey: (row: T) => string;
 	getRowStyle?: (row: T) => RowStyle;
 	isFocused: boolean;
+	isSelectionVisible?: boolean;
+	onSelectRow?: (row: T) => void;
 }) {
 	const widths = columns.map((column) =>
 		columnWidth(rows.map(column.getValue), column.maxWidth),
@@ -37,9 +41,15 @@ function Table<T>({
 			<Line bold underline>
 				{getHeading(columns, widths)}
 			</Line>
-			<PagedList items={rows} isFocused={isFocused} mode="select">
+			<PagedList
+				items={rows}
+				isFocused={isFocused}
+				mode="select"
+				onSelect={onSelectRow}
+			>
 				{(rowsOnPage, selectedRow) => {
-					const isHighlighted = (row: T) => isFocused && row === selectedRow;
+					const isHighlighted = (row: T) =>
+						isSelectionVisible && row === selectedRow;
 					return rowsOnPage.map((row) => (
 						<Line
 							key={getRowKey(row)}
