@@ -1,3 +1,4 @@
+import { useFocusManager, useInput } from "ink";
 import { useCallback, useEffect, useEffectEvent } from "react";
 import { type Config, THEME_COLOURS, type ThemeColour } from "@/api/configRepo";
 import { SpacedBox } from "@/components/SpacedBox";
@@ -19,6 +20,7 @@ function ConfigEditor({
 	const { localConfig, updateLocalConfig } = useLocalConfig(config);
 	usePreviewThemeColour(localConfig.themeColour);
 	useSaveOnLeave(localConfig, saveConfig);
+	useArrowKeysToMoveBetweenFields();
 
 	const onThemeColourChange = useCallback(
 		(value: ThemeColour) => updateLocalConfig({ themeColour: value }),
@@ -83,6 +85,15 @@ const useSaveOnLeave = (
 	const saveLatestConfig = useEffectEvent(() => saveConfig(localConfig));
 
 	useEffect(() => () => saveLatestConfig(), []);
+};
+
+const useArrowKeysToMoveBetweenFields = () => {
+	const { focusNext, focusPrevious } = useFocusManager();
+
+	useInput((_input, key) => {
+		if (key.downArrow) focusNext();
+		if (key.upArrow) focusPrevious();
+	});
 };
 
 export default ConfigEditor;

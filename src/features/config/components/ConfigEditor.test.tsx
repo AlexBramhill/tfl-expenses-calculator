@@ -35,6 +35,20 @@ describe("ConfigEditor", () => {
 		await vi.waitFor(() => expect(lastFrame()).toContain("Shown colour: cyan"));
 	});
 
+	it("moves back up to a setting with the up arrow", async () => {
+		const { lastFrame, stdin } = renderSettings();
+		await focusThemeColourField(stdin);
+		stdin.write(KEYS.arrowDown);
+		await letEffectsRun();
+		stdin.write(KEYS.arrowUp);
+		await letEffectsRun();
+		await letEffectsRun();
+
+		stdin.write(KEYS.arrowRight);
+
+		await vi.waitFor(() => expect(lastFrame()).toContain("Shown colour: cyan"));
+	});
+
 	it("goes back to the saved theme colour when left without saving", async () => {
 		const { lastFrame, stdin, rerender } = renderSettings();
 		await focusThemeColourField(stdin);
@@ -80,7 +94,7 @@ const focusThemeColourField = async (stdin: {
 }) => {
 	await letEffectsRun();
 	for (const _field of [...FIELDS_BEFORE_THEME_COLOUR, "theme colour"]) {
-		stdin.write(KEYS.tab);
+		stdin.write(KEYS.arrowDown);
 		await letEffectsRun();
 	}
 	await letEffectsRun();

@@ -109,6 +109,7 @@ describe("JourneyExplorer", () => {
 
 		stdin.write(KEYS.arrowDown);
 		await letEffectsRun();
+		await letEffectsRun();
 		stdin.write(KEYS.arrowRight);
 
 		await waitForScreenShowing(lastFrame, ["To Office Station: ‹ both ›"]);
