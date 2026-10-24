@@ -1,8 +1,5 @@
 Output "screenshot/fullscreen.gif"
-Hide
 Set Width 1200
-Sleep 1s
-Show
 
 Tab
 Tab
