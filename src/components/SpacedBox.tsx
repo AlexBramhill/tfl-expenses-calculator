@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 export function SpacedBox({ children }: { children: ReactNode }) {
 	return (
-		<Box flexDirection="column" padding={2}>
+		<Box flexDirection="column" paddingX={2}>
 			{children}
 		</Box>
 	);

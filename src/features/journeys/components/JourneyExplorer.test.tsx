@@ -60,7 +60,7 @@ describe("JourneyExplorer", () => {
 		await waitForScreenShowing(lastFrame, [
 			"❯ journeys.csv ✔",
 			"60 total trips",
-			"1/6 ↑ | ↓ to select",
+			"1/5 ↑ | ↓ to select",
 		]);
 
 		expect(lastFrame()).toMatchSnapshot();
@@ -106,7 +106,7 @@ const FIRST_MONTH_SELECTED = [
 	"1/3 ↑ | ↓ to select",
 ];
 
-const JOURNEYS_PER_PAGE = 17;
+const JOURNEYS_PER_PAGE = 19;
 
 const renderExplorer = () =>
 	render(

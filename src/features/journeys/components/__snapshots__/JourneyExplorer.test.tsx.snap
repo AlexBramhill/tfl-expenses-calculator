@@ -3,7 +3,6 @@
 exports[`JourneyExplorer > groups journeys by file after pressing t 1`] = `
 "(f)ullscreen: off
 ╭──────────────────╮  ╭────────────────────╮  ╭───────────────────────────────╮  ╭─────────────────────────────────────────────────────────────────────────────╮
-│                  │  │                    │  │                               │  │                                                                             │
 │ Sor(t): file     │  │ Summary:           │  │ Days in office per week:      │  │ Date                 | From             | To               | Charge         │
 │ ❯ journeys.csv ✔ │  │ 60 total trips     │  │ * Week potentially incomplete │  │ Wed, 01/07/26, 08:12 | Home Station     | Office Station   | £2.80          │
 │                  │  │ 30 days in office  │  │ * 29/06/2026: 2               │  │ Wed, 01/07/26, 17:48 | Office Station   | Home Station     | £2.80          │
@@ -22,15 +21,15 @@ exports[`JourneyExplorer > groups journeys by file after pressing t 1`] = `
 │                  │  │                    │  │                               │  │ Thu, 09/07/26, 08:12 | Home Station     | Office Station   | £2.80          │
 │                  │  │                    │  │                               │  │ Thu, 09/07/26, 17:48 | Office Station   | Home Station     | £2.80          │
 │                  │  │                    │  │                               │  │ Fri, 10/07/26, 08:12 | Home Station     | Office Station   | £2.80          │
-│                  │  │                    │  │                               │  │ 1/6 ↑ | ↓ to select, ← | → to page                                          │
-│                  │  │                    │  │                               │  │                                                                             │
+│                  │  │                    │  │                               │  │ Fri, 10/07/26, 17:48 | Office Station   | Home Station     | £2.80          │
+│                  │  │                    │  │                               │  │ Mon, 13/07/26, 10:05 | Home Station     | Museum Quarter   | £3.40          │
+│                  │  │                    │  │                               │  │ 1/5 ↑ | ↓ to select, ← | → to page                                          │
 ╰──────────────────╯  ╰────────────────────╯  ╰───────────────────────────────╯  ╰─────────────────────────────────────────────────────────────────────────────╯"
 `;
 
 exports[`JourneyExplorer > summarises the first month of journeys 1`] = `
 "(f)ullscreen: off
 ╭───────────────╮  ╭────────────────────╮  ╭───────────────────────────────╮  ╭────────────────────────────────────────────────────────────────────────────────╮
-│               │  │                    │  │                               │  │                                                                                │
 │ Sor(t): month │  │ Summary:           │  │ Days in office per week:      │  │ Date                 | From             | To               | Charge            │
 │ ❯ Jul 26 ✔    │  │ 32 total trips     │  │ * Week potentially incomplete │  │ Wed, 01/07/26, 08:12 | Home Station     | Office Station   | £2.80             │
 │   Aug 26      │  │ 16 days in office  │  │ * 29/06/2026: 2               │  │ Wed, 01/07/26, 17:48 | Office Station   | Home Station     | £2.80             │
@@ -49,15 +48,15 @@ exports[`JourneyExplorer > summarises the first month of journeys 1`] = `
 │               │  │                    │  │                               │  │ Thu, 09/07/26, 08:12 | Home Station     | Office Station   | £2.80             │
 │               │  │                    │  │                               │  │ Thu, 09/07/26, 17:48 | Office Station   | Home Station     | £2.80             │
 │               │  │                    │  │                               │  │ Fri, 10/07/26, 08:12 | Home Station     | Office Station   | £2.80             │
+│               │  │                    │  │                               │  │ Fri, 10/07/26, 17:48 | Office Station   | Home Station     | £2.80             │
+│               │  │                    │  │                               │  │ Mon, 13/07/26, 10:05 | Home Station     | Museum Quarter   | £3.40             │
 │               │  │                    │  │                               │  │ 1/3 ↑ | ↓ to select, ← | → to page                                             │
-│               │  │                    │  │                               │  │                                                                                │
 ╰───────────────╯  ╰────────────────────╯  ╰───────────────────────────────╯  ╰────────────────────────────────────────────────────────────────────────────────╯"
 `;
 
 exports[`JourneyExplorer > summarises the next month when it is selected 1`] = `
 "(f)ullscreen: off
 ╭───────────────╮  ╭────────────────────╮  ╭───────────────────────────────╮  ╭────────────────────────────────────────────────────────────────────────────────╮
-│               │  │                    │  │                               │  │                                                                                │
 │ Sor(t): month │  │ Summary:           │  │ Days in office per week:      │  │ Date                 | From             | To               | Charge            │
 │   Jul 26      │  │ 28 total trips     │  │ * Week potentially incomplete │  │ Sat, 01/08/26, 11:20 | Home Station     | Riverside Market | £3.10             │
 │ ❯ Aug 26 ✔    │  │ 14 days in office  │  │   27/07/2026: 4               │  │ Sat, 01/08/26, 16:45 | Riverside Market | Home Station     | £3.10             │
@@ -76,7 +75,8 @@ exports[`JourneyExplorer > summarises the next month when it is selected 1`] = `
 │               │  │                    │  │                               │  │ Tue, 11/08/26, 10:05 | Home Station     | Museum Quarter   | £3.40             │
 │               │  │                    │  │                               │  │ Tue, 11/08/26, 15:30 | Museum Quarter   | Home Station     | £3.40             │
 │               │  │                    │  │                               │  │ Wed, 12/08/26, 08:12 | Home Station     | Office Station   | £2.80             │
+│               │  │                    │  │                               │  │ Wed, 12/08/26, 17:48 | Office Station   | Home Station     | £2.80             │
+│               │  │                    │  │                               │  │ Thu, 13/08/26, 08:12 | Home Station     | Office Station   | £2.80             │
 │               │  │                    │  │                               │  │ 1/3 ↑ | ↓ to select, ← | → to page                                             │
-│               │  │                    │  │                               │  │                                                                                │
 ╰───────────────╯  ╰────────────────────╯  ╰───────────────────────────────╯  ╰────────────────────────────────────────────────────────────────────────────────╯"
 `;

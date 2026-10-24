@@ -34,7 +34,7 @@ const App = () => {
 
 	return (
 		<Box flexDirection="column" height={rows}>
-			<Box flexDirection="column" padding={1}>
+			<Box flexDirection="column" paddingX={1}>
 				<Text bold color="green" underline>
 					TFL CSV Expense Parser
 				</Text>
@@ -44,7 +44,7 @@ const App = () => {
 					canGoBack={canGoBack}
 				/>
 			</Box>
-			<Box flexDirection="column" flexGrow={1} padding={1}>
+			<Box flexDirection="column" flexGrow={1} paddingX={1}>
 				{isLoading && <Spinner label="Loading config" />}
 				{error && <Alert variant="error">Error: {error.message}</Alert>}
 				{config && currentPage === "home" && <HomeScreen config={config} />}

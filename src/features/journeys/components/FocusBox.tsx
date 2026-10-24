@@ -22,7 +22,7 @@ export function FocusBox({
 			borderStyle="round"
 			borderDimColor={isFocused ? undefined : true}
 			borderColor={isFocused ? "green" : undefined}
-			padding={1}
+			paddingX={1}
 			minWidth={minWidth}
 			flexGrow={canGrow || isFullscreen ? 1 : 0}
 			display={isHiddenByFullscreen ? "none" : "flex"}
