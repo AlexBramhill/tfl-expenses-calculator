@@ -1,5 +1,6 @@
 import { Box } from "ink";
 import { render } from "ink-testing-library";
+import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { FIXTURE_CONFIG } from "@/test/fixtures";
 import { KEYS } from "@/test/keys";
@@ -74,6 +75,47 @@ describe("JourneyExplorer", () => {
 		await waitForScreenShowing(lastFrame, ["2/3 ↑ | ↓ to select"]);
 	});
 
+	it("shows the role of each station in the journey", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+
+		stdin.write(KEYS.enter);
+
+		await waitForScreenShowing(lastFrame, [
+			"❯ From  Home Station     ‹ home ›",
+			"  To    Office Station   ‹ away ›",
+		]);
+	});
+
+	it("changes the selected station's role with the right arrow", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+		stdin.write(KEYS.enter);
+		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+
+		stdin.write(KEYS.arrowRight);
+
+		await waitForScreenShowing(lastFrame, [
+			"❯ From  Home Station     ‹ away ›",
+			"0 days in office",
+		]);
+	});
+
+	it("chooses the other station with the down arrow", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+		stdin.write(KEYS.enter);
+		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+
+		stdin.write(KEYS.arrowDown);
+		await waitForScreenShowing(lastFrame, ["❯ To    Office Station"]);
+		stdin.write(KEYS.arrowRight);
+
+		await waitForScreenShowing(lastFrame, [
+			"❯ To    Office Station   ‹ both ›",
+		]);
+	});
+
 	it("ignores other keys while a journey is open", async () => {
 		const { lastFrame, stdin } = renderExplorer();
 		await focusJourneyDetails(lastFrame, stdin);
@@ -82,8 +124,7 @@ describe("JourneyExplorer", () => {
 
 		stdin.write("t");
 		stdin.write("f");
-		stdin.write(KEYS.arrowRight);
-		await letEffectsRun();
+		await pressRepeatedly(stdin, KEYS.arrowDown, JOURNEYS_PER_PAGE);
 
 		expect(lastFrame()).toContain("(f)ullscreen: off");
 		expect(lastFrame()).toContain("32 total trips");
@@ -174,16 +215,21 @@ const FIRST_MONTH_SELECTED = [
 	"1/3 ↑ | ↓ to select",
 ];
 
-const JOURNEY_OPEN = ["esc to close", "To: Office Station"];
+const JOURNEY_OPEN = ["esc to close", "❯ From  Home Station"];
 
 const JOURNEYS_PER_PAGE = 19;
 
 const renderExplorer = () =>
 	render(
 		<Box height={TERMINAL_ROWS}>
-			<JourneyExplorer config={FIXTURE_CONFIG} />
+			<ExplorerWithSavedConfig />
 		</Box>,
 	);
+
+const ExplorerWithSavedConfig = () => {
+	const [config, setConfig] = useState(FIXTURE_CONFIG);
+	return <JourneyExplorer config={config} saveConfig={setConfig} />;
+};
 
 const focusJourneyDetails = async (
 	lastFrame: () => string | undefined,

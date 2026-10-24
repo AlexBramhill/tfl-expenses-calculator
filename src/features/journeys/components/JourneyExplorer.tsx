@@ -20,9 +20,16 @@ import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
 import { JourneyDetails } from "./JourneyDetails";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
+import { StationRoleEditor } from "./StationRoleEditor";
 import { Summary } from "./Summary";
 
-function JourneyExplorer({ config }: { config: Config }) {
+function JourneyExplorer({
+	config,
+	saveConfig,
+}: {
+	config: Config;
+	saveConfig: (config: Config) => void;
+}) {
 	const ungroupedJourneys = useJourneys(config);
 	const {
 		groupedJourneys,
@@ -80,6 +87,11 @@ function JourneyExplorer({ config }: { config: Config }) {
 				{openJourney && (
 					<Modal title="Journey" onClose={() => setOpenJourney(undefined)}>
 						<JourneyDetails journey={openJourney} />
+						<StationRoleEditor
+							journey={openJourney}
+							config={config}
+							onConfigChange={saveConfig}
+						/>
 					</Modal>
 				)}
 			</Box>

@@ -47,7 +47,9 @@ const App = () => {
 			<Box flexDirection="column" flexGrow={1} paddingX={1}>
 				{isLoading && <Spinner label="Loading config" />}
 				{error && <Alert variant="error">Error: {error.message}</Alert>}
-				{config && currentPage === "home" && <HomeScreen config={config} />}
+				{config && currentPage === "home" && (
+					<HomeScreen config={config} saveConfig={saveConfig} />
+				)}
 				{currentPage === "help" && <HelpScreen />}
 				{config && currentPage === "settings" && (
 					<ConfigScreen config={config} saveConfig={saveConfig} />
