@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
 import type { Journey } from "@/features/journeys";
+import type { State } from "@/features/journeys/hooks/useJourneys";
 import {
 	groupJourneys,
 	type JourneyGroup,
 	type JourneyGrouping,
-} from "../utils/journeyGrouping";
-import type { State } from "./useJourneys";
+} from "@/features/journeys/utils/journeyGrouping";
 
 const NEXT_GROUPING: Record<JourneyGrouping, JourneyGrouping> = {
 	month: "file",

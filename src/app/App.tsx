@@ -1,14 +1,14 @@
 import { Alert, Spinner } from "@inkjs/ui";
 import { Box, Text, useWindowSize } from "ink";
 import { useState } from "react";
+import NavBar from "@/app/components/NavBar";
+import useAppInput from "@/app/useAppInput";
+import useRouter from "@/app/useRouter";
 import { LogStream } from "@/features/logs/components/LogStream";
 import { useConfig } from "@/hooks/useConfig";
-import ConfigScreen from "../screens/ConfigScreen";
-import HelpScreen from "../screens/HelpScreen";
-import HomeScreen from "../screens/HomeScreen";
-import NavBar from "./components/NavBar";
-import useAppInput from "./useAppInput";
-import useRouter from "./useRouter";
+import ConfigScreen from "@/screens/ConfigScreen";
+import HelpScreen from "@/screens/HelpScreen";
+import HomeScreen from "@/screens/HomeScreen";
 
 const App = () => {
 	const { currentPage, previousPage, canGoBack, goToPage, goBack } =

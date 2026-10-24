@@ -1,6 +1,9 @@
 import Table, { type RowStyle, type TableColumn } from "@/components/Table";
 import type { Journey } from "@/features/journeys";
-import { formatCharge, formatDate } from "../utils/textFormatters";
+import {
+	formatCharge,
+	formatDate,
+} from "@/features/journeys/utils/textFormatters";
 
 const JOURNEY_COLUMNS: TableColumn<Journey>[] = [
 	{

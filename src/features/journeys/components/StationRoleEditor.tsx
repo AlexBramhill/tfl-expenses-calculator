@@ -2,12 +2,12 @@ import { Box, useInput } from "ink";
 import { useState } from "react";
 import type { Config } from "@/api/configRepo";
 import { Line } from "@/components/Line";
-import type { Journey } from "../utils/journeyCalculator";
+import type { Journey } from "@/features/journeys/utils/journeyCalculator";
 import {
 	getNextStationRole,
 	getStationRole,
 	withStationRole,
-} from "../utils/stationRoles";
+} from "@/features/journeys/utils/stationRoles";
 
 export const StationRoleEditor = ({
 	journey,

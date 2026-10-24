@@ -2,12 +2,12 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it, onTestFinished } from "vitest";
+import { parseCsv } from "@/features/journeys/api/tflCsvParser";
 import {
 	FIXTURE_CSV_PATH,
 	HOME_STATION,
 	OFFICE_STATION,
 } from "@/test/fixtures";
-import { parseCsv } from "./tflCsvParser";
 
 describe("parseCsv", () => {
 	it("parses each row of a TfL statement into a journey", async () => {

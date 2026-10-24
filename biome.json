@@ -4,7 +4,23 @@
 		"enabled": true
 	},
 	"linter": {
-		"enabled": true
+		"enabled": true,
+		"rules": {
+			"preset": "recommended",
+			"style": {
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"patterns": [
+							{
+								"group": ["./**", "../**"],
+								"message": "Use the @/ alias instead of a relative import."
+							}
+						]
+					}
+				}
+			}
+		}
 	},
 	"assist": {
 		"enabled": true

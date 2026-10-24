@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { processJourneys } from "@/features/journeys/utils/journeyCalculator";
 import { DEFAULT_JOURNEY, HOME_STATION, OFFICE_STATION } from "@/test/fixtures";
-import { processJourneys } from "./journeyCalculator";
 
 describe("processJourneys", () => {
 	it.each([

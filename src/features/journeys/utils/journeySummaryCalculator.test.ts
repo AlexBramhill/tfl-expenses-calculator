@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { getTotalSummary } from "@/features/journeys/utils/journeySummaryCalculator";
 import { DEFAULT_JOURNEY } from "@/test/fixtures";
-import { getTotalSummary } from "./journeySummaryCalculator";
 
 describe("getTotalSummary", () => {
 	it("totals only home to office journeys", () => {

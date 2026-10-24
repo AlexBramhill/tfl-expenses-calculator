@@ -1,9 +1,9 @@
 import { Box, Text } from "ink";
 import { render } from "ink-testing-library";
 import { describe, expect, it, vi } from "vitest";
+import Modal from "@/components/Modal";
 import { KEYS } from "@/test/keys";
 import { letEffectsRun } from "@/test/letEffectsRun";
-import Modal from "./Modal";
 
 describe("Modal", () => {
 	it("shows its title and content", () => {

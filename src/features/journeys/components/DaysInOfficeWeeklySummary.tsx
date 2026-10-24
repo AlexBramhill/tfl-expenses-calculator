@@ -1,9 +1,9 @@
 import { Box } from "ink";
 import { Line } from "@/components/Line";
 import PagedList from "@/components/PagedList";
-import useFocusBox from "../hooks/useFocusBox";
-import type { WeeklySummaryByDate } from "../utils/weeklyJourneySummaryCalculator";
-import { FocusBox } from "./FocusBox";
+import { FocusBox } from "@/features/journeys/components/FocusBox";
+import useFocusBox from "@/features/journeys/hooks/useFocusBox";
+import type { WeeklySummaryByDate } from "@/features/journeys/utils/weeklyJourneySummaryCalculator";
 
 export const DaysInOfficePerWeekSummary = ({
 	weeklySummaries,

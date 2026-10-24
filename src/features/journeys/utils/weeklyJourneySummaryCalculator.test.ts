@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_JOURNEY } from "@/test/fixtures";
 import {
 	getWeekKeys,
 	getWeeklySummaries,
-} from "./weeklyJourneySummaryCalculator";
+} from "@/features/journeys/utils/weeklyJourneySummaryCalculator";
+import { DEFAULT_JOURNEY } from "@/test/fixtures";
 
 describe("getWeeklySummaries", () => {
 	it("groups journeys into weeks starting on Monday", () => {

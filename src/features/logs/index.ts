@@ -1,1 +1,1 @@
-export * from "./api/logPublisher";
+export * from "@/features/logs/api/logPublisher";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { type Config, loadConfig, writeConfig } from "@/api/configRepo";
 import { logDebug } from "@/features/logs";
 import { toError } from "@/utils/errors";
-import { type Config, loadConfig, writeConfig } from "../api/configRepo";
 
 type ConfigState =
 	| { isLoading: false; config?: undefined; error: Error }

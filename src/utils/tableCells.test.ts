@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { columnWidth, truncate } from "./tableCells";
+import { columnWidth, truncate } from "@/utils/tableCells";
 
 describe("truncate", () => {
 	it.each([

@@ -1,6 +1,6 @@
 import { Text } from "ink";
-import type { Page } from "../useRouter";
-import NavItem from "./NavItem";
+import NavItem from "@/app/components/NavItem";
+import type { Page } from "@/app/useRouter";
 
 const navItems: { key: string; label: string; page: Page }[] = [
 	{ key: "w", label: "home", page: "home" },

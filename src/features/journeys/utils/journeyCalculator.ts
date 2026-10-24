@@ -1,5 +1,5 @@
+import type { UnprocessedJourney } from "@/features/journeys/api/tflCsvParser";
 import { logDebug } from "@/features/logs";
-import type { UnprocessedJourney } from "../api/tflCsvParser";
 
 export type Journey = {
 	isHomeOfficeJourney: boolean;

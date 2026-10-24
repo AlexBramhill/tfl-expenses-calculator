@@ -4,24 +4,24 @@ import { useMemo, useState } from "react";
 import type { Config } from "@/api/configRepo";
 import { Line } from "@/components/Line";
 import Modal from "@/components/Modal";
-import useFullscreenShortcut from "../hooks/useFullscreenShortcut";
-import useFullscreenToggle from "../hooks/useFullscreenToggle";
-import useGroupingShortcut from "../hooks/useGroupingShortcut";
-import { FullscreenContext } from "../hooks/useIsFullscreen";
-import useJourneyGroups from "../hooks/useJourneyGroups";
-import useJourneys from "../hooks/useJourneys";
-import type { Journey } from "../utils/journeyCalculator";
-import { getTotalSummary } from "../utils/journeySummaryCalculator";
+import { DaysInOfficePerWeekSummary } from "@/features/journeys/components/DaysInOfficeWeeklySummary";
+import JourneyDetailPanel from "@/features/journeys/components/JourneyDetailPanel";
+import JourneyGroupExplorer from "@/features/journeys/components/JourneyGroupExplorer";
+import { OpenedJourneyInfo } from "@/features/journeys/components/OpenedJourneyInfo";
+import { StationRoleEditor } from "@/features/journeys/components/StationRoleEditor";
+import { Summary } from "@/features/journeys/components/Summary";
+import useFullscreenShortcut from "@/features/journeys/hooks/useFullscreenShortcut";
+import useFullscreenToggle from "@/features/journeys/hooks/useFullscreenToggle";
+import useGroupingShortcut from "@/features/journeys/hooks/useGroupingShortcut";
+import { FullscreenContext } from "@/features/journeys/hooks/useIsFullscreen";
+import useJourneyGroups from "@/features/journeys/hooks/useJourneyGroups";
+import useJourneys from "@/features/journeys/hooks/useJourneys";
+import type { Journey } from "@/features/journeys/utils/journeyCalculator";
+import { getTotalSummary } from "@/features/journeys/utils/journeySummaryCalculator";
 import {
 	getWeekKeys,
 	getWeeklySummaries,
-} from "../utils/weeklyJourneySummaryCalculator";
-import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
-import JourneyDetailPanel from "./JourneyDetailPanel";
-import JourneyGroupExplorer from "./JourneyGroupExplorer";
-import { OpenedJourneyInfo } from "./OpenedJourneyInfo";
-import { StationRoleEditor } from "./StationRoleEditor";
-import { Summary } from "./Summary";
+} from "@/features/journeys/utils/weeklyJourneySummaryCalculator";
 
 function JourneyExplorer({
 	config,

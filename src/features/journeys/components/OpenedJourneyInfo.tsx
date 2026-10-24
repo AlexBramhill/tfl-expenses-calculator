@@ -1,6 +1,9 @@
 import { Line } from "@/components/Line";
 import type { Journey } from "@/features/journeys";
-import { formatCharge, formatDate } from "../utils/textFormatters";
+import {
+	formatCharge,
+	formatDate,
+} from "@/features/journeys/utils/textFormatters";
 
 export const OpenedJourneyInfo = ({ journey }: { journey: Journey }) => (
 	<>

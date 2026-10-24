@@ -1,8 +1,8 @@
-import type { Journey } from "./journeyCalculator";
+import type { Journey } from "@/features/journeys/utils/journeyCalculator";
 import {
 	getTotalSummary,
 	type JourneySummaryTotals,
-} from "./journeySummaryCalculator";
+} from "@/features/journeys/utils/journeySummaryCalculator";
 
 export type WeeklyJourneySummary = JourneySummaryTotals & {
 	isPotentiallyIncomplete: boolean;

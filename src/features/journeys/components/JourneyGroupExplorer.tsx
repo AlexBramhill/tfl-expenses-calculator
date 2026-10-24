@@ -1,8 +1,11 @@
 import { Select } from "@inkjs/ui";
 import { Line } from "@/components/Line";
-import useFocusBox from "../hooks/useFocusBox";
-import type { JourneyGroup, JourneyGrouping } from "../utils/journeyGrouping";
-import { FocusBox } from "./FocusBox";
+import { FocusBox } from "@/features/journeys/components/FocusBox";
+import useFocusBox from "@/features/journeys/hooks/useFocusBox";
+import type {
+	JourneyGroup,
+	JourneyGrouping,
+} from "@/features/journeys/utils/journeyGrouping";
 
 type JourneyGroupExplorerProps = {
 	journeyGrouping: JourneyGrouping;

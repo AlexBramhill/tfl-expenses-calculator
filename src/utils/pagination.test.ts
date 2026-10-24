@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { getItemsOnPage, getPageOfRow, getTotalPages } from "./pagination";
+import {
+	getItemsOnPage,
+	getPageOfRow,
+	getTotalPages,
+} from "@/utils/pagination";
 
 describe("getTotalPages", () => {
 	it.each([

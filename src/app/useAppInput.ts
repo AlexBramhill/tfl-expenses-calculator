@@ -1,7 +1,7 @@
 import { useFocusManager, useInput } from "ink";
+import type { Page } from "@/app/useRouter";
 import { useIsModalOpen } from "@/components/Modal";
 import { isTextFieldId } from "@/features/config";
-import type { Page } from "./useRouter";
 
 const useAppInput = ({
 	goToPage,

@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { formatCharge, formatDate } from "./textFormatters";
+import {
+	formatCharge,
+	formatDate,
+} from "@/features/journeys/utils/textFormatters";
 
 describe("formatDate", () => {
 	it("shows the weekday, short date and time", () => {

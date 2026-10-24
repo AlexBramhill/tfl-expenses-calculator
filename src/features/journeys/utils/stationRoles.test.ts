@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { FIXTURE_CONFIG } from "@/test/fixtures";
 import {
 	getNextStationRole,
 	getStationRole,
 	withStationRole,
-} from "./stationRoles";
+} from "@/features/journeys/utils/stationRoles";
+import { FIXTURE_CONFIG } from "@/test/fixtures";
 
 describe("getStationRole", () => {
 	it.each([

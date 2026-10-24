@@ -1,7 +1,7 @@
 import { Line } from "@/components/Line";
 import { FocusBox } from "@/features/journeys/components/FocusBox";
 import useFocusBox from "@/features/journeys/hooks/useFocusBox";
-import type { JourneySummaryTotals } from "../utils/journeySummaryCalculator";
+import type { JourneySummaryTotals } from "@/features/journeys/utils/journeySummaryCalculator";
 
 export const Summary = ({ summary }: { summary: JourneySummaryTotals }) => {
 	const { isFocused } = useFocusBox();

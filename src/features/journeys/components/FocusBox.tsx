@@ -1,6 +1,6 @@
 import { Box } from "ink";
 import type { ReactNode } from "react";
-import useIsFullscreen from "../hooks/useIsFullscreen";
+import useIsFullscreen from "@/features/journeys/hooks/useIsFullscreen";
 
 export function FocusBox({
 	children,

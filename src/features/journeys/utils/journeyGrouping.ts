@@ -1,4 +1,4 @@
-import type { Journey } from "./journeyCalculator";
+import type { Journey } from "@/features/journeys/utils/journeyCalculator";
 
 export type JourneyGrouping = "file" | "month";
 

@@ -1,9 +1,9 @@
 import { Box, Text } from "ink";
 import { render } from "ink-testing-library";
 import { describe, expect, it, vi } from "vitest";
+import PagedList from "@/components/PagedList";
 import { KEYS } from "@/test/keys";
 import { letEffectsRun } from "@/test/letEffectsRun";
-import PagedList from "./PagedList";
 
 describe("PagedList", () => {
 	it("turns the page with the down arrow", async () => {

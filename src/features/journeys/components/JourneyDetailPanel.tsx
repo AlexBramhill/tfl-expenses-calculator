@@ -1,7 +1,7 @@
 import type { Journey } from "@/features/journeys";
-import useFocusBox from "../hooks/useFocusBox";
-import { FocusBox } from "./FocusBox";
-import { JourneyTable } from "./JourneyTable";
+import { FocusBox } from "@/features/journeys/components/FocusBox";
+import { JourneyTable } from "@/features/journeys/components/JourneyTable";
+import useFocusBox from "@/features/journeys/hooks/useFocusBox";
 
 type JourneyDetailPanelProps = {
 	journeys: Journey[];

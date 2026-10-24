@@ -2,11 +2,11 @@ import { Box } from "ink";
 import { render } from "ink-testing-library";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
+import JourneyExplorer from "@/features/journeys/components/JourneyExplorer";
 import { FIXTURE_CONFIG } from "@/test/fixtures";
 import { KEYS } from "@/test/keys";
 import { letEffectsRun } from "@/test/letEffectsRun";
 import { TERMINAL_ROWS } from "@/test/terminalSize";
-import JourneyExplorer from "./JourneyExplorer";
 
 describe("JourneyExplorer", () => {
 	it("summarises the first month of journeys", async () => {
