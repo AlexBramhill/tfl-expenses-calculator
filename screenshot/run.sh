@@ -41,10 +41,11 @@ for tape in "$TAPES_DIR"/*.tape; do
 	[ "$tape" = "$COMMON_END_TAPE" ] && continue
 	echo "Recording $(basename "$tape")..."
 	{
-		head -n 1 "$tape"
+		grep -E '^Set ' "$COMMON_TAPE"
+		grep -E '^(Output|Set) ' "$tape"
 		echo
-		cat "$COMMON_TAPE"
-		tail -n +2 "$tape"
+		grep -vE '^Set ' "$COMMON_TAPE"
+		grep -vE '^(Output|Set) ' "$tape"
 		cat "$COMMON_END_TAPE"
 	} >"$COMBINED_TAPE"
 	HOME="$TMP_HOME" "$VHS_BIN" "$COMBINED_TAPE"
