@@ -12,7 +12,7 @@ export const DaysInOfficePerWeekSummary = ({
 	weeklySummaries: WeeklySummaryByDate;
 	currentGroupWeeks: Set<string>;
 }) => {
-	const {isFocused} = useFocusBox();
+	const { isFocused } = useFocusBox();
 	const weeklyEntries = Object.entries(weeklySummaries)
 		.filter(([dateStart]) => currentGroupWeeks.has(dateStart))
 		.sort(([a], [b]) => a.localeCompare(b));

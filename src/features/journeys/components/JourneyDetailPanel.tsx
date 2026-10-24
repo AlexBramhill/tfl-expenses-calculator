@@ -14,7 +14,7 @@ function JourneyDetailPanel({
 	isJourneyOpen,
 	onSelectJourney,
 }: JourneyDetailPanelProps) {
-	const {isFocused} = useFocusBox(true);
+	const { isFocused } = useFocusBox(true);
 	const isCurrentPanel = isFocused || isJourneyOpen;
 
 	return (

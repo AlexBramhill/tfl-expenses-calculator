@@ -15,7 +15,7 @@ function JourneyGroupExplorer({
 	groupedJourneys,
 	onSelectJourneyGroup,
 }: JourneyGroupExplorerProps) {
-	const {isFocused} = useFocusBox(true);
+	const { isFocused } = useFocusBox(true);
 
 	return (
 		<FocusBox isFocused={isFocused} minWidth={17}>
