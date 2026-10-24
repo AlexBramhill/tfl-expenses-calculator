@@ -25,7 +25,9 @@ trap 'rm -rf "$TMP_HOME" "$COMBINED_TAPE"' EXIT
 mkdir -p "$TMP_HOME/.tfl-expense-calculator/csv"
 cp "$REPO_ROOT/screenshot/fixtures/journeys.csv" "$TMP_HOME/.tfl-expense-calculator/csv/"
 
-cat > "$TMP_HOME/.tfl-expense-calculator/config.json" <<JSON
+# Tapes can save settings, so each one starts from a fresh config
+write_config() {
+	cat >"$TMP_HOME/.tfl-expense-calculator/config.json" <<JSON
 {
   "csvFolder": "$TMP_HOME/.tfl-expense-calculator/csv",
   "homeStations": ["Home Station"],
@@ -33,6 +35,7 @@ cat > "$TMP_HOME/.tfl-expense-calculator/config.json" <<JSON
   "isIncludingWeekends": false
 }
 JSON
+}
 
 cd "$REPO_ROOT"
 
@@ -40,6 +43,7 @@ for tape in "$TAPES_DIR"/*.tape; do
 	[ "$tape" = "$COMMON_TAPE" ] && continue
 	[ "$tape" = "$COMMON_END_TAPE" ] && continue
 	echo "Recording $(basename "$tape")..."
+	write_config
 	{
 		grep -E '^Set ' "$COMMON_TAPE"
 		grep -E '^(Output|Set) ' "$tape"

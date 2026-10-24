@@ -15,7 +15,6 @@ Tired of calculating TFL expenses? This tool provides several useful summaries t
 
 - [Installation](#installation)
   - [Prerequisites](#prerequisites)
-  - [Uninstall](#uninstall)
 - [Keyboard shortcuts](#keyboard-shortcuts)
 - [Features](#features)
   - [Configure multiple home and office stations](#configure-multiple-home-and-office-stations)
@@ -24,6 +23,7 @@ Tired of calculating TFL expenses? This tool provides several useful summaries t
   - [Group by file or by month](#group-by-file-or-by-month)
   - [Count office days by week](#count-office-days-by-week)
   - [Paginate long journey lists](#paginate-long-journey-lists)
+  - [Pick a theme colour](#pick-a-theme-colour)
 
 ## Installation
 
@@ -106,3 +106,9 @@ Travel a lot in a month? Look at all your journeys with ease.
 Don't let a small screen get in the way of doing your expenses. Expand your focuses panel with `f`.
 
 ![fullscreen](screenshot/fullscreen.gif)
+
+### Pick a theme colour
+
+Make it yours.
+
+![theme colour](screenshot/theme-colour.gif)
