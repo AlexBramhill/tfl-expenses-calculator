@@ -21,10 +21,10 @@ describe("getStationRole", () => {
 			expected: "home",
 		},
 		{
-			behaviour: "is away in the office list",
+			behaviour: "is office in the office list",
 			home: [],
 			office: [STATION],
-			expected: "away",
+			expected: "office",
 		},
 		{
 			behaviour: "is both in both lists",
@@ -46,7 +46,12 @@ describe("getNextStationRole", () => {
 			direction: 1,
 			expected: "home",
 		},
-		{ behaviour: "moves back", role: "away", direction: -1, expected: "home" },
+		{
+			behaviour: "moves back",
+			role: "office",
+			direction: -1,
+			expected: "home",
+		},
 		{
 			behaviour: "wraps past the last role",
 			role: "both",

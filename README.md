@@ -18,7 +18,7 @@ Tired of calculating TFL expenses? This tool provides several useful summaries t
   - [Uninstall](#uninstall)
 - [Keyboard shortcuts](#keyboard-shortcuts)
 - [Features](#features)
-  - [Configure multiple home and work stations](#configure-multiple-home-and-work-stations)
+  - [Configure multiple home and office stations](#configure-multiple-home-and-office-stations)
   - [Set stations straight from a journey](#set-stations-straight-from-a-journey)
   - [Highlight anomalies at a glance](#highlight-anomalies-at-a-glance)
   - [Group by file or by month](#group-by-file-or-by-month)
@@ -52,11 +52,11 @@ sh uninstall.sh
 - `Tab`/`Shift+Tab` to move focus between panels, arrow keys to scroll the focused one
 - `t` to toggle grouping by file or month
 - `f` to toggle fullscreen for the focused panel
-- `Enter` on a journey to open it, then `←`/`→` to set its stations as home, away, both or none
+- `Enter` on a journey to open it, then `←`/`→` to set its stations as home, office, both or none
 
 ## Features
 
-### Configure multiple home and work stations
+### Configure multiple home and office stations
 
 Like a little walk after work? Set multiple home and office stations so you don't miss a trip.
 
@@ -64,7 +64,7 @@ Like a little walk after work? Set multiple home and office stations so you don'
 
 ### Set stations straight from a journey
 
-Spotted a trip that should count? Open it with `Enter` and mark its stations as home, away or both without leaving
+Spotted a trip that should count? Open it with `Enter` and mark its stations as home, office or both without leaving
 your journeys.
 
 ![station roles](screenshot/station-roles.gif)

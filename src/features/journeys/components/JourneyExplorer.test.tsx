@@ -59,17 +59,17 @@ describe("JourneyExplorer", () => {
 
 		stdin.write(KEYS.enter);
 
-		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+		await waitForScreenShowing(lastFrame, OPENED_JOURNEY_TEXT);
 	});
 
 	it("returns to the journey table after pressing escape", async () => {
 		const { lastFrame, stdin } = renderExplorer();
 		await focusJourneyDetails(lastFrame, stdin);
 		stdin.write(KEYS.enter);
-		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+		await waitForScreenShowing(lastFrame, OPENED_JOURNEY_TEXT);
 
 		stdin.write(KEYS.escape);
-		await waitForScreenHiding(lastFrame, JOURNEY_OPEN);
+		await waitForScreenHiding(lastFrame, OPENED_JOURNEY_TEXT);
 		stdin.write(KEYS.arrowRight);
 
 		await waitForScreenShowing(lastFrame, ["2/3 ↑ | ↓ to select"]);
@@ -83,7 +83,7 @@ describe("JourneyExplorer", () => {
 
 		await waitForScreenShowing(lastFrame, [
 			"❯ From  Home Station     ‹ home ›",
-			"  To    Office Station   ‹ away ›",
+			"  To    Office Station   ‹ office ›",
 		]);
 	});
 
@@ -91,12 +91,12 @@ describe("JourneyExplorer", () => {
 		const { lastFrame, stdin } = renderExplorer();
 		await focusJourneyDetails(lastFrame, stdin);
 		stdin.write(KEYS.enter);
-		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+		await waitForScreenShowing(lastFrame, OPENED_JOURNEY_TEXT);
 
 		stdin.write(KEYS.arrowRight);
 
 		await waitForScreenShowing(lastFrame, [
-			"❯ From  Home Station     ‹ away ›",
+			"❯ From  Home Station     ‹ office ›",
 			"0 days in office",
 		]);
 	});
@@ -105,7 +105,7 @@ describe("JourneyExplorer", () => {
 		const { lastFrame, stdin } = renderExplorer();
 		await focusJourneyDetails(lastFrame, stdin);
 		stdin.write(KEYS.enter);
-		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+		await waitForScreenShowing(lastFrame, OPENED_JOURNEY_TEXT);
 
 		stdin.write(KEYS.arrowDown);
 		await waitForScreenShowing(lastFrame, ["❯ To    Office Station"]);
@@ -120,7 +120,7 @@ describe("JourneyExplorer", () => {
 		const { lastFrame, stdin } = renderExplorer();
 		await focusJourneyDetails(lastFrame, stdin);
 		stdin.write(KEYS.enter);
-		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+		await waitForScreenShowing(lastFrame, OPENED_JOURNEY_TEXT);
 
 		stdin.write("t");
 		stdin.write("f");
@@ -140,7 +140,7 @@ describe("JourneyExplorer", () => {
 		stdin.write(KEYS.enter);
 
 		await waitForScreenShowing(lastFrame, [
-			...JOURNEY_OPEN,
+			...OPENED_JOURNEY_TEXT,
 			"1/3 ↑ | ↓ to select",
 		]);
 		expect(lastFrame()).not.toContain("32 total trips");
@@ -152,11 +152,14 @@ describe("JourneyExplorer", () => {
 		stdin.write("f");
 		await waitForScreenHiding(lastFrame, ["32 total trips"]);
 		stdin.write(KEYS.enter);
-		await waitForScreenShowing(lastFrame, JOURNEY_OPEN);
+		await waitForScreenShowing(lastFrame, OPENED_JOURNEY_TEXT);
 
 		stdin.write(KEYS.escape);
 
-		await waitForScreenHiding(lastFrame, [...JOURNEY_OPEN, "32 total trips"]);
+		await waitForScreenHiding(lastFrame, [
+			...OPENED_JOURNEY_TEXT,
+			"32 total trips",
+		]);
 		expect(lastFrame()).toContain("(f)ullscreen: on");
 		expect(lastFrame()).toContain("1/3 ↑ | ↓ to select");
 	});
@@ -215,7 +218,7 @@ const FIRST_MONTH_SELECTED = [
 	"1/3 ↑ | ↓ to select",
 ];
 
-const JOURNEY_OPEN = ["esc to close", "❯ From  Home Station"];
+const OPENED_JOURNEY_TEXT = ["esc to close", "❯ From  Home Station"];
 
 const JOURNEYS_PER_PAGE = 19;
 

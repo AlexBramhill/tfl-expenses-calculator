@@ -18,8 +18,8 @@ import {
 } from "../utils/weeklyJourneySummaryCalculator";
 import { DaysInOfficePerWeekSummary } from "./DaysInOfficeWeeklySummary";
 import JourneyDetailPanel from "./JourneyDetailPanel";
-import { JourneyDetails } from "./JourneyDetails";
 import JourneyGroupExplorer from "./JourneyGroupExplorer";
+import { OpenedJourneyInfo } from "./OpenedJourneyInfo";
 import { StationRoleEditor } from "./StationRoleEditor";
 import { Summary } from "./Summary";
 
@@ -40,8 +40,8 @@ function JourneyExplorer({
 	} = useJourneyGroups(ungroupedJourneys);
 
 	const { isFullscreen, toggleFullscreen } = useFullscreenToggle();
-	const [openJourney, setOpenJourney] = useState<Journey>();
-	const isJourneyOpen = openJourney !== undefined;
+	const [openedJourney, setOpenedJourney] = useState<Journey>();
+	const isJourneyOpen = openedJourney !== undefined;
 
 	useGroupingShortcut(toggleJourneyGrouping, !isJourneyOpen);
 	useFullscreenShortcut(toggleFullscreen, !isJourneyOpen);
@@ -81,14 +81,14 @@ function JourneyExplorer({
 						key={selectedGroup.displayName}
 						journeys={selectedGroup.journeys}
 						isJourneyOpen={isJourneyOpen}
-						onSelectJourney={setOpenJourney}
+						onSelectJourney={setOpenedJourney}
 					/>
 				</Box>
-				{openJourney && (
-					<Modal title="Journey" onClose={() => setOpenJourney(undefined)}>
-						<JourneyDetails journey={openJourney} />
+				{openedJourney && (
+					<Modal title="Journey" onClose={() => setOpenedJourney(undefined)}>
+						<OpenedJourneyInfo journey={openedJourney} />
 						<StationRoleEditor
-							journey={openJourney}
+							journey={openedJourney}
 							config={config}
 							onConfigChange={saveConfig}
 						/>

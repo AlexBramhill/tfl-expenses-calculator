@@ -5,6 +5,7 @@ Set Height 700
 Set Padding 20
 Set Theme "Catppuccin Mocha"
 Set WindowBar Colorful
+Set WindowBarSize 50
 
 Hide
 Type "npm run start"

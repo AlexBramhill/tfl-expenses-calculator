@@ -1,6 +1,6 @@
 import type { Config } from "@/api/configRepo";
 
-export const STATION_ROLES = ["none", "home", "away", "both"] as const;
+export const STATION_ROLES = ["none", "home", "office", "both"] as const;
 
 export type StationRole = (typeof STATION_ROLES)[number];
 
@@ -11,11 +11,11 @@ export const getStationRole = (
 	{ homeStations, officeStations }: StationLists,
 ): StationRole => {
 	const isHome = homeStations.includes(station);
-	const isAway = officeStations.includes(station);
+	const isOffice = officeStations.includes(station);
 
-	if (isHome && isAway) return "both";
+	if (isHome && isOffice) return "both";
 	if (isHome) return "home";
-	if (isAway) return "away";
+	if (isOffice) return "office";
 	return "none";
 };
 
@@ -38,7 +38,7 @@ export const withStationRole = <T extends StationLists>(
 	officeStations: setMembership(
 		config.officeStations,
 		station,
-		role === "away" || role === "both",
+		role === "office" || role === "both",
 	),
 });
 
