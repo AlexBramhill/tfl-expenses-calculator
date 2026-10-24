@@ -1,5 +1,5 @@
 import { Box, Text } from "ink";
-import Pagination from "@/components/Pagination";
+import PagedList from "@/components/PagedList";
 
 type HelpLine = {
 	text: string;
@@ -18,7 +18,8 @@ const helpLines: HelpLine[] = [
 	line("r        help"),
 	line("q        quit"),
 	line("Tab      move focus between panels (Shift+Tab to go back)"),
-	line("↑ / ↓    scroll the focused panel, or paginate a focused list"),
+	line("↑ / ↓    move the selection, or change page in a focused list"),
+	line("← / →    jump a page in a focused list"),
 	line("t        toggle grouping by file or by month (on home)"),
 	line("f        toggle fullscreen for the focused panel (on home)"),
 	line("esc      back"),
@@ -34,7 +35,7 @@ const HelpScreen = () => {
 			<Text bold underline>
 				Help
 			</Text>
-			<Pagination items={helpLines} isFocused>
+			<PagedList items={helpLines} isFocused>
 				{(linesOnPage) => (
 					<Box flexDirection="column">
 						{linesOnPage.map((helpLine, index) => (
@@ -50,7 +51,7 @@ const HelpScreen = () => {
 						))}
 					</Box>
 				)}
-			</Pagination>
+			</PagedList>
 		</>
 	);
 };

@@ -1,6 +1,6 @@
 import { Box } from "ink";
 import { Line } from "@/components/Line";
-import Pagination from "@/components/Pagination";
+import PagedList from "@/components/PagedList";
 import useFocusBox from "../hooks/useFocusBox";
 import type { WeeklySummaryByDate } from "../utils/weeklyJourneySummaryCalculator";
 import { FocusBox } from "./FocusBox";
@@ -26,7 +26,7 @@ export const DaysInOfficePerWeekSummary = ({
 			{isAnyWeekPotentiallyIncomplete && (
 				<Line dimColor>* Week potentially incomplete</Line>
 			)}
-			<Pagination items={weeklyEntries} isFocused={isFocused}>
+			<PagedList items={weeklyEntries} isFocused={isFocused}>
 				{(entriesOnPage) => (
 					<>
 						{entriesOnPage.map(([dateStart, summary]) => (
@@ -40,7 +40,7 @@ export const DaysInOfficePerWeekSummary = ({
 						))}
 					</>
 				)}
-			</Pagination>
+			</PagedList>
 		</FocusBox>
 	);
 };

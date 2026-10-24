@@ -1,6 +1,6 @@
 import { Box, type TextProps } from "ink";
 import { Line } from "@/components/Line";
-import Pagination from "@/components/Pagination";
+import PagedList from "@/components/PagedList";
 import { columnWidth, truncate } from "@/utils/tableCells";
 
 export type TableColumn<T> = {
@@ -37,15 +37,20 @@ function Table<T>({
 			<Line bold underline>
 				{getHeading(columns, widths)}
 			</Line>
-			<Pagination items={rows} isFocused={isFocused}>
-				{(rowsOnPage) =>
-					rowsOnPage.map((row) => (
-						<Line key={getRowKey(row)} {...getRowStyle(row)}>
+			<PagedList items={rows} isFocused={isFocused} mode="select">
+				{(rowsOnPage, selectedRow) => {
+					const isHighlighted = (row: T) => isFocused && row === selectedRow;
+					return rowsOnPage.map((row) => (
+						<Line
+							key={getRowKey(row)}
+							{...getRowStyle(row)}
+							inverse={isHighlighted(row)}
+						>
 							{getRowText(columns, widths, row)}
 						</Line>
-					))
-				}
-			</Pagination>
+					));
+				}}
+			</PagedList>
 		</Box>
 	);
 }

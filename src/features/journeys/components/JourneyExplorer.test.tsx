@@ -3,6 +3,7 @@ import { render } from "ink-testing-library";
 import { describe, expect, it, vi } from "vitest";
 import { FIXTURE_CONFIG } from "@/test/fixtures";
 import { KEYS } from "@/test/keys";
+import { letEffectsRun } from "@/test/letEffectsRun";
 import { TERMINAL_ROWS } from "@/test/terminalSize";
 import JourneyExplorer from "./JourneyExplorer";
 
@@ -25,10 +26,30 @@ describe("JourneyExplorer", () => {
 		await waitForScreenShowing(lastFrame, [
 			"❯ Aug 26 ✔",
 			"28 total trips",
-			"1/3 ↑ | ↓ to paginate",
+			"1/3 ↑ | ↓ to select",
 		]);
 
 		expect(lastFrame()).toMatchSnapshot();
+	});
+
+	it("moves the selection one journey at a time, turning the page after the last", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+
+		await pressRepeatedly(stdin, KEYS.arrowDown, JOURNEYS_PER_PAGE - 1);
+		expect(lastFrame()).toContain("1/3 ↑ | ↓ to select");
+		stdin.write(KEYS.arrowDown);
+
+		await waitForScreenShowing(lastFrame, ["2/3 ↑ | ↓ to select"]);
+	});
+
+	it("jumps a page of journeys with the right arrow", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await focusJourneyDetails(lastFrame, stdin);
+
+		stdin.write(KEYS.arrowRight);
+
+		await waitForScreenShowing(lastFrame, ["2/3 ↑ | ↓ to select"]);
 	});
 
 	it("groups journeys by file after pressing t", async () => {
@@ -39,7 +60,7 @@ describe("JourneyExplorer", () => {
 		await waitForScreenShowing(lastFrame, [
 			"❯ journeys.csv ✔",
 			"60 total trips",
-			"1/6 ↑ | ↓ to paginate",
+			"1/6 ↑ | ↓ to select",
 		]);
 
 		expect(lastFrame()).toMatchSnapshot();
@@ -82,8 +103,10 @@ describe("JourneyExplorer", () => {
 const FIRST_MONTH_SELECTED = [
 	"❯ Jul 26 ✔",
 	"32 total trips",
-	"1/3 ↑ | ↓ to paginate",
+	"1/3 ↑ | ↓ to select",
 ];
+
+const JOURNEYS_PER_PAGE = 17;
 
 const renderExplorer = () =>
 	render(
@@ -91,6 +114,26 @@ const renderExplorer = () =>
 			<JourneyExplorer config={FIXTURE_CONFIG} />
 		</Box>,
 	);
+
+const focusJourneyDetails = async (
+	lastFrame: () => string | undefined,
+	stdin: { write: (data: string) => void },
+) => {
+	await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
+	stdin.write(KEYS.shiftTab);
+	await waitForScreenHiding(lastFrame, ["❯ Jul 26 ✔"]);
+};
+
+const pressRepeatedly = async (
+	stdin: { write: (data: string) => void },
+	key: string,
+	times: number,
+) => {
+	for (let press = 0; press < times; press++) {
+		stdin.write(key);
+		await letEffectsRun();
+	}
+};
 
 const waitForScreenShowing = async (
 	lastFrame: () => string | undefined,
@@ -115,6 +158,3 @@ const waitForScreenHiding = async (
 	});
 	await letEffectsRun();
 };
-
-// Ink attaches key listeners in effects, which run just after a frame is drawn.
-const letEffectsRun = () => new Promise((resolve) => setTimeout(resolve, 0));

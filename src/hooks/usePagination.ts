@@ -1,36 +1,46 @@
-import { useInput } from "ink";
 import { useState } from "react";
+import {
+	getItemsOnPage,
+	getPageOfRow,
+	getTotalPages,
+} from "@/utils/pagination";
 
 const usePagination = <T>({
 	items,
-	itemsPerPage,
-	isFocused,
+	rowsPerPage,
 }: {
 	items: T[];
-	itemsPerPage: number;
-	isFocused: boolean;
-}): {
-	currentPage: number;
-	totalPages: number;
-	itemsOnPage: T[];
-} => {
-	const totalPages = Math.max(1, Math.ceil(items.length / itemsPerPage));
-	const lastPage = totalPages - 1;
-	const [requestedPage, setRequestedPage] = useState(0);
-	const currentPage = Math.min(requestedPage, lastPage);
+	rowsPerPage: number;
+}) => {
+	const { currentRowIndex, moveByRowCount } = useCurrentRowIndex(items.length);
+	const pageIndex = getPageOfRow(currentRowIndex, rowsPerPage);
 
-	useInput((_input, key) => {
-		if (key.downArrow && isFocused)
-			setRequestedPage(Math.min(currentPage + 1, lastPage));
-		if (key.upArrow && isFocused)
-			setRequestedPage(Math.max(currentPage - 1, 0));
-	});
-
-	const itemsOnPage = items.slice(
-		currentPage * itemsPerPage,
-		(currentPage + 1) * itemsPerPage,
-	);
-	return { currentPage, totalPages, itemsOnPage };
+	return {
+		itemsOnPage: getItemsOnPage(items, pageIndex, rowsPerPage),
+		selectedItem: items[currentRowIndex],
+		pageIndex,
+		totalPages: getTotalPages(items.length, rowsPerPage),
+		moveByRowCount,
+		moveByPageCount: (pagesToMove: number) =>
+			moveByRowCount(pagesToMove * rowsPerPage),
+	};
 };
+
+const useCurrentRowIndex = (rowCount: number) => {
+	const [requestedRowIndex, setRequestedRowIndex] = useState(0);
+
+	const moveByRowCount = (rowsToMove: number) =>
+		setRequestedRowIndex(
+			(requested) => clampRowIndex(requested, rowCount) + rowsToMove,
+		);
+
+	return {
+		currentRowIndex: clampRowIndex(requestedRowIndex, rowCount),
+		moveByRowCount,
+	};
+};
+
+const clampRowIndex = (rowIndex: number, rowCount: number) =>
+	Math.min(Math.max(rowIndex, 0), Math.max(rowCount - 1, 0));
 
 export default usePagination;

@@ -22,7 +22,7 @@ exports[`JourneyExplorer > groups journeys by file after pressing t 1`] = `
 │                  │  │                    │  │                               │  │ Thu, 09/07/26, 08:12 | Home Station     | Office Station   | £2.80          │
 │                  │  │                    │  │                               │  │ Thu, 09/07/26, 17:48 | Office Station   | Home Station     | £2.80          │
 │                  │  │                    │  │                               │  │ Fri, 10/07/26, 08:12 | Home Station     | Office Station   | £2.80          │
-│                  │  │                    │  │                               │  │ 1/6 ↑ | ↓ to paginate                                                       │
+│                  │  │                    │  │                               │  │ 1/6 ↑ | ↓ to select, ← | → to page                                          │
 │                  │  │                    │  │                               │  │                                                                             │
 ╰──────────────────╯  ╰────────────────────╯  ╰───────────────────────────────╯  ╰─────────────────────────────────────────────────────────────────────────────╯"
 `;
@@ -49,7 +49,7 @@ exports[`JourneyExplorer > summarises the first month of journeys 1`] = `
 │               │  │                    │  │                               │  │ Thu, 09/07/26, 08:12 | Home Station     | Office Station   | £2.80             │
 │               │  │                    │  │                               │  │ Thu, 09/07/26, 17:48 | Office Station   | Home Station     | £2.80             │
 │               │  │                    │  │                               │  │ Fri, 10/07/26, 08:12 | Home Station     | Office Station   | £2.80             │
-│               │  │                    │  │                               │  │ 1/3 ↑ | ↓ to paginate                                                          │
+│               │  │                    │  │                               │  │ 1/3 ↑ | ↓ to select, ← | → to page                                             │
 │               │  │                    │  │                               │  │                                                                                │
 ╰───────────────╯  ╰────────────────────╯  ╰───────────────────────────────╯  ╰────────────────────────────────────────────────────────────────────────────────╯"
 `;
@@ -76,7 +76,7 @@ exports[`JourneyExplorer > summarises the next month when it is selected 1`] = `
 │               │  │                    │  │                               │  │ Tue, 11/08/26, 10:05 | Home Station     | Museum Quarter   | £3.40             │
 │               │  │                    │  │                               │  │ Tue, 11/08/26, 15:30 | Museum Quarter   | Home Station     | £3.40             │
 │               │  │                    │  │                               │  │ Wed, 12/08/26, 08:12 | Home Station     | Office Station   | £2.80             │
-│               │  │                    │  │                               │  │ 1/3 ↑ | ↓ to paginate                                                          │
+│               │  │                    │  │                               │  │ 1/3 ↑ | ↓ to select, ← | → to page                                             │
 │               │  │                    │  │                               │  │                                                                                │
 ╰───────────────╯  ╰────────────────────╯  ╰───────────────────────────────╯  ╰────────────────────────────────────────────────────────────────────────────────╯"
 `;
