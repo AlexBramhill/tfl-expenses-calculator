@@ -9,6 +9,23 @@ import { KEYS } from "@/test/keys";
 import { letEffectsRun } from "@/test/letEffectsRun";
 
 describe("ConfigEditor", () => {
+	it("saves the settings when it is closed", async () => {
+		const saveConfig = vi.fn();
+		const { stdin, rerender } = render(
+			<Settings isEditorOpen saveConfig={saveConfig} />,
+		);
+		await focusThemeColourField(stdin);
+		stdin.write(KEYS.arrowRight);
+		await letEffectsRun();
+
+		rerender(<Settings isEditorOpen={false} saveConfig={saveConfig} />);
+
+		expect(saveConfig).toHaveBeenCalledWith({
+			...SAVED_CONFIG,
+			themeColour: "cyan",
+		});
+	});
+
 	it("shows a new theme colour as soon as it is chosen", async () => {
 		const { lastFrame, stdin } = renderSettings();
 		await focusThemeColourField(stdin);
@@ -37,19 +54,21 @@ const SAVED_CONFIG: Readonly<Config> = {
 	themeColour: "magenta",
 };
 
-const FIELDS_BEFORE_THEME_COLOUR = [
-	"csv folder",
-	"home stations",
-	"office stations",
-];
+const FIELDS_BEFORE_THEME_COLOUR: string[] = [];
 
 const renderSettings = () => render(<Settings isEditorOpen />);
 
-const Settings = ({ isEditorOpen }: { isEditorOpen: boolean }) => (
+const Settings = ({
+	isEditorOpen,
+	saveConfig = () => {},
+}: {
+	isEditorOpen: boolean;
+	saveConfig?: (config: Config) => void;
+}) => (
 	<ThemeColourProvider colour={SAVED_CONFIG.themeColour}>
 		<ShownColour />
 		{isEditorOpen && (
-			<ConfigEditor config={SAVED_CONFIG} saveConfig={() => {}} />
+			<ConfigEditor config={SAVED_CONFIG} saveConfig={saveConfig} />
 		)}
 	</ThemeColourProvider>
 );

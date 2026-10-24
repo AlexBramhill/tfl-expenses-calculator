@@ -1,4 +1,4 @@
-import { useFocusManager, useInput } from "ink";
+import { useApp, useFocusManager, useInput } from "ink";
 import type { Page } from "@/app/useRouter";
 import { useIsModalOpen } from "@/components/Modal";
 import { isTextFieldId } from "@/features/config";
@@ -17,6 +17,7 @@ const useAppInput = ({
 	const { activeId } = useFocusManager();
 	const isTextInputActive = isTextFieldId(activeId);
 	const isModalOpen = useIsModalOpen();
+	const { exit } = useApp();
 
 	useInput(
 		(input, key) => {
@@ -25,7 +26,7 @@ const useAppInput = ({
 				return;
 			}
 
-			if (input === "q") process.exit();
+			if (input === "q") exit();
 			if (input === "w") goToPage("home");
 			if (input === "s") goToPage("settings");
 			if (input === "r") goToPage("help");
