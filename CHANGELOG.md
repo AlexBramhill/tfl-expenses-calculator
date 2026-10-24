@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/AlexBramhill/tfl-expenses-calculator/compare/v1.2.0...v1.3.0) (2026-10-24)
+
+
+### Features
+
+* add 'all' option ([76eb30f](https://github.com/AlexBramhill/tfl-expenses-calculator/commit/76eb30fe9ee86cc035f122ff4be1b8f5ffde6e33))
+
 ## [1.2.0](https://github.com/AlexBramhill/tfl-expenses-calculator/compare/v1.1.0...v1.2.0) (2026-10-24)
 
 
