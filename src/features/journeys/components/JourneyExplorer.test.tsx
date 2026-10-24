@@ -33,6 +33,23 @@ describe("JourneyExplorer", () => {
 		expect(lastFrame()).toMatchSnapshot();
 	});
 
+	it("summarises every journey when all is selected", async () => {
+		const { lastFrame, stdin } = renderExplorer();
+		await waitForScreenShowing(lastFrame, FIRST_MONTH_SELECTED);
+
+		stdin.write(KEYS.arrowDown);
+		await waitForScreenShowing(lastFrame, ["❯ Aug 26"]);
+		stdin.write(KEYS.arrowDown);
+		await waitForScreenShowing(lastFrame, ["❯ All"]);
+		stdin.write(KEYS.enter);
+
+		await waitForScreenShowing(lastFrame, [
+			"❯ All ✔",
+			"60 total trips",
+			"1/5 ↑ | ↓ to select",
+		]);
+	});
+
 	it("moves the selection one journey at a time, turning the page after the last", async () => {
 		const { lastFrame, stdin } = renderExplorer();
 		await focusJourneyDetails(lastFrame, stdin);

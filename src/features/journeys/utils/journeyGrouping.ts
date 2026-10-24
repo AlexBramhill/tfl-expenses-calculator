@@ -19,10 +19,23 @@ const GROUP_NAMES: Record<JourneyGrouping, (journey: Journey) => string> = {
 export const groupJourneys = (
 	journeys: Journey[],
 	grouping: JourneyGrouping,
+): JourneyGroup[] => {
+	const sortedJourneys = sortByTime(journeys);
+
+	return [
+		...groupBy(sortedJourneys, GROUP_NAMES[grouping]),
+		{ displayName: "All", journeys: sortedJourneys },
+	];
+};
+
+const groupBy = (
+	journeys: Journey[],
+	getGroupName: (journey: Journey) => string,
 ): JourneyGroup[] =>
-	[...Map.groupBy(sortByTime(journeys), GROUP_NAMES[grouping])].map(
-		([displayName, journeys]) => ({ displayName, journeys }),
-	);
+	[...Map.groupBy(journeys, getGroupName)].map(([displayName, journeys]) => ({
+		displayName,
+		journeys,
+	}));
 
 const sortByTime = (journeys: Journey[]) =>
 	journeys.toSorted((a, b) => a.datetime.getTime() - b.datetime.getTime());
