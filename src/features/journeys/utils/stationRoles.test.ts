@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-	getNextStationRole,
 	getStationRole,
 	withStationRole,
 } from "@/features/journeys/utils/stationRoles";
@@ -35,37 +34,6 @@ describe("getStationRole", () => {
 	])("$behaviour", ({ home, office, expected }) => {
 		const stationLists = { homeStations: home, officeStations: office };
 		expect(getStationRole(STATION, stationLists)).toBe(expected);
-	});
-});
-
-describe("getNextStationRole", () => {
-	it.each([
-		{
-			behaviour: "moves forward",
-			role: "none",
-			direction: 1,
-			expected: "home",
-		},
-		{
-			behaviour: "moves back",
-			role: "office",
-			direction: -1,
-			expected: "home",
-		},
-		{
-			behaviour: "wraps past the last role",
-			role: "both",
-			direction: 1,
-			expected: "none",
-		},
-		{
-			behaviour: "wraps before the first role",
-			role: "none",
-			direction: -1,
-			expected: "both",
-		},
-	] as const)("$behaviour", ({ role, direction, expected }) => {
-		expect(getNextStationRole(role, direction)).toBe(expected);
 	});
 });
 

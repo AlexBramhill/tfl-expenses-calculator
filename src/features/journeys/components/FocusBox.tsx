@@ -1,5 +1,6 @@
 import { Box } from "ink";
 import type { ReactNode } from "react";
+import { useThemeColour } from "@/components/ThemeColour";
 import useIsFullscreen from "@/features/journeys/hooks/useIsFullscreen";
 
 export function FocusBox({
@@ -14,6 +15,7 @@ export function FocusBox({
 	minWidth?: number;
 }) {
 	const isFullscreen = useIsFullscreen();
+	const themeColour = useThemeColour();
 	const isHiddenByFullscreen = isFullscreen && !isFocused;
 
 	return (
@@ -21,7 +23,7 @@ export function FocusBox({
 			flexDirection="column"
 			borderStyle="round"
 			borderDimColor={isFocused ? undefined : true}
-			borderColor={isFocused ? "green" : undefined}
+			borderColor={isFocused ? themeColour : undefined}
 			paddingX={1}
 			minWidth={minWidth}
 			flexGrow={canGrow || isFullscreen ? 1 : 0}

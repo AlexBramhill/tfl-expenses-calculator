@@ -2,7 +2,7 @@ import { Box, Text } from "ink";
 import type { LogEntry } from "@/features/logs/api/logPublisher";
 import { useLogs } from "@/features/logs/hooks/useLogs";
 
-const severityColor = (s: LogEntry["severity"]) => {
+const severityColour = (s: LogEntry["severity"]) => {
 	if (s === "error") return "red";
 	if (s === "warning") return "yellow";
 	if (s === "debug") return "gray";
@@ -12,7 +12,7 @@ const severityColor = (s: LogEntry["severity"]) => {
 const LogStreamRow = ({ logEntry }: { logEntry: LogEntry }) => {
 	return (
 		<Text
-			color={severityColor(logEntry.severity)}
+			color={severityColour(logEntry.severity)}
 			overflow-y={"hidden"}
 			wrap={"truncate-start"}
 		>

@@ -1,6 +1,7 @@
 import { Box, useFocus, useFocusManager, useInput } from "ink";
 import { type ReactNode, useEffect, useState } from "react";
 import { Line } from "@/components/Line";
+import { useThemeColour } from "@/components/ThemeColour";
 
 const MODAL_FOCUS_ID = "modal";
 
@@ -15,6 +16,7 @@ function Modal({
 }) {
 	useTakeFocusWhileOpen();
 	useCloseOnEscape(onClose);
+	const themeColour = useThemeColour();
 
 	return (
 		<Box
@@ -27,7 +29,7 @@ function Modal({
 			<Box
 				flexDirection="column"
 				borderStyle="round"
-				borderColor="green"
+				borderColor={themeColour}
 				backgroundColor="default"
 				paddingX={1}
 			>

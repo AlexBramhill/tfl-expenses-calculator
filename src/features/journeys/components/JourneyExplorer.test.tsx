@@ -82,8 +82,8 @@ describe("JourneyExplorer", () => {
 		stdin.write(KEYS.enter);
 
 		await waitForScreenShowing(lastFrame, [
-			"❯ From  Home Station     ‹ home ›",
-			"  To    Office Station   ‹ office ›",
+			"From Home Station: ‹ home ›",
+			"To Office Station: ‹ office ›",
 		]);
 	});
 
@@ -96,7 +96,7 @@ describe("JourneyExplorer", () => {
 		stdin.write(KEYS.arrowRight);
 
 		await waitForScreenShowing(lastFrame, [
-			"❯ From  Home Station     ‹ office ›",
+			"From Home Station: ‹ office ›",
 			"0 days in office",
 		]);
 	});
@@ -108,12 +108,10 @@ describe("JourneyExplorer", () => {
 		await waitForScreenShowing(lastFrame, OPENED_JOURNEY_TEXT);
 
 		stdin.write(KEYS.arrowDown);
-		await waitForScreenShowing(lastFrame, ["❯ To    Office Station"]);
+		await letEffectsRun();
 		stdin.write(KEYS.arrowRight);
 
-		await waitForScreenShowing(lastFrame, [
-			"❯ To    Office Station   ‹ both ›",
-		]);
+		await waitForScreenShowing(lastFrame, ["To Office Station: ‹ both ›"]);
 	});
 
 	it("ignores other keys while a journey is open", async () => {
@@ -218,7 +216,7 @@ const FIRST_MONTH_SELECTED = [
 	"1/3 ↑ | ↓ to select",
 ];
 
-const OPENED_JOURNEY_TEXT = ["esc to close", "❯ From  Home Station"];
+const OPENED_JOURNEY_TEXT = ["esc to close", "From Home Station: ‹"];
 
 const JOURNEYS_PER_PAGE = 19;
 

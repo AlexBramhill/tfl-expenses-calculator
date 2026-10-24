@@ -1,6 +1,7 @@
 import { TextInput } from "@inkjs/ui";
 import { Box, Text, useFocus } from "ink";
 import { useCallback } from "react";
+import { useThemeColour } from "@/components/ThemeColour";
 
 export function StringListField({
 	label,
@@ -14,6 +15,7 @@ export function StringListField({
 	focusId: string;
 }) {
 	const { isFocused } = useFocus({ id: focusId });
+	const themeColour = useThemeColour();
 
 	const handleChange = useCallback(
 		(newValue: string) =>
@@ -28,7 +30,7 @@ export function StringListField({
 
 	return (
 		<Box gap={1}>
-			<Text color={isFocused ? "green" : undefined}>{label}:</Text>
+			<Text color={isFocused ? themeColour : undefined}>{label}:</Text>
 			<TextInput
 				isDisabled={!isFocused}
 				defaultValue={value.join(", ")}

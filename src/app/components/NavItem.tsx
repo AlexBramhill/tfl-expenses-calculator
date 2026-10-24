@@ -1,4 +1,5 @@
 import { Text } from "ink";
+import { useThemeColour } from "@/components/ThemeColour";
 
 type NavItemProps = {
 	title: string;
@@ -6,14 +7,18 @@ type NavItemProps = {
 	isActive?: boolean;
 };
 
-const NavItem = ({ title, shortcut, isActive = false }: NavItemProps) => (
-	<Text
-		bold={isActive}
-		color={isActive ? "green" : undefined}
-		dimColor={!isActive}
-	>
-		{title} ({shortcut})
-	</Text>
-);
+const NavItem = ({ title, shortcut, isActive = false }: NavItemProps) => {
+	const themeColour = useThemeColour();
+
+	return (
+		<Text
+			bold={isActive}
+			color={isActive ? themeColour : undefined}
+			dimColor={!isActive}
+		>
+			{title} ({shortcut})
+		</Text>
+	);
+};
 
 export default NavItem;

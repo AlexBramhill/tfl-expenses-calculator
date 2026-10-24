@@ -30,8 +30,8 @@ export function useConfig() {
 
 	const saveConfig = async (config: Config) => {
 		try {
-			await writeConfig(config);
 			setConfigState({ isLoading: false, config });
+			await writeConfig(config);
 		} catch (err) {
 			setConfigState({ isLoading: false, error: toError(err) });
 		}

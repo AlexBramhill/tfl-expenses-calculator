@@ -1,4 +1,5 @@
 import Table, { type RowStyle, type TableColumn } from "@/components/Table";
+import { useThemeColour } from "@/components/ThemeColour";
 import type { Journey } from "@/features/journeys";
 import {
 	formatCharge,
@@ -36,20 +37,24 @@ export const JourneyTable = ({
 	isFocused: boolean;
 	isSelectionVisible: boolean;
 	onSelectJourney: (journey: Journey) => void;
-}) => (
-	<Table
-		columns={JOURNEY_COLUMNS}
-		rows={journeys}
-		getRowKey={getJourneyKey}
-		getRowStyle={getJourneyRowStyle}
-		isFocused={isFocused}
-		isSelectionVisible={isSelectionVisible}
-		onSelectRow={onSelectJourney}
-	/>
-);
+}) => {
+	const themeColour = useThemeColour();
 
-const getJourneyRowStyle = (journey: Journey): RowStyle =>
-	journey.isHomeOfficeJourney ? { color: "green" } : { dimColor: true };
+	return (
+		<Table
+			columns={JOURNEY_COLUMNS}
+			rows={journeys}
+			getRowKey={getJourneyKey}
+			getRowStyle={(journey) => getJourneyRowStyle(journey, themeColour)}
+			isFocused={isFocused}
+			isSelectionVisible={isSelectionVisible}
+			onSelectRow={onSelectJourney}
+		/>
+	);
+};
+
+const getJourneyRowStyle = (journey: Journey, themeColour: string): RowStyle =>
+	journey.isHomeOfficeJourney ? { color: themeColour } : { dimColor: true };
 
 const getJourneyKey = (journey: Journey) =>
 	`${journey.datetime.toISOString()}-${journey.startStation}-${journey.endStation}-${journey.chargeAmount}-${journey.fileName}`;

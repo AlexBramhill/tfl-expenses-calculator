@@ -1,6 +1,6 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Config } from "@/api/configRepo";
+import { type Config, DEFAULT_THEME_COLOUR } from "@/api/configRepo";
 import type { Journey } from "@/features/journeys";
 
 export const HOME_STATION = "Home Station";
@@ -14,6 +14,7 @@ export const FIXTURE_CONFIG: Config = {
 	homeStations: [HOME_STATION],
 	officeStations: [OFFICE_STATION],
 	isIncludingWeekends: false,
+	themeColour: DEFAULT_THEME_COLOUR,
 };
 
 export const DEFAULT_JOURNEY: Readonly<Journey> = {

@@ -6,11 +6,28 @@ import { logError, logInfo } from "@/features/logs";
 import { isErrnoCode, toError } from "@/utils/errors";
 
 const DOTFILE_FOLDER = path.join(os.homedir(), ".tfl-expense-calculator");
+export const THEME_COLOURS = [
+	"red",
+	"green",
+	"yellow",
+	"blue",
+	"magenta",
+	"cyan",
+	"white",
+	"grey",
+	"black",
+] as const;
+
+export type ThemeColour = (typeof THEME_COLOURS)[number];
+
+export const DEFAULT_THEME_COLOUR: ThemeColour = "green";
+
 export const ConfigSchema = z.object({
 	csvFolder: z.string(),
 	homeStations: z.array(z.string()).default([]),
 	officeStations: z.array(z.string()).default([]),
 	isIncludingWeekends: z.boolean().default(false),
+	themeColour: z.enum(THEME_COLOURS).catch(DEFAULT_THEME_COLOUR),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -20,6 +37,7 @@ export const DEFAULT_CONFIG: Config = {
 	homeStations: [],
 	officeStations: [],
 	isIncludingWeekends: false,
+	themeColour: DEFAULT_THEME_COLOUR,
 };
 
 export const CONFIG_PATH = path.join(DOTFILE_FOLDER, "config.json");

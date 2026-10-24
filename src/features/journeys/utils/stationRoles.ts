@@ -19,11 +19,6 @@ export const getStationRole = (
 	return "none";
 };
 
-export const getNextStationRole = (role: StationRole, direction: 1 | -1) => {
-	const nextIndex = STATION_ROLES.indexOf(role) + direction;
-	return STATION_ROLES.at(nextIndex % STATION_ROLES.length) ?? role;
-};
-
 export const withStationRole = <T extends StationLists>(
 	config: T,
 	station: string,
